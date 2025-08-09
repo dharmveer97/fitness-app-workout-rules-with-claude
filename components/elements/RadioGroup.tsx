@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
@@ -42,14 +41,100 @@ export function RadioGroup<T = string>({
 }: RadioGroupProps<T>) {
   const [selectedValue, setSelectedValue] = useState<T | undefined>(value)
 
-  // Create radio button animated styles at component level
-  const radioButtonStyles = options.map((option) => {
-    const isSelected = selectedValue === option.value
-    return useAnimatedStyle(() => ({
-      borderColor: withSpring(isSelected ? '#10B981' : '#4B5563'),
-      backgroundColor: withSpring(isSelected ? '#10B981' : 'transparent'),
-    }))
-  })
+  // Create individual animated styles to avoid hook rule violations (support up to 10 options)
+  const radioStyle0 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[0]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[0]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle1 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[1]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[1]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle2 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[2]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[2]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle3 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[3]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[3]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle4 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[4]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[4]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle5 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[5]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[5]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle6 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[6]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[6]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle7 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[7]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[7]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle8 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[8]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[8]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+  const radioStyle9 = useAnimatedStyle(() => ({
+    borderColor: withSpring(
+      selectedValue === options[9]?.value ? '#10B981' : '#4B5563',
+    ),
+    backgroundColor: withSpring(
+      selectedValue === options[9]?.value ? '#10B981' : 'transparent',
+    ),
+  }))
+
+  const radioButtonStyles = [
+    radioStyle0,
+    radioStyle1,
+    radioStyle2,
+    radioStyle3,
+    radioStyle4,
+    radioStyle5,
+    radioStyle6,
+    radioStyle7,
+    radioStyle8,
+    radioStyle9,
+  ]
 
   const handleSelect = (optionValue: T) => {
     setSelectedValue(optionValue)
@@ -61,16 +146,18 @@ export function RadioGroup<T = string>({
     containerClassName,
   )
 
-  const renderRadioButton = (option: RadioOption<T>, isSelected: boolean, index: number) => {
-    return (
-      <Animated.View
-        style={radioButtonStyles[index]}
-        className='h-5 w-5 items-center justify-center rounded-full border-2'
-      >
-        {isSelected && <View className='h-2 w-2 rounded-full bg-white' />}
-      </Animated.View>
-    )
-  }
+  const renderRadioButton = (
+    option: RadioOption<T>,
+    isSelected: boolean,
+    index: number,
+  ) => (
+    <Animated.View
+      style={radioButtonStyles[index]}
+      className='h-5 w-5 items-center justify-center rounded-full border-2'
+    >
+      {isSelected && <View className='h-2 w-2 rounded-full bg-white' />}
+    </Animated.View>
+  )
 
   const renderOption = (option: RadioOption<T>, index: number) => {
     const isSelected = selectedValue === option.value
@@ -179,7 +266,9 @@ export function RadioGroup<T = string>({
         </Text>
       )}
 
-      <View className={containerClass}>{options.map((option, index) => renderOption(option, index))}</View>
+      <View className={containerClass}>
+        {options.map((option, index) => renderOption(option, index))}
+      </View>
 
       {error && (
         <Text variant='caption' color='error' className='mt-2'>

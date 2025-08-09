@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 
 import { FontAwesome } from '@expo/vector-icons'
-import Animated from 'react-native-reanimated'
 import Svg, { Circle } from 'react-native-svg'
 
 import { Text } from '@/components/atoms'

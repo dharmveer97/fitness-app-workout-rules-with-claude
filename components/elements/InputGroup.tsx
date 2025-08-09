@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react'
 
-import type { TextInput, ViewProps } from 'react-native'
 import { View } from 'react-native'
 
 import { cn } from '@/utils/cn'
@@ -54,7 +53,7 @@ export const InputGroup = forwardRef<TextInput, InputGroupProps>(
 
     return (
       <View className='w-full' {...props}>
-        {(label || badge) && (
+        {(label ?? badge) && (
           <View className='mb-2 flex-row items-center justify-between'>
             {label && (
               <View className='flex-row items-center'>

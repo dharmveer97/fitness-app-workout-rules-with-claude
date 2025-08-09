@@ -1,6 +1,5 @@
 import React from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
@@ -44,16 +43,50 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   containerClassName = '',
   ...props
 }) => {
-  // Create step indicator animated styles at component level
-  const stepIndicatorStyles = steps.map((step, index) => {
-    const isActive = index === currentStep
-    return useAnimatedStyle(() => {
-      const scale = withSpring(isActive ? 1.2 : 1)
-      return {
-        transform: [{ scale }],
-      }
-    })
-  })
+  // Create individual animated styles to avoid hook rule violations (support up to 10 steps)
+  const stepStyle0 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 0 ? 1.2 : 1) }],
+  }))
+  const stepStyle1 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 1 ? 1.2 : 1) }],
+  }))
+  const stepStyle2 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 2 ? 1.2 : 1) }],
+  }))
+  const stepStyle3 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 3 ? 1.2 : 1) }],
+  }))
+  const stepStyle4 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 4 ? 1.2 : 1) }],
+  }))
+  const stepStyle5 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 5 ? 1.2 : 1) }],
+  }))
+  const stepStyle6 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 6 ? 1.2 : 1) }],
+  }))
+  const stepStyle7 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 7 ? 1.2 : 1) }],
+  }))
+  const stepStyle8 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 8 ? 1.2 : 1) }],
+  }))
+  const stepStyle9 = useAnimatedStyle(() => ({
+    transform: [{ scale: withSpring(currentStep === 9 ? 1.2 : 1) }],
+  }))
+
+  const stepIndicatorStyles = [
+    stepStyle0,
+    stepStyle1,
+    stepStyle2,
+    stepStyle3,
+    stepStyle4,
+    stepStyle5,
+    stepStyle6,
+    stepStyle7,
+    stepStyle8,
+    stepStyle9,
+  ]
   const renderStepIndicator = (step: Step, index: number) => {
     const isCompleted = index < currentStep
     const isActive = index === currentStep

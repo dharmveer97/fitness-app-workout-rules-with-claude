@@ -60,7 +60,7 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
         className={cn('w-full', containerClassName)}
         {...animationProps}
       >
-        {(label || badge || tooltip) && (
+        {(label ?? badge ?? tooltip) && (
           <View className='mb-2 flex-row items-center justify-between'>
             <View className='flex-1 flex-row items-center'>
               {label && (

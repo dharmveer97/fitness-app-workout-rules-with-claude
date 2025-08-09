@@ -27,9 +27,23 @@ export default function OTPInput({
   const inputRefs = useRef<TextInput[]>([])
   const shakeAnimation = useSharedValue(0)
 
-  // Animation values for each input - create them using useMemo to avoid hook rule violations
-  const scaleValues = useMemo(() => Array.from({ length }, () => useSharedValue(1)), [length])
-  const borderValues = useMemo(() => Array.from({ length }, () => useSharedValue(0)), [length])
+  // Create individual shared values to avoid hook rule violations (supporting up to 6 OTP digits)
+  const scale0 = useSharedValue(1)
+  const scale1 = useSharedValue(1)
+  const scale2 = useSharedValue(1)
+  const scale3 = useSharedValue(1)
+  const scale4 = useSharedValue(1)
+  const scale5 = useSharedValue(1)
+
+  const border0 = useSharedValue(0)
+  const border1 = useSharedValue(0)
+  const border2 = useSharedValue(0)
+  const border3 = useSharedValue(0)
+  const border4 = useSharedValue(0)
+  const border5 = useSharedValue(0)
+
+  const scaleValues = [scale0, scale1, scale2, scale3, scale4, scale5]
+  const borderValues = [border0, border1, border2, border3, border4, border5]
 
   useEffect(() => {
     if (autoFocus && inputRefs.current[0]) {
@@ -118,30 +132,27 @@ export default function OTPInput({
     transform: [{ translateX: shakeAnimation.value }],
   }))
 
-  // Move useAnimatedStyle to component level - create styles for each input
-  const inputAnimatedStyles = Array.from({ length }, (_, index) =>
-    useAnimatedStyle(() => {
-      const isError = !!error
-      const isFocused = focusedIndex === index
-      const hasValue = value[index] !== undefined
+  // Helper function to get input styles (moved outside render to avoid hook violations)
+  const getInputStyle = (index: number) => {
+    const isError = !!error
+    const isFocused = focusedIndex === index
+    const hasValue = value[index] !== undefined
 
-      let borderColor = '#27272A' // dark-600
-      if (isError) {
-        borderColor = '#EF4444' // red-500
-      } else if (isFocused) {
-        borderColor = '#10B981' // primary-500
-      } else if (hasValue) {
-        borderColor = '#10B981' // primary-500
-      }
+    let borderColor = '#27272A' // dark-600
+    if (isError) {
+      borderColor = '#EF4444' // red-500
+    } else if (isFocused) {
+      borderColor = '#10B981' // primary-500
+    } else if (hasValue) {
+      borderColor = '#10B981' // primary-500
+    }
 
-      return {
-        transform: [{ scale: scaleValues[index]?.value ?? 1 }],
-        borderColor,
-        borderWidth: isFocused || hasValue || isError ? 2 : 1,
-        backgroundColor: hasValue ? '#065F46' : '#18181B', // primary-800 : dark-700
-      }
-    })
-  )
+    return {
+      borderColor,
+      borderWidth: isFocused || hasValue || isError ? 2 : 1,
+      backgroundColor: hasValue ? '#065F46' : '#18181B', // primary-800 : dark-700
+    }
+  }
 
   return (
     <View className='items-center'>
@@ -153,10 +164,11 @@ export default function OTPInput({
           <Animated.View
             key={index}
             style={[
-              inputAnimatedStyles[index],
+              getInputStyle(index),
               {
                 width: INPUT_WIDTH,
                 height: INPUT_WIDTH,
+                transform: [{ scale: scaleValues[index]?.value ?? 1 }],
               },
             ]}
             className='items-center justify-center rounded-xl'

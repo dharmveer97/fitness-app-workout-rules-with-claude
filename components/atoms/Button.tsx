@@ -105,7 +105,7 @@ export const Button: React.FC<ButtonProps> = ({
     variantStyles[variant],
     sizeStyles[size],
     fullWidth && 'w-full',
-    (disabled || loading) && 'opacity-50',
+    (disabled ?? loading) && 'opacity-50',
     className,
   )
 
@@ -121,7 +121,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <AnimatedTouchable
       className={buttonClass}
-      disabled={disabled || loading}
+      disabled={disabled ?? loading}
       onPress={handlePress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}

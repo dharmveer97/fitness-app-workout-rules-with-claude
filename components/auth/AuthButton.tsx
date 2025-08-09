@@ -152,7 +152,7 @@ export default function AuthButton({
         style={animatedStyle}
         className={getButtonStyles()}
         activeOpacity={1}
-        disabled={disabled || loading}
+        disabled={disabled ?? loading}
       >
         {loading ? (
           <>

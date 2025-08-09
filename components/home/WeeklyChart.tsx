@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 
 import { View, Text, Dimensions } from 'react-native'
 
@@ -32,27 +32,86 @@ export default function WeeklyChart({
   const opacity = useSharedValue(0)
   const scale = useSharedValue(0)
 
-  // Create shared values for each data point at the top level
-  const animatedValues = useMemo(() => {
-    const values = []
-    for (let i = 0; i < data.length; i++) {
-      values.push(useSharedValue(0))
-    }
-    return values
-  }, [data.length])
+  // Create individual shared values to avoid hook rule violations (supporting up to 7 data points)
+  const animValue0 = useSharedValue(0)
+  const animValue1 = useSharedValue(0)
+  const animValue2 = useSharedValue(0)
+  const animValue3 = useSharedValue(0)
+  const animValue4 = useSharedValue(0)
+  const animValue5 = useSharedValue(0)
+  const animValue6 = useSharedValue(0)
 
-  // Create animated props for each bar at component level
-  const barAnimatedProps = useMemo(() => 
-    animatedValues.map((animatedValue) => 
-      useAnimatedProps(() => {
-        const animatedHeight = animatedValue.value * chartHeight
-        return {
-          height: animatedHeight,
-          y: chartHeight - animatedHeight,
-        }
-      })
-    ), [animatedValues, chartHeight]
-  )
+  const animatedValues = [
+    animValue0,
+    animValue1,
+    animValue2,
+    animValue3,
+    animValue4,
+    animValue5,
+    animValue6,
+  ]
+
+  // Create individual animated props to avoid hook rule violations
+  // We'll support up to 7 bars (typical for weekly data)
+  const animatedProps0 = useAnimatedProps(() => {
+    if (animatedValues.length > 0) {
+      const animatedHeight = animatedValues[0].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+  const animatedProps1 = useAnimatedProps(() => {
+    if (animatedValues.length > 1) {
+      const animatedHeight = animatedValues[1].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+  const animatedProps2 = useAnimatedProps(() => {
+    if (animatedValues.length > 2) {
+      const animatedHeight = animatedValues[2].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+  const animatedProps3 = useAnimatedProps(() => {
+    if (animatedValues.length > 3) {
+      const animatedHeight = animatedValues[3].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+  const animatedProps4 = useAnimatedProps(() => {
+    if (animatedValues.length > 4) {
+      const animatedHeight = animatedValues[4].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+  const animatedProps5 = useAnimatedProps(() => {
+    if (animatedValues.length > 5) {
+      const animatedHeight = animatedValues[5].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+  const animatedProps6 = useAnimatedProps(() => {
+    if (animatedValues.length > 6) {
+      const animatedHeight = animatedValues[6].value * chartHeight
+      return { height: animatedHeight, y: chartHeight - animatedHeight }
+    }
+    return { height: 0, y: chartHeight }
+  })
+
+  const barAnimatedProps = [
+    animatedProps0,
+    animatedProps1,
+    animatedProps2,
+    animatedProps3,
+    animatedProps4,
+    animatedProps5,
+    animatedProps6,
+  ]
 
   const chartWidth = screenWidth - 48 // Account for padding
   const chartHeight = height - 60 // Account for labels
