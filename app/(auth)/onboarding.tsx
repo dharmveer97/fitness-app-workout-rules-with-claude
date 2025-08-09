@@ -77,7 +77,7 @@ const onboardingSlides: OnboardingSlide[] = [
 
 export default function OnboardingScreen() {
   const dispatch = useDispatch();
-  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<Animated.ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   
   const scrollX = useSharedValue(0);

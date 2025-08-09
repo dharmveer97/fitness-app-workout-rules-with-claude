@@ -119,6 +119,9 @@ interface UserProfile {
   unitSystem: UnitSystem;
   goals: UserGoals;
   joinDate: Date;
+  stats?: WorkoutStats;
+  createdAt: Date;
+  updatedAt: Date;
   preferences: {
     notifications: {
       workoutReminders: boolean;
@@ -161,6 +164,7 @@ interface ProgressRingData {
   color: string;
   label: string;
   unit?: string;
+  icon?: string;
 }
 
 interface ChartDataPoint {

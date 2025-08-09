@@ -43,7 +43,30 @@ export default function SignUpScreen() {
             id: Date.now().toString(), 
             name: values.name, 
             email: values.email,
-            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&size=150&background=10B981&color=fff`
+            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&size=150&background=10B981&color=fff`,
+            fitnessLevel: 'beginner',
+            unitSystem: 'metric',
+            joinDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            goals: {
+              dailySteps: 10000,
+              dailyWater: 2500,
+              dailyCalories: 2000,
+              weeklyWorkouts: 3,
+              sleepHours: 8,
+            },
+            preferences: {
+              notifications: {
+                workoutReminders: true,
+                waterReminders: true,
+                sleepReminders: false,
+              },
+              privacy: {
+                shareStats: false,
+                shareWorkouts: true,
+              },
+            },
           },
         })
       );
@@ -69,7 +92,30 @@ export default function SignUpScreen() {
             id: Date.now().toString(), 
             name: `${provider} User`, 
             email: `user@${provider}.com`,
-            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150'
+            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
+            fitnessLevel: 'beginner',
+            unitSystem: 'metric',
+            joinDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            goals: {
+              dailySteps: 10000,
+              dailyWater: 2500,
+              dailyCalories: 2000,
+              weeklyWorkouts: 3,
+              sleepHours: 8,
+            },
+            preferences: {
+              notifications: {
+                workoutReminders: true,
+                waterReminders: true,
+                sleepReminders: false,
+              },
+              privacy: {
+                shareStats: false,
+                shareWorkouts: true,
+              },
+            },
           },
         })
       );

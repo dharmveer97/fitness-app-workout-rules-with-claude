@@ -24,18 +24,41 @@ export default function SignInScreen() {
   const handleSignIn = async (values: { email: string; password: string }) => {
     try {
       setLoading(true);
-      
+
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       dispatch(
         signIn({
           accessToken: 'demo-token',
-          user: { 
-            id: '1', 
-            name: 'Fitness Enthusiast', 
+          user: {
+            id: '1',
+            name: 'Fitness Enthusiast',
             email: values.email,
-            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150'
+            avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150',
+            fitnessLevel: 'beginner',
+            unitSystem: 'metric',
+            joinDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            goals: {
+              dailySteps: 10000,
+              dailyWater: 2500,
+              dailyCalories: 2000,
+              weeklyWorkouts: 3,
+              sleepHours: 8,
+            },
+            preferences: {
+              notifications: {
+                workoutReminders: true,
+                waterReminders: true,
+                sleepReminders: false,
+              },
+              privacy: {
+                shareStats: false,
+                shareWorkouts: true,
+              },
+            },
           },
         })
       );
@@ -49,19 +72,42 @@ export default function SignInScreen() {
 
   const handleSocialLogin = async (provider: string) => {
     setSocialLoading(prev => ({ ...prev, [provider]: true }));
-    
+
     try {
       // Simulate social login
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       dispatch(
         signIn({
           accessToken: 'demo-social-token',
-          user: { 
-            id: '2', 
-            name: `${provider} User`, 
+          user: {
+            id: '2',
+            name: `${provider} User`,
             email: `user@${provider}.com`,
-            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150'
+            avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
+            fitnessLevel: 'beginner',
+            unitSystem: 'metric',
+            joinDate: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            goals: {
+              dailySteps: 10000,
+              dailyWater: 2500,
+              dailyCalories: 2000,
+              weeklyWorkouts: 3,
+              sleepHours: 8,
+            },
+            preferences: {
+              notifications: {
+                workoutReminders: true,
+                waterReminders: true,
+                sleepReminders: false,
+              },
+              privacy: {
+                shareStats: false,
+                shareWorkouts: true,
+              },
+            },
           },
         })
       );
@@ -76,25 +122,25 @@ export default function SignInScreen() {
   return (
     <View className="flex-1 bg-dark-900">
       <StatusBar style="light" />
-      
-      <KeyboardAvoidingView 
-        behavior={Platform.select({ ios: 'padding', android: 'height' })} 
+
+      <KeyboardAvoidingView
+        behavior={Platform.select({ ios: 'padding', android: 'height' })}
         className="flex-1"
       >
-        <ScrollView 
-          className="flex-1" 
+        <ScrollView
+          className="flex-1"
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1 }}
         >
           {/* Header */}
           <View className="pt-16 px-6 pb-8">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => router.back()}
               className="w-10 h-10 rounded-xl bg-dark-700 items-center justify-center mb-8"
             >
               <Ionicons name="arrow-back" size={20} color="#A1A1AA" />
             </TouchableOpacity>
-            
+
             <View className="mb-8">
               <Text className="text-3xl font-bold text-white mb-2">
                 Welcome back

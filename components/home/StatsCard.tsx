@@ -135,7 +135,7 @@ export default function StatsCard({
                 className="text-xs font-semibold"
                 style={{ color: getTrendColor() }}
               >
-                {Math.abs(change)}%
+                {Math.abs(Number(change))}%
               </Text>
             </View>
           )}
@@ -171,7 +171,7 @@ export default function StatsCard({
         <View 
           className="absolute inset-0 rounded-2xl opacity-5"
           style={{
-            background: `linear-gradient(135deg, ${color}, transparent)`,
+            backgroundColor: color,
           }}
           pointerEvents="none"
         />

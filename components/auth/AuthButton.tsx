@@ -47,7 +47,7 @@ export default function AuthButton({
       scale.value = withSpring(1);
       opacity.value = withSpring(1);
       if (onPress && !loading && !disabled) {
-        runOnJS(() => onPress())();
+        runOnJS((event: any) => onPress(event))({});
       }
     },
     onFail: () => {

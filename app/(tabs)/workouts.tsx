@@ -291,7 +291,7 @@ export default function WorkoutsScreen() {
                       style={{ backgroundColor: category.color + '20' }}
                     >
                       <FontAwesome 
-                        name={category.type === 'strength' ? 'dumbbell' : 
+                        name={category.type === 'strength' ? 'male' : 
                              category.type === 'cardio' ? 'heart' :
                              category.type === 'hiit' ? 'fire' : 'leaf'} 
                         size={20} 

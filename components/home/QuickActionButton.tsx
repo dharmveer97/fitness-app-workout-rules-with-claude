@@ -120,7 +120,6 @@ export default function QuickActionButton({
             className="absolute inset-0 rounded-2xl opacity-20"
             style={{
               backgroundColor: 'transparent',
-              background: `linear-gradient(135deg, rgba(255,255,255,0.3), transparent)`,
             }}
             pointerEvents="none"
           />

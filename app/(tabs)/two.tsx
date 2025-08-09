@@ -35,8 +35,8 @@ export default function ProfileScreen() {
                 updateProfile({
                   name: values.name,
                   email: values.email,
-                  heightCm: values.heightCm ? Number(values.heightCm) : undefined,
-                  weightKg: values.weightKg ? Number(values.weightKg) : undefined,
+                  height: values.heightCm ? Number(values.heightCm) : undefined,
+                  weight: values.weightKg ? Number(values.weightKg) : undefined,
                 })
               );
             }}

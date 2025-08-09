@@ -33,7 +33,7 @@
         "./stores/*"
       ],
       "@/types/*": [
-        "src/types/*"
+        "./types/*"
       ],
       "@/utils/*": [
         "./utils/*"
@@ -42,14 +42,14 @@
         "./assets/*"
       ],
       "@/src/*": [
-        "./src/*"
+        "./app/*"
       ],
       "@/schemas/*": [
-        "./src/schemas/*"
+        "./schemas/*"
       ]
     },
     "typeRoots": [
-      "src/types",
+      "./types",
       "./node_modules/@types"
     ],
     "skipLibCheck": true,
@@ -65,9 +65,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/types/**/*.d.ts",
+    "types/**/*.d.ts",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "nativewind-env.d.ts"

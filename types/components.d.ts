@@ -88,7 +88,7 @@ interface StatsCardProps {
   title: string;
   value: string | number;
   unit?: string;
-  change?: string;
+  change?: string | number;
   changeLabel?: string;
   icon?: string;
   color?: string;

@@ -164,7 +164,7 @@ export class StorageUtils {
    * Store user preferences
    */
   static async storeUserPreferences(
-    preferences: UserPreferences
+    preferences: UserProfile['preferences']
   ): Promise<void> {
     try {
       storage.set(STORAGE_KEYS.USER_PREFERENCES, JSON.stringify(preferences));
@@ -177,7 +177,7 @@ export class StorageUtils {
   /**
    * Get user preferences
    */
-  static async getUserPreferences(): Promise<UserPreferences | null> {
+  static async getUserPreferences(): Promise<UserProfile['preferences'] | null> {
     try {
       const preferences = storage.getString(STORAGE_KEYS.USER_PREFERENCES);
       return preferences ? JSON.parse(preferences) : null;

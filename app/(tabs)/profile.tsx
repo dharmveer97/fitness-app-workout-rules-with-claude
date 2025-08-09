@@ -31,6 +31,14 @@ export default function ProfileScreen() {
     fitnessLevel: 'intermediate',
     unitSystem: 'metric',
     joinDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 1 year ago
+    createdAt: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 1 year ago
+    updatedAt: new Date(),
+    stats: {
+      totalWorkouts: 156,
+      totalDuration: 7800, // minutes
+      caloriesBurned: 31200,
+      averageIntensity: 7.5,
+    },
     goals: {
       dailySteps: 10000,
       dailyWater: 2500, // ml

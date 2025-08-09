@@ -1,15 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type UserProfile = {
-  id: string;
-  name: string;
-  email: string;
-  avatarUrl?: string;
-  heightCm?: number;
-  weightKg?: number;
-  goal?: 'lose' | 'maintain' | 'gain';
-};
-
 export type AuthState = {
   accessToken: string | null;
   refreshToken: string | null;
