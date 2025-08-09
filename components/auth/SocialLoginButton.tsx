@@ -1,10 +1,21 @@
-import React from 'react';
-import { Text, TouchableOpacity, View, Image } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring, useAnimatedGestureHandler, runOnJS } from 'react-native-reanimated';
-import { TapGestureHandler, TapGestureHandlerGestureEvent } from 'react-native-gesture-handler';
+import React from 'react'
 
-const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+import { Text, TouchableOpacity, View, Image } from 'react-native'
+
+import { Ionicons } from '@expo/vector-icons'
+import { TapGestureHandler } from 'react-native-gesture-handler'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  useAnimatedGestureHandler,
+  runOnJS,
+} from 'react-native-reanimated'
+
+import type { TapGestureHandlerGestureEvent } from 'react-native-gesture-handler'
+
+const AnimatedTouchableOpacity =
+  Animated.createAnimatedComponent(TouchableOpacity)
 
 // SocialProvider type is globally available from /types/auth.d.ts
 
@@ -32,7 +43,7 @@ const providerConfig = {
     textColor: '#FFFFFF',
     borderColor: '#1877F2',
   },
-} as const;
+} as const
 
 export default function SocialLoginButton({
   provider,
@@ -40,114 +51,115 @@ export default function SocialLoginButton({
   loading = false,
   disabled = false,
 }: SocialLoginButtonProps) {
-  const scale = useSharedValue(1);
-  const opacity = useSharedValue(1);
-  const config = providerConfig[provider];
+  const scale = useSharedValue(1)
+  const opacity = useSharedValue(1)
+  const config = providerConfig[provider]
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ scale: scale.value }],
-      opacity: opacity.value,
-    };
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    opacity: opacity.value,
+  }))
 
   const tapHandler = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
     onStart: () => {
-      scale.value = withSpring(0.95);
-      opacity.value = withSpring(0.8);
+      scale.value = withSpring(0.95)
+      opacity.value = withSpring(0.8)
     },
     onEnd: () => {
-      scale.value = withSpring(1);
-      opacity.value = withSpring(1);
+      scale.value = withSpring(1)
+      opacity.value = withSpring(1)
       if (!loading && !disabled) {
-        runOnJS(onPress)();
+        runOnJS(onPress)()
       }
     },
     onFail: () => {
-      scale.value = withSpring(1);
-      opacity.value = withSpring(1);
+      scale.value = withSpring(1)
+      opacity.value = withSpring(1)
     },
-  });
+  })
 
   const getButtonStyle = () => {
     if (disabled || loading) {
       return {
         backgroundColor: '#27272A', // dark-600
         borderColor: '#27272A',
-      };
+      }
     }
     return {
       backgroundColor: config.backgroundColor,
       borderColor: config.borderColor,
-    };
-  };
+    }
+  }
 
   const getTextColor = () => {
     if (disabled || loading) {
-      return '#71717A'; // dark-300
+      return '#71717A' // dark-300
     }
-    return config.textColor;
-  };
+    return config.textColor
+  }
 
   const getIconColor = () => {
     if (disabled || loading) {
-      return '#71717A'; // dark-300
+      return '#71717A' // dark-300
     }
-    
+
     // For specific providers, use their brand colors
-    if (provider === 'google') return '#4285F4';
-    if (provider === 'apple') return config.textColor;
-    if (provider === 'facebook') return '#FFFFFF';
-    
-    return config.textColor;
-  };
+    if (provider === 'google') return '#4285F4'
+    if (provider === 'apple') return config.textColor
+    if (provider === 'facebook') return '#FFFFFF'
+
+    return config.textColor
+  }
 
   return (
-    <TapGestureHandler onGestureEvent={tapHandler} enabled={!disabled && !loading}>
+    <TapGestureHandler
+      onGestureEvent={tapHandler}
+      enabled={!disabled && !loading}
+    >
       <AnimatedTouchableOpacity
         style={[
           animatedStyle,
           {
             ...getButtonStyle(),
             borderWidth: 1,
-          }
+          },
         ]}
-        className="flex-row items-center justify-center w-full px-6 py-4 rounded-xl mb-3"
+        className='mb-3 w-full flex-row items-center justify-center rounded-xl px-6 py-4'
         activeOpacity={1}
         disabled={disabled || loading}
       >
         {loading ? (
-          <View className="flex-row items-center">
-            <View className="w-5 h-5 mr-3">
-              <Ionicons name="reload" size={20} color={getIconColor()} />
+          <View className='flex-row items-center'>
+            <View className='mr-3 h-5 w-5'>
+              <Ionicons name='reload' size={20} color={getIconColor()} />
             </View>
-            <Text 
+            <Text
               style={{ color: getTextColor() }}
-              className="text-base font-semibold"
+              className='text-base font-semibold'
             >
               Connecting...
             </Text>
           </View>
         ) : (
-          <View className="flex-row items-center">
+          <View className='flex-row items-center'>
             {provider === 'google' && (
-              <View className="w-5 h-5 mr-3">
+              <View className='mr-3 h-5 w-5'>
                 <Ionicons name={config.icon} size={20} color={getIconColor()} />
               </View>
             )}
             {provider === 'apple' && (
-              <View className="w-5 h-5 mr-3">
+              <View className='mr-3 h-5 w-5'>
                 <Ionicons name={config.icon} size={20} color={getIconColor()} />
               </View>
             )}
             {provider === 'facebook' && (
-              <View className="w-5 h-5 mr-3">
+              <View className='mr-3 h-5 w-5'>
                 <Ionicons name={config.icon} size={20} color={getIconColor()} />
               </View>
             )}
-            <Text 
+            <Text
               style={{ color: getTextColor() }}
-              className="text-base font-semibold"
+              className='text-base font-semibold'
             >
               {config.title}
             </Text>
@@ -155,7 +167,7 @@ export default function SocialLoginButton({
         )}
       </AnimatedTouchableOpacity>
     </TapGestureHandler>
-  );
+  )
 }
 
 // Wrapper component for multiple social login options
@@ -171,39 +183,39 @@ export function SocialLoginGroup({
   disabled = false,
 }: SocialLoginGroupProps) {
   return (
-    <View className="w-full">
-      <View className="flex-row items-center mb-6">
-        <View className="flex-1 h-px bg-dark-600" />
-        <Text className="mx-4 text-dark-400 text-sm">Or continue with</Text>
-        <View className="flex-1 h-px bg-dark-600" />
+    <View className='w-full'>
+      <View className='mb-6 flex-row items-center'>
+        <View className='h-px flex-1 bg-dark-600' />
+        <Text className='mx-4 text-sm text-dark-400'>Or continue with</Text>
+        <View className='h-px flex-1 bg-dark-600' />
       </View>
-      
+
       {onGooglePress && (
         <SocialLoginButton
-          provider="google"
+          provider='google'
           onPress={onGooglePress}
           loading={googleLoading}
           disabled={disabled}
         />
       )}
-      
+
       {onApplePress && (
         <SocialLoginButton
-          provider="apple"
+          provider='apple'
           onPress={onApplePress}
           loading={appleLoading}
           disabled={disabled}
         />
       )}
-      
+
       {onFacebookPress && (
         <SocialLoginButton
-          provider="facebook"
+          provider='facebook'
           onPress={onFacebookPress}
           loading={facebookLoading}
           disabled={disabled}
         />
       )}
     </View>
-  );
+  )
 }

@@ -1,24 +1,34 @@
-import React, { useCallback, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, RefreshControl, Alert } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import type { RootState } from '@/state/store';
-import { router } from 'expo-router';
-import { signOut } from '@/state/slices/authSlice';
-import { FontAwesome } from '@expo/vector-icons';
+import React, { useCallback, useState } from 'react'
+
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl,
+  Alert,
+} from 'react-native'
+
+import { router } from 'expo-router'
+
+import { FontAwesome } from '@expo/vector-icons'
+import { useSelector, useDispatch } from 'react-redux'
 
 // Import our new components
-import StatsCard from '@/components/home/StatsCard';
-import ProgressRing from '@/components/home/ProgressRing';
-import WeeklyChart from '@/components/home/WeeklyChart';
-import QuickActionButton from '@/components/home/QuickActionButton';
-import ActivityItem from '@/components/home/ActivityItem';
+import ActivityItem from '@/components/home/ActivityItem'
+import ProgressRing from '@/components/home/ProgressRing'
+import QuickActionButton from '@/components/home/QuickActionButton'
+import StatsCard from '@/components/home/StatsCard'
+import WeeklyChart from '@/components/home/WeeklyChart'
+import { signOut } from '@/state/slices/authSlice'
+import type { RootState } from '@/state/store'
 
 // Types are now globally available from .d.ts files
 
 export default function HomeScreen() {
-  const user = useSelector((s: RootState) => s.auth.user);
-  const dispatch = useDispatch();
-  const [refreshing, setRefreshing] = useState(false);
+  const user = useSelector((s: RootState) => s.auth.user)
+  const dispatch = useDispatch()
+  const [refreshing, setRefreshing] = useState(false)
 
   // Mock data - in a real app, this would come from your API/state
   const todayStats: StatsCardData[] = [
@@ -62,7 +72,7 @@ export default function HomeScreen() {
       color: '#06B6D4',
       trend: 'up',
     },
-  ];
+  ]
 
   const dailyGoals: ProgressRingData[] = [
     {
@@ -88,7 +98,7 @@ export default function HomeScreen() {
       unit: 'L',
       icon: 'tint',
     },
-  ];
+  ]
 
   const weeklyData: ChartDataPoint[] = [
     { label: 'Monday', value: 7832 },
@@ -98,7 +108,7 @@ export default function HomeScreen() {
     { label: 'Friday', value: 10234 },
     { label: 'Saturday', value: 11567 },
     { label: 'Sunday', value: 8432 },
-  ];
+  ]
 
   const recentActivities: Activity[] = [
     {
@@ -128,73 +138,79 @@ export default function HomeScreen() {
       timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
       calories: 285,
     },
-  ];
+  ]
 
   const onRefresh = useCallback(() => {
-    setRefreshing(true);
+    setRefreshing(true)
     // Simulate API call
     setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
+      setRefreshing(false)
+    }, 2000)
+  }, [])
 
   const handleQuickAction = (action: string) => {
     switch (action) {
       case 'workout':
-        router.push('/(tabs)/workouts');
-        break;
+        router.push('/(tabs)/workouts')
+        break
       case 'meal':
-        Alert.alert('Log Meal', 'Meal logging feature coming soon!');
-        break;
+        Alert.alert('Log Meal', 'Meal logging feature coming soon!')
+        break
       case 'water':
-        Alert.alert('Track Water', 'Water tracking feature coming soon!');
-        break;
+        Alert.alert('Track Water', 'Water tracking feature coming soon!')
+        break
       case 'sleep':
-        Alert.alert('Log Sleep', 'Sleep tracking feature coming soon!');
-        break;
+        Alert.alert('Log Sleep', 'Sleep tracking feature coming soon!')
+        break
     }
-  };
+  }
 
   const handleActivityPress = (activity: Activity) => {
-    Alert.alert('Activity Details', `View details for ${activity.title}`);
-  };
+    Alert.alert('Activity Details', `View details for ${activity.title}`)
+  }
 
   const handleStatsPress = (title: string) => {
-    Alert.alert('Stats Details', `View detailed stats for ${title}`);
-  };
+    Alert.alert('Stats Details', `View detailed stats for ${title}`)
+  }
 
   return (
-    <View className="flex-1 bg-[#0A0A0B]">
+    <View className='flex-1 bg-[#0A0A0B]'>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#10B981" />
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintColor='#10B981'
+          />
         }
         showsVerticalScrollIndicator={false}
-        className="flex-1"
+        className='flex-1'
       >
-        <View className="px-6 py-4">
+        <View className='px-6 py-4'>
           {/* Header */}
-          <View className="flex-row items-center justify-between mb-8 mt-4">
+          <View className='mb-8 mt-4 flex-row items-center justify-between'>
             <View>
-              <Text className="text-gray-400 text-lg">Good morning</Text>
-              <Text className="text-white text-3xl font-bold">
+              <Text className='text-lg text-gray-400'>Good morning</Text>
+              <Text className='text-3xl font-bold text-white'>
                 {user?.name ?? 'Athlete'}
               </Text>
             </View>
             <TouchableOpacity
               onPress={() => router.push('/(tabs)/profile')}
-              className="w-12 h-12 bg-[#18181B] rounded-full items-center justify-center border border-gray-800"
+              className='h-12 w-12 items-center justify-center rounded-full border border-gray-800 bg-[#18181B]'
             >
-              <FontAwesome name="user" size={20} color="#10B981" />
+              <FontAwesome name='user' size={20} color='#10B981' />
             </TouchableOpacity>
           </View>
 
           {/* Today's Stats Cards */}
-          <View className="mb-8">
-            <Text className="text-white text-xl font-bold mb-4">Today's Stats</Text>
-            <View className="flex-row flex-wrap justify-between">
+          <View className='mb-8'>
+            <Text className='mb-4 text-xl font-bold text-white'>
+              Today's Stats
+            </Text>
+            <View className='flex-row flex-wrap justify-between'>
               {todayStats.map((stat, index) => (
-                <View key={stat.title} className="w-[48%] mb-4">
+                <View key={stat.title} className='mb-4 w-[48%]'>
                   <StatsCard
                     {...stat}
                     delay={index * 100}
@@ -206,11 +222,13 @@ export default function HomeScreen() {
           </View>
 
           {/* Daily Goals Progress Rings */}
-          <View className="mb-8">
-            <Text className="text-white text-xl font-bold mb-4">Daily Goals</Text>
-            <View className="bg-[#18181B] rounded-2xl p-6 border border-gray-800/50">
+          <View className='mb-8'>
+            <Text className='mb-4 text-xl font-bold text-white'>
+              Daily Goals
+            </Text>
+            <View className='rounded-2xl border border-gray-800/50 bg-[#18181B] p-6'>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View className="flex-row space-x-8">
+                <View className='flex-row space-x-8'>
                   {dailyGoals.map((goal, index) => (
                     <ProgressRing
                       key={goal.label}
@@ -224,67 +242,73 @@ export default function HomeScreen() {
           </View>
 
           {/* Weekly Progress Chart */}
-          <View className="mb-8">
+          <View className='mb-8'>
             <WeeklyChart
               data={weeklyData}
-              title="Weekly Steps"
-              color="#10B981"
+              title='Weekly Steps'
+              color='#10B981'
               delay={400}
             />
           </View>
 
           {/* Quick Actions */}
-          <View className="mb-8">
-            <Text className="text-white text-xl font-bold mb-4">Quick Actions</Text>
-            <View className="flex-row flex-wrap gap-3">
-              <View className="w-[48%]">
+          <View className='mb-8'>
+            <Text className='mb-4 text-xl font-bold text-white'>
+              Quick Actions
+            </Text>
+            <View className='flex-row flex-wrap gap-3'>
+              <View className='w-[48%]'>
                 <QuickActionButton
-                  title="Start Workout"
-                  icon="heartbeat"
-                  color="#EF4444"
+                  title='Start Workout'
+                  icon='heartbeat'
+                  color='#EF4444'
                   onPress={() => handleQuickAction('workout')}
                   delay={500}
                 />
               </View>
-              <View className="w-[48%]">
+              <View className='w-[48%]'>
                 <QuickActionButton
-                  title="Log Meal"
-                  icon="cutlery"
-                  color="#F97316"
+                  title='Log Meal'
+                  icon='cutlery'
+                  color='#F97316'
                   onPress={() => handleQuickAction('meal')}
                   delay={550}
-                  variant="secondary"
+                  variant='secondary'
                 />
               </View>
-              <View className="w-[48%]">
+              <View className='w-[48%]'>
                 <QuickActionButton
-                  title="Track Water"
-                  icon="tint"
-                  color="#06B6D4"
+                  title='Track Water'
+                  icon='tint'
+                  color='#06B6D4'
                   onPress={() => handleQuickAction('water')}
                   delay={600}
-                  variant="secondary"
+                  variant='secondary'
                 />
               </View>
-              <View className="w-[48%]">
+              <View className='w-[48%]'>
                 <QuickActionButton
-                  title="Log Sleep"
-                  icon="moon-o"
-                  color="#8B5CF6"
+                  title='Log Sleep'
+                  icon='moon-o'
+                  color='#8B5CF6'
                   onPress={() => handleQuickAction('sleep')}
                   delay={650}
-                  variant="secondary"
+                  variant='secondary'
                 />
               </View>
             </View>
           </View>
 
           {/* Recent Activities */}
-          <View className="mb-8">
-            <View className="flex-row items-center justify-between mb-4">
-              <Text className="text-white text-xl font-bold">Recent Activities</Text>
+          <View className='mb-8'>
+            <View className='mb-4 flex-row items-center justify-between'>
+              <Text className='text-xl font-bold text-white'>
+                Recent Activities
+              </Text>
               <TouchableOpacity>
-                <Text className="text-[#10B981] text-base font-semibold">View All</Text>
+                <Text className='text-base font-semibold text-[#10B981]'>
+                  View All
+                </Text>
               </TouchableOpacity>
             </View>
             {recentActivities.map((activity, index) => (
@@ -298,9 +322,9 @@ export default function HomeScreen() {
           </View>
 
           {/* Footer spacing */}
-          <View className="h-8" />
+          <View className='h-8' />
         </View>
       </ScrollView>
     </View>
-  );
+  )
 }

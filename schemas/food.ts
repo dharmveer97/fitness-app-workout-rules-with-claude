@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Meal Type Schema
 export const mealTypeSchema = z.enum([
@@ -7,7 +7,7 @@ export const mealTypeSchema = z.enum([
   'dinner',
   'snack',
   'drink',
-]);
+])
 
 // Food Item Schema
 export const foodItemSchema = z.object({
@@ -37,7 +37,7 @@ export const foodItemSchema = z.object({
     .optional(),
   category: z.string().optional(),
   tags: z.array(z.string()).default([]),
-});
+})
 
 // Food Entry Schema
 export const foodEntrySchema = z.object({
@@ -70,7 +70,7 @@ export const foodEntrySchema = z.object({
     .optional(),
   isHomemade: z.boolean().default(false),
   rating: z.number().min(1).max(5).optional(),
-});
+})
 
 // Daily Nutrition Schema
 export const dailyNutritionSchema = z.object({
@@ -101,7 +101,7 @@ export const dailyNutritionSchema = z.object({
       }),
     )
     .default([]),
-});
+})
 
 // Recipe Schema
 export const recipeSchema = z.object({
@@ -136,7 +136,7 @@ export const recipeSchema = z.object({
   rating: z.number().min(1).max(5).optional(),
   isPublic: z.boolean().default(false),
   createdBy: z.string(),
-});
+})
 
 // Food Search Schema
 export const foodSearchSchema = z.object({
@@ -145,12 +145,12 @@ export const foodSearchSchema = z.object({
   brand: z.string().optional(),
   barcode: z.string().optional(),
   limit: z.number().min(1).max(50).default(20),
-});
+})
 
 // Inferred Types
-export type MealTypeInfer = z.infer<typeof mealTypeSchema>;
-export type FoodItemInfer = z.infer<typeof foodItemSchema>;
-export type FoodEntryInfer = z.infer<typeof foodEntrySchema>;
-export type DailyNutritionInfer = z.infer<typeof dailyNutritionSchema>;
-export type RecipeInfer = z.infer<typeof recipeSchema>;
-export type FoodSearchInfer = z.infer<typeof foodSearchSchema>;
+export type MealTypeInfer = z.infer<typeof mealTypeSchema>
+export type FoodItemInfer = z.infer<typeof foodItemSchema>
+export type FoodEntryInfer = z.infer<typeof foodEntrySchema>
+export type DailyNutritionInfer = z.infer<typeof dailyNutritionSchema>
+export type RecipeInfer = z.infer<typeof recipeSchema>
+export type FoodSearchInfer = z.infer<typeof foodSearchSchema>

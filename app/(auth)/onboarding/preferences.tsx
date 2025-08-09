@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+
 import {
   View,
   Text,
@@ -7,31 +8,38 @@ import {
   Switch,
   KeyboardAvoidingView,
   Platform,
-} from 'react-native';
-import { router } from 'expo-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated';
+} from 'react-native'
+
+import { router } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+
+import { Ionicons } from '@expo/vector-icons'
+import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
+import { useDispatch, useSelector } from 'react-redux'
+
+import AuthButton from '@/components/auth/AuthButton'
+import { completeOnboarding as authCompleteOnboarding } from '@/state/slices/authSlice'
 import {
   updatePreferences,
   completeOnboarding,
   previousSlide,
   markSlideCompleted,
-} from '@/state/slices/onboardingSlice';
-import { completeOnboarding as authCompleteOnboarding } from '@/state/slices/authSlice';
-import type { RootState } from '@/state/store';
-import AuthButton from '@/components/auth/AuthButton';
+} from '@/state/slices/onboardingSlice'
+import type { RootState } from '@/state/store'
 
 export default function PreferencesScreen() {
-  const dispatch = useDispatch();
-  const { preferences, personalInfo } = useSelector((state: RootState) => state.onboarding);
-  
-  const [workoutTime, setWorkoutTime] = useState<'morning' | 'afternoon' | 'evening'>(
-    preferences.workoutTime || 'morning'
-  );
-  const [notifications, setNotifications] = useState(preferences.notifications ?? true);
-  const [reminders, setReminders] = useState(preferences.reminders ?? true);
+  const dispatch = useDispatch()
+  const { preferences, personalInfo } = useSelector(
+    (state: RootState) => state.onboarding,
+  )
+
+  const [workoutTime, setWorkoutTime] = useState<
+    'morning' | 'afternoon' | 'evening'
+  >(preferences.workoutTime || 'morning')
+  const [notifications, setNotifications] = useState(
+    preferences.notifications ?? true,
+  )
+  const [reminders, setReminders] = useState(preferences.reminders ?? true)
 
   const handleComplete = () => {
     dispatch(
@@ -39,18 +47,18 @@ export default function PreferencesScreen() {
         workoutTime,
         notifications,
         reminders,
-      })
-    );
-    dispatch(markSlideCompleted('preferences'));
-    dispatch(completeOnboarding());
-    dispatch(authCompleteOnboarding());
-    router.replace('/(tabs)');
-  };
+      }),
+    )
+    dispatch(markSlideCompleted('preferences'))
+    dispatch(completeOnboarding())
+    dispatch(authCompleteOnboarding())
+    router.replace('/(tabs)')
+  }
 
   const handleBack = () => {
-    dispatch(previousSlide());
-    router.back();
-  };
+    dispatch(previousSlide())
+    router.push('/(auth)/onboarding/goals')
+  }
 
   const workoutTimeOptions = [
     {
@@ -71,65 +79,65 @@ export default function PreferencesScreen() {
       icon: 'moon',
       time: '6 PM - 12 AM',
     },
-  ] as const;
+  ] as const
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className="flex-1 bg-dark-900"
+      className='flex-1 bg-dark-900'
     >
-      <StatusBar style="light" />
-      
+      <StatusBar style='light' />
+
       {/* Header */}
-      <View className="flex-row justify-between items-center pt-12 px-6 pb-4">
+      <View className='flex-row items-center justify-between px-6 pb-4 pt-12'>
         <TouchableOpacity
           onPress={handleBack}
-          className="w-10 h-10 rounded-full bg-dark-700 items-center justify-center"
+          className='h-10 w-10 items-center justify-center rounded-full bg-dark-700'
         >
-          <Ionicons name="arrow-back" size={20} color="#9CA3AF" />
+          <Ionicons name='arrow-back' size={20} color='#9CA3AF' />
         </TouchableOpacity>
-        
-        <View className="flex-1" />
+
+        <View className='flex-1' />
       </View>
 
       {/* Progress Bar */}
-      <View className="px-6 mb-6">
-        <View className="h-1 bg-dark-700 rounded-full overflow-hidden">
+      <View className='mb-6 px-6'>
+        <View className='h-1 overflow-hidden rounded-full bg-dark-700'>
           <Animated.View
             entering={FadeIn}
-            className="h-full bg-primary-500 rounded-full"
+            className='h-full rounded-full bg-primary-500'
             style={{ width: '100%' }}
           />
         </View>
-        <Text className="text-dark-400 text-xs mt-2">Step 3 of 3</Text>
+        <Text className='mt-2 text-xs text-dark-400'>Step 3 of 3</Text>
       </View>
 
       <ScrollView
-        className="flex-1 px-6"
+        className='flex-1 px-6'
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps='handled'
       >
         {/* Title Section */}
         <Animated.View entering={FadeIn.delay(200)}>
-          <Text className="text-primary-400 text-sm font-semibold mb-2">
+          <Text className='mb-2 text-sm font-semibold text-primary-400'>
             Preferences
           </Text>
-          <Text className="text-white text-2xl font-bold mb-2">
+          <Text className='mb-2 text-2xl font-bold text-white'>
             Almost there, {personalInfo.name}!
           </Text>
-          <Text className="text-dark-300 text-base mb-8">
+          <Text className='mb-8 text-base text-dark-300'>
             Let's set up your workout preferences
           </Text>
         </Animated.View>
 
         {/* Form Fields */}
-        <Animated.View entering={FadeIn.delay(400)} className="space-y-6">
+        <Animated.View entering={FadeIn.delay(400)} className='space-y-6'>
           {/* Preferred Workout Time */}
           <View>
-            <Text className="text-dark-200 text-sm font-medium mb-3">
+            <Text className='mb-3 text-sm font-medium text-dark-200'>
               Preferred Workout Time
             </Text>
-            <View className="space-y-3">
+            <View className='space-y-3'>
               {workoutTimeOptions.map((option, index) => (
                 <Animated.View
                   key={option.value}
@@ -137,35 +145,47 @@ export default function PreferencesScreen() {
                 >
                   <TouchableOpacity
                     onPress={() => setWorkoutTime(option.value)}
-                    className={`p-4 rounded-xl border flex-row items-center ${
+                    className={`flex-row items-center rounded-xl border p-4 ${
                       workoutTime === option.value
-                        ? 'bg-primary-500/20 border-primary-500'
-                        : 'bg-dark-800 border-dark-700'
+                        ? 'border-primary-500 bg-primary-500/20'
+                        : 'border-dark-700 bg-dark-800'
                     }`}
                   >
                     <View
-                      className={`w-12 h-12 rounded-xl items-center justify-center mr-4 ${
-                        workoutTime === option.value ? 'bg-primary-500' : 'bg-dark-700'
+                      className={`mr-4 h-12 w-12 items-center justify-center rounded-xl ${
+                        workoutTime === option.value
+                          ? 'bg-primary-500'
+                          : 'bg-dark-700'
                       }`}
                     >
                       <Ionicons
                         name={option.icon}
                         size={24}
-                        color={workoutTime === option.value ? 'white' : '#9CA3AF'}
+                        color={
+                          workoutTime === option.value ? 'white' : '#9CA3AF'
+                        }
                       />
                     </View>
-                    <View className="flex-1">
+                    <View className='flex-1'>
                       <Text
                         className={`font-semibold ${
-                          workoutTime === option.value ? 'text-white' : 'text-dark-200'
+                          workoutTime === option.value
+                            ? 'text-white'
+                            : 'text-dark-200'
                         }`}
                       >
                         {option.label}
                       </Text>
-                      <Text className="text-dark-400 text-sm">{option.time}</Text>
+                      <Text className='text-sm text-dark-400'>
+                        {option.time}
+                      </Text>
                     </View>
                     {workoutTime === option.value && (
-                      <Ionicons name="checkmark-circle" size={24} color="#10B981" />
+                      <Ionicons
+                        name='checkmark-circle'
+                        size={24}
+                        color='#10B981'
+                      />
                     )}
                   </TouchableOpacity>
                 </Animated.View>
@@ -174,19 +194,23 @@ export default function PreferencesScreen() {
           </View>
 
           {/* Notification Settings */}
-          <View className="space-y-4">
-            <Text className="text-dark-200 text-sm font-medium">Notification Settings</Text>
-            
+          <View className='space-y-4'>
+            <Text className='text-sm font-medium text-dark-200'>
+              Notification Settings
+            </Text>
+
             {/* Push Notifications */}
-            <View className="bg-dark-800 p-4 rounded-xl border border-dark-700">
-              <View className="flex-row items-center justify-between">
-                <View className="flex-1 flex-row items-center">
-                  <View className="w-10 h-10 bg-dark-700 rounded-lg items-center justify-center mr-3">
-                    <Ionicons name="notifications" size={20} color="#10B981" />
+            <View className='rounded-xl border border-dark-700 bg-dark-800 p-4'>
+              <View className='flex-row items-center justify-between'>
+                <View className='flex-1 flex-row items-center'>
+                  <View className='mr-3 h-10 w-10 items-center justify-center rounded-lg bg-dark-700'>
+                    <Ionicons name='notifications' size={20} color='#10B981' />
                   </View>
-                  <View className="flex-1">
-                    <Text className="text-white font-medium">Push Notifications</Text>
-                    <Text className="text-dark-400 text-sm">
+                  <View className='flex-1'>
+                    <Text className='font-medium text-white'>
+                      Push Notifications
+                    </Text>
+                    <Text className='text-sm text-dark-400'>
                       Get updates about your workouts
                     </Text>
                   </View>
@@ -201,15 +225,17 @@ export default function PreferencesScreen() {
             </View>
 
             {/* Workout Reminders */}
-            <View className="bg-dark-800 p-4 rounded-xl border border-dark-700">
-              <View className="flex-row items-center justify-between">
-                <View className="flex-1 flex-row items-center">
-                  <View className="w-10 h-10 bg-dark-700 rounded-lg items-center justify-center mr-3">
-                    <Ionicons name="alarm" size={20} color="#F97316" />
+            <View className='rounded-xl border border-dark-700 bg-dark-800 p-4'>
+              <View className='flex-row items-center justify-between'>
+                <View className='flex-1 flex-row items-center'>
+                  <View className='mr-3 h-10 w-10 items-center justify-center rounded-lg bg-dark-700'>
+                    <Ionicons name='alarm' size={20} color='#F97316' />
                   </View>
-                  <View className="flex-1">
-                    <Text className="text-white font-medium">Workout Reminders</Text>
-                    <Text className="text-dark-400 text-sm">
+                  <View className='flex-1'>
+                    <Text className='font-medium text-white'>
+                      Workout Reminders
+                    </Text>
+                    <Text className='text-sm text-dark-400'>
                       Daily reminders to stay on track
                     </Text>
                   </View>
@@ -227,31 +253,34 @@ export default function PreferencesScreen() {
           {/* Completion Message */}
           <Animated.View
             entering={ZoomIn.delay(800)}
-            className="bg-gradient-to-r from-primary-500/20 to-secondary-500/20 p-6 rounded-2xl border border-primary-500/30"
+            className='to-secondary-500/20 rounded-2xl border border-primary-500/30 bg-gradient-to-r from-primary-500/20 p-6'
           >
-            <View className="items-center">
-              <View className="w-16 h-16 bg-primary-500 rounded-full items-center justify-center mb-4">
-                <Ionicons name="trophy" size={32} color="white" />
+            <View className='items-center'>
+              <View className='mb-4 h-16 w-16 items-center justify-center rounded-full bg-primary-500'>
+                <Ionicons name='trophy' size={32} color='white' />
               </View>
-              <Text className="text-white text-lg font-bold mb-2">You're All Set!</Text>
-              <Text className="text-dark-200 text-sm text-center">
-                Your personalized fitness journey is ready. Let's make those gains together!
+              <Text className='mb-2 text-lg font-bold text-white'>
+                You're All Set!
+              </Text>
+              <Text className='text-center text-sm text-dark-200'>
+                Your personalized fitness journey is ready. Let's make those
+                gains together!
               </Text>
             </View>
           </Animated.View>
         </Animated.View>
 
-        <View className="h-20" />
+        <View className='h-20' />
       </ScrollView>
 
       {/* Bottom Action Button */}
-      <View className="px-6 pb-8 pt-4 bg-dark-900">
+      <View className='bg-dark-900 px-6 pb-8 pt-4'>
         <AuthButton
-          title="Start Your Journey"
+          title='Start Your Journey'
           onPress={handleComplete}
-          rightIcon="rocket"
+          rightIcon='rocket'
         />
       </View>
     </KeyboardAvoidingView>
-  );
+  )
 }

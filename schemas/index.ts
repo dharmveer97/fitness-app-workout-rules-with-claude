@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // User Authentication Schemas
 export const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
-});
+})
 
 export const registerSchema = z
   .object({
@@ -16,7 +16,7 @@ export const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
     path: ['confirmPassword'],
-  });
+  })
 
 export const profileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -29,7 +29,7 @@ export const profileSchema = z.object({
     weight: z.number().min(0).optional(),
     height: z.number().min(0).optional(),
   }),
-});
+})
 
 // Journal Entry Schema
 export const journalSchema = z.object({
@@ -47,7 +47,7 @@ export const journalSchema = z.object({
   ),
   notes: z.string().optional(),
   images: z.array(z.string().url()).optional(),
-});
+})
 
 // Food Entry Schema
 export const foodEntrySchema = z.object({
@@ -63,7 +63,7 @@ export const foodEntrySchema = z.object({
     }),
   ),
   totalCalories: z.number().min(0),
-});
+})
 
 // Challenge Schema
 export const challengeSchema = z.object({
@@ -72,11 +72,11 @@ export const challengeSchema = z.object({
   category: z.enum(['fasting', 'prayer', 'food', 'detox', 'mindfulness']),
   completed: z.boolean().default(false),
   streak: z.number().min(0).default(0),
-});
+})
 
 // API Response Schema
 export const apiResponseSchema = z.object({
   success: z.boolean(),
   data: z.any().optional(),
   error: z.string().optional(),
-});
+})

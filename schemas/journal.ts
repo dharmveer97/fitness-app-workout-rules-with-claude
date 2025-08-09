@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Mood Schema
 export const moodSchema = z.object({
@@ -14,7 +14,7 @@ export const moodSchema = z.object({
   ]),
   intensity: z.number().min(1).max(5),
   notes: z.string().optional(),
-});
+})
 
 // Todo Item Schema
 export const todoItemSchema = z.object({
@@ -26,7 +26,7 @@ export const todoItemSchema = z.object({
   completed: z.boolean().default(false),
   priority: z.enum(['low', 'medium', 'high']).default('medium'),
   category: z.string().optional(),
-});
+})
 
 // Sleep Schema
 export const sleepSchema = z.object({
@@ -35,14 +35,14 @@ export const sleepSchema = z.object({
   bedTime: z.string().optional(),
   wakeTime: z.string().optional(),
   notes: z.string().optional(),
-});
+})
 
 // Water Intake Schema
 export const waterIntakeSchema = z.object({
   glasses: z.number().min(0).max(20),
   goal: z.number().min(1).max(20).default(8),
   reminders: z.boolean().default(true),
-});
+})
 
 // Movement Schema
 export const movementSchema = z.object({
@@ -52,7 +52,7 @@ export const movementSchema = z.object({
   activeMinutes: z.number().min(0).optional(),
   workoutType: z.string().optional(),
   workoutDuration: z.number().min(0).optional(),
-});
+})
 
 // Journal Entry Schema
 export const journalEntrySchema = z.object({
@@ -85,20 +85,20 @@ export const journalEntrySchema = z.object({
   aiPrompt: z.string().optional(),
   aiResponse: z.string().optional(),
   isPrivate: z.boolean().default(false),
-});
+})
 
 // Quick Journal Entry Schema (for minimal entries)
 export const quickJournalSchema = z.object({
   mood: moodSchema,
   water: z.number().min(0).max(20).default(0),
   notes: z.string().max(500).optional(),
-});
+})
 
 // Inferred Types
-export type MoodInfer = z.infer<typeof moodSchema>;
-export type TodoItemInfer = z.infer<typeof todoItemSchema>;
-export type SleepInfer = z.infer<typeof sleepSchema>;
-export type WaterIntakeInfer = z.infer<typeof waterIntakeSchema>;
-export type MovementInfer = z.infer<typeof movementSchema>;
-export type JournalEntryInfer = z.infer<typeof journalEntrySchema>;
-export type QuickJournalInfer = z.infer<typeof quickJournalSchema>;
+export type MoodInfer = z.infer<typeof moodSchema>
+export type TodoItemInfer = z.infer<typeof todoItemSchema>
+export type SleepInfer = z.infer<typeof sleepSchema>
+export type WaterIntakeInfer = z.infer<typeof waterIntakeSchema>
+export type MovementInfer = z.infer<typeof movementSchema>
+export type JournalEntryInfer = z.infer<typeof journalEntrySchema>
+export type QuickJournalInfer = z.infer<typeof quickJournalSchema>

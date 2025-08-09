@@ -1,24 +1,31 @@
-import React, { forwardRef } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { cn } from '@/utils/cn';
-import { Input, InputProps } from '../atoms/Input';
-import { Text } from '../atoms/Text';
-import { Badge } from '../atoms/Badge';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import React, { forwardRef } from 'react'
+
+import type { TextInput } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
+
+import { Ionicons } from '@expo/vector-icons'
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
+
+import { cn } from '@/utils/cn'
+
+import { Badge } from '../atoms/Badge'
+import { Input } from '../atoms/Input'
+import { Text } from '../atoms/Text'
+
+import type { InputProps } from '../atoms/Input'
 
 export interface FormFieldProps extends InputProps {
-  label?: string;
-  required?: boolean;
-  error?: string;
-  success?: string;
-  hint?: string;
-  badge?: string;
-  tooltip?: string;
-  showTooltip?: boolean;
-  onTooltipPress?: () => void;
-  containerClassName?: string;
-  animated?: boolean;
+  label?: string
+  required?: boolean
+  error?: string
+  success?: string
+  hint?: string
+  badge?: string
+  tooltip?: string
+  showTooltip?: boolean
+  onTooltipPress?: () => void
+  containerClassName?: string
+  animated?: boolean
 }
 
 export const FormField = forwardRef<TextInput, FormFieldProps>(
@@ -37,19 +44,19 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
       animated = true,
       ...inputProps
     },
-    ref
+    ref,
   ) => {
-    const [isTooltipVisible, setIsTooltipVisible] = React.useState(showTooltip);
+    const [isTooltipVisible, setIsTooltipVisible] = React.useState(showTooltip)
 
     const handleTooltipPress = () => {
-      setIsTooltipVisible(!isTooltipVisible);
-      onTooltipPress?.();
-    };
+      setIsTooltipVisible(!isTooltipVisible)
+      onTooltipPress?.()
+    }
 
-    const FieldWrapper = animated ? Animated.View : View;
+    const FieldWrapper = animated ? Animated.View : View
     const animationProps = animated
       ? { entering: FadeIn.duration(300), exiting: FadeOut.duration(300) }
-      : {};
+      : {}
 
     return (
       <FieldWrapper
@@ -57,33 +64,30 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
         {...animationProps}
       >
         {(label || badge || tooltip) && (
-          <View className="flex-row items-center justify-between mb-2">
-            <View className="flex-row items-center flex-1">
+          <View className='mb-2 flex-row items-center justify-between'>
+            <View className='flex-1 flex-row items-center'>
               {label && (
-                <Text variant="label" color="gray">
+                <Text variant='label' color='gray'>
                   {label}
                 </Text>
               )}
               {required && (
-                <Text color="error" className="ml-1">
+                <Text color='error' className='ml-1'>
                   *
                 </Text>
               )}
               {tooltip && (
-                <TouchableOpacity
-                  onPress={handleTooltipPress}
-                  className="ml-2"
-                >
+                <TouchableOpacity onPress={handleTooltipPress} className='ml-2'>
                   <Ionicons
-                    name="information-circle-outline"
+                    name='information-circle-outline'
                     size={16}
-                    color="#9CA3AF"
+                    color='#9CA3AF'
                   />
                 </TouchableOpacity>
               )}
             </View>
             {badge && (
-              <Badge variant="primary" size="sm">
+              <Badge variant='primary' size='sm'>
                 {badge}
               </Badge>
             )}
@@ -94,48 +98,44 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
           <Animated.View
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200)}
-            className="bg-dark-700 p-3 rounded-lg mb-2 border border-dark-600"
+            className='mb-2 rounded-lg border border-dark-600 bg-dark-700 p-3'
           >
-            <Text variant="caption" color="gray">
+            <Text variant='caption' color='gray'>
               {tooltip}
             </Text>
           </Animated.View>
         )}
 
-        <Input
-          ref={ref}
-          error={error}
-          {...inputProps}
-        />
+        <Input ref={ref} error={error} {...inputProps} />
 
         {success && !error && (
-          <View className="flex-row items-center mt-2">
-            <Ionicons name="checkmark-circle" size={14} color="#10B981" />
-            <Text variant="caption" color="success" className="ml-1">
+          <View className='mt-2 flex-row items-center'>
+            <Ionicons name='checkmark-circle' size={14} color='#10B981' />
+            <Text variant='caption' color='success' className='ml-1'>
               {success}
             </Text>
           </View>
         )}
 
         {hint && !error && !success && (
-          <Text variant="caption" color="gray" className="mt-2">
+          <Text variant='caption' color='gray' className='mt-2'>
             {hint}
           </Text>
         )}
 
         {error && (
-          <View className="flex-row items-center mt-2">
-            <Ionicons name="alert-circle" size={14} color="#EF4444" />
-            <Text variant="caption" color="error" className="ml-1">
+          <View className='mt-2 flex-row items-center'>
+            <Ionicons name='alert-circle' size={14} color='#EF4444' />
+            <Text variant='caption' color='error' className='ml-1'>
               {error}
             </Text>
           </View>
         )}
       </FieldWrapper>
-    );
-  }
-);
+    )
+  },
+)
 
-FormField.displayName = 'FormField';
+FormField.displayName = 'FormField'
 
-export default FormField;
+export default FormField

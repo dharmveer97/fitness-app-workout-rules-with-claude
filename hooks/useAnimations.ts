@@ -1,4 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback } from 'react'
+
+import * as Haptics from 'expo-haptics'
+
 import {
   useSharedValue,
   useAnimatedStyle,
@@ -8,45 +11,44 @@ import {
   withDelay,
   withRepeat,
   runOnJS,
-} from 'react-native-reanimated';
-import * as Haptics from 'expo-haptics';
+} from 'react-native-reanimated'
 
 // AnimationConfig and UseAnimationsReturn types are globally available from /types/hooks.d.ts
 
 export const useAnimations = (initialValues?: {
-  opacity?: number;
-  scale?: number;
-  translateX?: number;
-  translateY?: number;
-  rotate?: number;
+  opacity?: number
+  scale?: number
+  translateX?: number
+  translateY?: number
+  rotate?: number
 }): UseAnimationsReturn => {
   // Shared values
-  const opacity = useSharedValue<number>(initialValues?.opacity ?? 1);
-  const scale = useSharedValue<number>(initialValues?.scale ?? 1);
-  const translateX = useSharedValue<number>(initialValues?.translateX ?? 0);
-  const translateY = useSharedValue<number>(initialValues?.translateY ?? 0);
-  const rotate = useSharedValue<number>(initialValues?.rotate ?? 0);
+  const opacity = useSharedValue<number>(initialValues?.opacity ?? 1)
+  const scale = useSharedValue<number>(initialValues?.scale ?? 1)
+  const translateX = useSharedValue<number>(initialValues?.translateX ?? 0)
+  const translateY = useSharedValue<number>(initialValues?.translateY ?? 0)
+  const rotate = useSharedValue<number>(initialValues?.rotate ?? 0)
 
   // Animation functions
   const fadeIn = useCallback(
     (config: AnimationConfig = {}) => {
       opacity.value = withDelay(
         config.delay ?? 0,
-        withTiming(1, { duration: config.duration ?? 300 })
-      );
+        withTiming(1, { duration: config.duration ?? 300 }),
+      )
     },
-    [opacity]
-  );
+    [opacity],
+  )
 
   const fadeOut = useCallback(
     (config: AnimationConfig = {}) => {
       opacity.value = withDelay(
         config.delay ?? 0,
-        withTiming(0, { duration: config.duration ?? 300 })
-      );
+        withTiming(0, { duration: config.duration ?? 300 }),
+      )
     },
-    [opacity]
-  );
+    [opacity],
+  )
 
   const scaleIn = useCallback(
     (config: AnimationConfig = {}) => {
@@ -56,11 +58,11 @@ export const useAnimations = (initialValues?: {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 300,
           mass: config.mass ?? 1,
-        })
-      );
+        }),
+      )
     },
-    [scale]
-  );
+    [scale],
+  )
 
   const scaleOut = useCallback(
     (config: AnimationConfig = {}) => {
@@ -70,11 +72,11 @@ export const useAnimations = (initialValues?: {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 300,
           mass: config.mass ?? 1,
-        })
-      );
+        }),
+      )
     },
-    [scale]
-  );
+    [scale],
+  )
 
   const slideInFromLeft = useCallback(
     (config: AnimationConfig = {}) => {
@@ -83,11 +85,11 @@ export const useAnimations = (initialValues?: {
         withSpring(0, {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 200,
-        })
-      );
+        }),
+      )
     },
-    [translateX]
-  );
+    [translateX],
+  )
 
   const slideInFromRight = useCallback(
     (config: AnimationConfig = {}) => {
@@ -96,11 +98,11 @@ export const useAnimations = (initialValues?: {
         withSpring(0, {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 200,
-        })
-      );
+        }),
+      )
     },
-    [translateX]
-  );
+    [translateX],
+  )
 
   const slideInFromTop = useCallback(
     (config: AnimationConfig = {}) => {
@@ -109,11 +111,11 @@ export const useAnimations = (initialValues?: {
         withSpring(0, {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 200,
-        })
-      );
+        }),
+      )
     },
-    [translateY]
-  );
+    [translateY],
+  )
 
   const slideInFromBottom = useCallback(
     (config: AnimationConfig = {}) => {
@@ -122,36 +124,36 @@ export const useAnimations = (initialValues?: {
         withSpring(0, {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 200,
-        })
-      );
+        }),
+      )
     },
-    [translateY]
-  );
+    [translateY],
+  )
 
   const slideOut = useCallback(
     (
       direction: 'left' | 'right' | 'top' | 'bottom',
-      config: AnimationConfig = {}
+      config: AnimationConfig = {},
     ) => {
-      const distance = 300;
+      const distance = 300
       const targetX =
-        direction === 'left' ? -distance : direction === 'right' ? distance : 0;
+        direction === 'left' ? -distance : direction === 'right' ? distance : 0
       const targetY =
-        direction === 'top' ? -distance : direction === 'bottom' ? distance : 0;
+        direction === 'top' ? -distance : direction === 'bottom' ? distance : 0
 
       if (targetX !== 0) {
         translateX.value = withTiming(targetX, {
           duration: config.duration ?? 300,
-        });
+        })
       }
       if (targetY !== 0) {
         translateY.value = withTiming(targetY, {
           duration: config.duration ?? 300,
-        });
+        })
       }
     },
-    [translateX, translateY]
-  );
+    [translateX, translateY],
+  )
 
   const bounce = useCallback(
     (config: AnimationConfig = {}) => {
@@ -160,128 +162,128 @@ export const useAnimations = (initialValues?: {
         withSpring(1, {
           damping: config.damping ?? 10,
           stiffness: config.stiffness ?? 400,
-        })
-      );
+        }),
+      )
     },
-    [scale]
-  );
+    [scale],
+  )
 
   const shake = useCallback(
     (_config: AnimationConfig = {}) => {
-      const shakeDistance = 10;
+      const shakeDistance = 10
       translateX.value = withSequence(
         withTiming(-shakeDistance, { duration: 50 }),
         withRepeat(
           withSequence(
             withTiming(shakeDistance, { duration: 50 }),
-            withTiming(-shakeDistance, { duration: 50 })
+            withTiming(-shakeDistance, { duration: 50 }),
           ),
           3,
-          true
+          true,
         ),
-        withTiming(0, { duration: 50 })
-      );
+        withTiming(0, { duration: 50 }),
+      )
     },
-    [translateX]
-  );
+    [translateX],
+  )
 
   const pulse = useCallback(
     (config: AnimationConfig = {}) => {
       scale.value = withRepeat(
         withSequence(
           withTiming(1.1, { duration: config.duration ?? 500 }),
-          withTiming(1, { duration: config.duration ?? 500 })
+          withTiming(1, { duration: config.duration ?? 500 }),
         ),
         -1,
-        true
-      );
+        true,
+      )
     },
-    [scale]
-  );
+    [scale],
+  )
 
   const rotate360 = useCallback(
     (config: AnimationConfig = {}) => {
       rotate.value = withTiming(rotate.value + 360, {
         duration: config.duration ?? 1000,
-      });
+      })
     },
-    [rotate]
-  );
+    [rotate],
+  )
 
   // Combined animations
   const enterAnimation = useCallback(
     (config: AnimationConfig = {}) => {
-      opacity.value = 0;
-      scale.value = 0.8;
-      translateY.value = 50;
+      opacity.value = 0
+      scale.value = 0.8
+      translateY.value = 50
 
       opacity.value = withDelay(
         config.delay ?? 0,
-        withTiming(1, { duration: config.duration ?? 400 })
-      );
+        withTiming(1, { duration: config.duration ?? 400 }),
+      )
       scale.value = withDelay(
         config.delay ?? 0,
         withSpring(1, {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 300,
-        })
-      );
+        }),
+      )
       translateY.value = withDelay(
         config.delay ?? 0,
         withSpring(0, {
           damping: config.damping ?? 20,
           stiffness: config.stiffness ?? 200,
-        })
-      );
+        }),
+      )
     },
-    [opacity, scale, translateY]
-  );
+    [opacity, scale, translateY],
+  )
 
   const exitAnimation = useCallback(
     (config: AnimationConfig = {}) => {
-      opacity.value = withTiming(0, { duration: config.duration ?? 300 });
-      scale.value = withTiming(0.8, { duration: config.duration ?? 300 });
-      translateY.value = withTiming(-30, { duration: config.duration ?? 300 });
+      opacity.value = withTiming(0, { duration: config.duration ?? 300 })
+      scale.value = withTiming(0.8, { duration: config.duration ?? 300 })
+      translateY.value = withTiming(-30, { duration: config.duration ?? 300 })
     },
-    [opacity, scale, translateY]
-  );
+    [opacity, scale, translateY],
+  )
 
   const pressAnimation = useCallback(
     (onComplete?: () => void) => {
       scale.value = withSequence(
         withTiming(0.95, { duration: 100 }),
-        withSpring(1, { damping: 20, stiffness: 300 }, finished => {
+        withSpring(1, { damping: 20, stiffness: 300 }, (finished) => {
           if (finished && onComplete) {
-            runOnJS(onComplete)();
+            runOnJS(onComplete)()
           }
-        })
-      );
+        }),
+      )
 
       // Add haptic feedback
-      runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Medium);
+      runOnJS(Haptics.impactAsync)(Haptics.ImpactFeedbackStyle.Medium)
     },
-    [scale]
-  );
+    [scale],
+  )
 
   // Animated styles
   const fadeStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-  }));
+  }))
 
   const scaleStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-  }));
+  }))
 
   const slideStyle = useAnimatedStyle(() => ({
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },
     ],
-  }));
+  }))
 
   const rotateStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotate.value}deg` }],
-  }));
+  }))
 
   const combinedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
@@ -291,7 +293,7 @@ export const useAnimations = (initialValues?: {
       { translateY: translateY.value },
       { rotate: `${rotate.value}deg` },
     ],
-  }));
+  }))
 
   return {
     // Shared values
@@ -327,5 +329,5 @@ export const useAnimations = (initialValues?: {
     slideStyle,
     rotateStyle,
     combinedStyle,
-  };
-};
+  }
+}

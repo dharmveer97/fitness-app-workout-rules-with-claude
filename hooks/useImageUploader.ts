@@ -1,10 +1,10 @@
-import * as ImagePicker from 'expo-image-picker'
-import { useState, Dispatch, SetStateAction } from 'react'
+import { useState, type Dispatch, type SetStateAction } from 'react'
+
 import { Alert } from 'react-native'
 
-export const useImageUploader = (
-  onImageUploaded?: (uri: string) => void,
-): UseImageUploaderResult => {
+import * as ImagePicker from 'expo-image-picker'
+
+export const useImageUploader = (onImageUploaded?: (uri: string) => void) => {
   const [image, setImage]: [
     string | null,
     Dispatch<SetStateAction<string | null>>,
@@ -15,15 +15,14 @@ export const useImageUploader = (
     Dispatch<SetStateAction<boolean>>,
   ] = useState<boolean>(false)
 
-  const simulateUpload = async (uri: string): Promise<void> => {
-    return new Promise((resolve) => {
+  const simulateUpload = async (uri: string): Promise<void> =>
+    new Promise((resolve) => {
       if (uri) {
         setTimeout(() => resolve(), 1000)
       } else {
         resolve()
       }
     })
-  }
 
   const handleImagePicked = async (uri: string): Promise<void> => {
     try {
@@ -46,7 +45,7 @@ export const useImageUploader = (
     try {
       const result: ImagePicker.ImagePickerResult =
         await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          mediaTypes: ['images'],
           allowsEditing: true,
           aspect: [4, 3],
           quality: 1,

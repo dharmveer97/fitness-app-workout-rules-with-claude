@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './app/**/*.{js,jsx,ts,tsx}',
-    './components/**/*.{js,jsx,ts,tsx}',
-  ],
+  content: ['./app/**/*.{js,jsx,ts,tsx}', './components/**/*.{js,jsx,ts,tsx}'],
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
@@ -53,10 +50,10 @@ module.exports = {
         info: '#3B82F6',
       },
       fontFamily: {
-        'space': ['SpaceMono-Regular'],
+        space: ['SpaceMono-Regular'],
       },
     },
   },
   darkMode: 'class',
   plugins: [],
-};
+}

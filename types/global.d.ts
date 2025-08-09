@@ -1,5 +1,13 @@
 // Global type definitions - Cross-cutting types used everywhere
 
+// Node.js globals available in React Native
+declare const setTimeout: (callback: () => void, delay?: number) => NodeJS.Timeout;
+declare const clearTimeout: (timeout: NodeJS.Timeout) => void;
+declare const setInterval: (callback: () => void, delay?: number) => NodeJS.Timeout;
+declare const clearInterval: (interval: NodeJS.Timeout) => void;
+declare const console: Console;
+declare const process: NodeJS.Process;
+
 // React types - available globally in all .d.ts files with proper generics
 type ReactNode = import('react').ReactNode;
 type ComponentProps<T extends keyof JSX.IntrinsicElements | import('react').JSXElementConstructor<any>> = import('react').ComponentProps<T>;

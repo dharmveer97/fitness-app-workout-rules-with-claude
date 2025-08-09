@@ -1,15 +1,19 @@
-import React from 'react';
-import { View, ViewProps } from 'react-native';
-import { cn } from '@/utils/cn';
-import Text from './Text';
+import React from 'react'
+
+import type { ViewProps } from 'react-native'
+import { View } from 'react-native'
+
+import { cn } from '@/utils/cn'
+
+import Text from './Text'
 
 export interface BadgeProps extends ViewProps {
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info';
-  size?: 'sm' | 'md' | 'lg';
-  rounded?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-  textClassName?: string;
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+  size?: 'sm' | 'md' | 'lg'
+  rounded?: boolean
+  children?: React.ReactNode
+  className?: string
+  textClassName?: string
 }
 
 const variantStyles = {
@@ -19,13 +23,13 @@ const variantStyles = {
   warning: 'bg-yellow-500/20 border border-yellow-500/50',
   error: 'bg-red-500/20 border border-red-500/50',
   info: 'bg-blue-500/20 border border-blue-500/50',
-};
+}
 
 const sizeStyles = {
   sm: 'px-2 py-0.5',
   md: 'px-3 py-1',
   lg: 'px-4 py-2',
-};
+}
 
 const textColors = {
   default: 'gray' as const,
@@ -34,13 +38,13 @@ const textColors = {
   warning: 'warning' as const,
   error: 'error' as const,
   info: 'primary' as const,
-};
+}
 
 const textSizes = {
   sm: 'tiny' as const,
   md: 'caption' as const,
   lg: 'body' as const,
-};
+}
 
 export const Badge: React.FC<BadgeProps> = ({
   variant = 'default',
@@ -56,8 +60,8 @@ export const Badge: React.FC<BadgeProps> = ({
     variantStyles[variant],
     sizeStyles[size],
     rounded ? 'rounded-full' : 'rounded',
-    className
-  );
+    className,
+  )
 
   return (
     <View className={badgeClass} {...props}>
@@ -65,7 +69,7 @@ export const Badge: React.FC<BadgeProps> = ({
         <Text
           variant={textSizes[size]}
           color={textColors[variant]}
-          weight="semibold"
+          weight='semibold'
           className={textClassName}
         >
           {children}
@@ -74,7 +78,7 @@ export const Badge: React.FC<BadgeProps> = ({
         children
       )}
     </View>
-  );
-};
+  )
+}
 
-export default Badge;
+export default Badge

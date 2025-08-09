@@ -1,129 +1,137 @@
-import React, { useState } from 'react';
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
-import { Formik } from 'formik';
-import { toFormikValidationSchema } from 'zod-formik-adapter';
-import { StatusBar } from 'expo-status-bar';
-import { Ionicons } from '@expo/vector-icons';
-import { otpVerificationSchema } from '../../schemas/auth';
-import AuthButton from '../../components/auth/AuthButton';
-import { OTPWithTimer } from '../../components/auth/OTPInput';
+import React, { useState } from 'react'
+
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native'
+
+import { router, useLocalSearchParams } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+
+import { Ionicons } from '@expo/vector-icons'
+import { Formik } from 'formik'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  withSequence
-} from 'react-native-reanimated';
+  withSequence,
+} from 'react-native-reanimated'
+import { toFormikValidationSchema } from 'zod-formik-adapter'
+
+import AuthButton from '../../components/auth/AuthButton'
+import { OTPWithTimer } from '../../components/auth/OTPInput'
+import { otpVerificationSchema } from '../../schemas/auth'
 
 export default function VerifyOTPScreen() {
-  const params = useLocalSearchParams();
-  const email = params.email as string || '';
-  const [loading, setLoading] = useState(false);
-  const [otpError, setOtpError] = useState('');
+  const params = useLocalSearchParams()
+  const email = (params.email as string) || ''
+  const [loading, setLoading] = useState(false)
+  const [otpError, setOtpError] = useState('')
 
-  const shakeAnimation = useSharedValue(0);
+  const shakeAnimation = useSharedValue(0)
 
   const handleVerifyOTP = async (values: { otp: string; email?: string }) => {
     try {
-      setLoading(true);
-      setOtpError('');
+      setLoading(true)
+      setOtpError('')
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
       // For demo purposes, accept any 6-digit code except "111111"
       if (values.otp === '111111') {
-        setOtpError('Invalid OTP code. Please try again.');
+        setOtpError('Invalid OTP code. Please try again.')
 
         // Shake animation on error
         shakeAnimation.value = withSequence(
           withSpring(-10, { duration: 50 }),
           withSpring(10, { duration: 50 }),
           withSpring(-10, { duration: 50 }),
-          withSpring(0, { duration: 50 })
-        );
-        return;
+          withSpring(0, { duration: 50 }),
+        )
+        return
       }
 
       // Success - navigate to reset password screen
       router.push({
         pathname: '/(auth)/reset-password',
-        params: { email, otp: values.otp }
-      });
-
+        params: { email, otp: values.otp },
+      })
     } catch (error) {
-      console.error('OTP verification error:', error);
-      setOtpError('Something went wrong. Please try again.');
+      console.error('OTP verification error:', error)
+      setOtpError('Something went wrong. Please try again.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleResendOTP = async () => {
     try {
-      setOtpError('');
+      setOtpError('')
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Show success message or handle resend logic
-      console.log('OTP resent to:', email);
+      console.log('OTP resent to:', email)
     } catch (error) {
-      console.error('Resend OTP error:', error);
+      console.error('Resend OTP error:', error)
     }
-  };
+  }
 
-  const containerAnimatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: shakeAnimation.value }],
-    };
-  });
+  const containerAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: shakeAnimation.value }],
+  }))
 
   return (
-    <View className="flex-1 bg-dark-900">
-      <StatusBar style="light" />
+    <View className='flex-1 bg-dark-900'>
+      <StatusBar style='light' />
 
       <KeyboardAvoidingView
         behavior={Platform.select({ ios: 'padding', android: 'height' })}
-        className="flex-1"
+        className='flex-1'
       >
         <ScrollView
-          className="flex-1"
+          className='flex-1'
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ flexGrow: 1 }}
         >
           {/* Header */}
-          <View className="pt-16 px-6 pb-8">
+          <View className='px-6 pb-8 pt-16'>
             <TouchableOpacity
-              onPress={() => router.back()}
-              className="w-10 h-10 rounded-xl bg-dark-700 items-center justify-center mb-8"
+              onPress={() => router.push('/(auth)/forgot-password')}
+              className='mb-8 h-10 w-10 items-center justify-center rounded-xl bg-dark-700'
             >
-              <Ionicons name="arrow-back" size={20} color="#A1A1AA" />
+              <Ionicons name='arrow-back' size={20} color='#A1A1AA' />
             </TouchableOpacity>
 
-            <View className="mb-8">
-              <Text className="text-3xl font-bold text-white mb-2">
+            <View className='mb-8'>
+              <Text className='mb-2 text-3xl font-bold text-white'>
                 Enter Verification Code
               </Text>
-              <Text className="text-dark-300 text-base">
+              <Text className='text-base text-dark-300'>
                 We sent a 6-digit code to{' '}
-                <Text className="text-primary-400 font-semibold">{email}</Text>
+                <Text className='font-semibold text-primary-400'>{email}</Text>
               </Text>
             </View>
           </View>
 
           {/* Form */}
-          <View className="flex-1 px-6 justify-center">
+          <View className='flex-1 justify-center px-6'>
             <Formik
               initialValues={{ otp: '', email }}
               validationSchema={toFormikValidationSchema(otpVerificationSchema)}
               onSubmit={handleVerifyOTP}
             >
               {({ handleSubmit, values, setFieldValue, isValid }) => (
-                <View className="gap-8">
+                <View className='gap-8'>
                   {/* Illustration */}
-                  <View className="items-center mb-4">
-                    <View className="w-24 h-24 bg-dark-700 rounded-2xl items-center justify-center mb-4">
-                      <Ionicons name="mail-open" size={32} color="#10B981" />
+                  <View className='mb-4 items-center'>
+                    <View className='mb-4 h-24 w-24 items-center justify-center rounded-2xl bg-dark-700'>
+                      <Ionicons name='mail-open' size={32} color='#10B981' />
                     </View>
                   </View>
 
@@ -133,17 +141,17 @@ export default function VerifyOTPScreen() {
                       length={6}
                       value={values.otp}
                       onChangeText={(otp) => {
-                        setFieldValue('otp', otp);
-                        setOtpError('');
+                        setFieldValue('otp', otp)
+                        setOtpError('')
                       }}
                       onComplete={(otp) => {
-                        setFieldValue('otp', otp);
+                        setFieldValue('otp', otp)
                         // Auto-submit when OTP is complete
                         setTimeout(() => {
                           if (otp.length === 6) {
-                            handleSubmit();
+                            handleSubmit()
                           }
-                        }, 500);
+                        }, 500)
                       }}
                       error={otpError}
                       autoFocus
@@ -154,15 +162,22 @@ export default function VerifyOTPScreen() {
                   </Animated.View>
 
                   {/* Instructions */}
-                  <View className="bg-dark-700 rounded-xl p-4">
-                    <View className="flex-row items-start">
-                      <Ionicons name="information-circle" size={20} color="#10B981" style={{ marginRight: 12, marginTop: 2 }} />
-                      <View className="flex-1">
-                        <Text className="text-white font-semibold mb-1">Having trouble?</Text>
-                        <Text className="text-dark-300 text-sm leading-5">
-                          • Check your spam or junk folder{'\n'}
-                          • Make sure you entered the correct email{'\n'}
-                          • The code expires in 15 minutes
+                  <View className='rounded-xl bg-dark-700 p-4'>
+                    <View className='flex-row items-start'>
+                      <Ionicons
+                        name='information-circle'
+                        size={20}
+                        color='#10B981'
+                        style={{ marginRight: 12, marginTop: 2 }}
+                      />
+                      <View className='flex-1'>
+                        <Text className='mb-1 font-semibold text-white'>
+                          Having trouble?
+                        </Text>
+                        <Text className='text-sm leading-5 text-dark-300'>
+                          • Check your spam or junk folder{'\n'}• Make sure you
+                          entered the correct email{'\n'}• The code expires in
+                          15 minutes
                         </Text>
                       </View>
                     </View>
@@ -170,20 +185,22 @@ export default function VerifyOTPScreen() {
 
                   {/* Verify Button */}
                   <AuthButton
-                    title="Verify Code"
+                    title='Verify Code'
                     onPress={() => handleSubmit()}
                     loading={loading}
                     disabled={!isValid || values.otp.length !== 6 || loading}
-                    leftIcon="checkmark-circle"
+                    leftIcon='checkmark-circle'
                   />
 
                   {/* Back to forgot password */}
-                  <View className="flex-row items-center justify-center mt-4">
-                    <Text className="text-dark-400 text-sm mr-2">
+                  <View className='mt-4 flex-row items-center justify-center'>
+                    <Text className='mr-2 text-sm text-dark-400'>
                       Wrong email?
                     </Text>
-                    <TouchableOpacity onPress={() => router.push('/(auth)/forgot-password')}>
-                      <Text className="text-primary-400 text-sm font-semibold">
+                    <TouchableOpacity
+                      onPress={() => router.push('/(auth)/forgot-password')}
+                    >
+                      <Text className='text-sm font-semibold text-primary-400'>
                         Go Back
                       </Text>
                     </TouchableOpacity>
@@ -195,5 +212,5 @@ export default function VerifyOTPScreen() {
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
-  );
+  )
 }

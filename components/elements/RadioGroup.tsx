@@ -1,34 +1,39 @@
-import React, { useState } from 'react';
-import { View, TouchableOpacity, ViewProps } from 'react-native';
-import { cn } from '@/utils/cn';
-import { Text } from '../atoms/Text';
-import { Card } from '../atoms/Card';
+import React, { useState } from 'react'
+
+import type { ViewProps } from 'react-native'
+import { View, TouchableOpacity } from 'react-native'
+
 import Animated, {
   useAnimatedStyle,
   withSpring,
   interpolateColor,
-} from 'react-native-reanimated';
+} from 'react-native-reanimated'
+
+import { cn } from '@/utils/cn'
+
+import { Card } from '../atoms/Card'
+import { Text } from '../atoms/Text'
 
 export interface RadioOption<T = string> {
-  value: T;
-  label: string;
-  description?: string;
-  disabled?: boolean;
-  icon?: React.ReactNode;
+  value: T
+  label: string
+  description?: string
+  disabled?: boolean
+  icon?: React.ReactNode
 }
 
 export interface RadioGroupProps<T = string> extends ViewProps {
-  label?: string;
-  options: RadioOption<T>[];
-  value?: T;
-  onChange?: (value: T) => void;
-  orientation?: 'vertical' | 'horizontal';
-  variant?: 'default' | 'card' | 'button';
-  error?: string;
-  containerClassName?: string;
+  label?: string
+  options: RadioOption<T>[]
+  value?: T
+  onChange?: (value: T) => void
+  orientation?: 'vertical' | 'horizontal'
+  variant?: 'default' | 'card' | 'button'
+  error?: string
+  containerClassName?: string
 }
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity)
 
 export function RadioGroup<T = string>({
   label,
@@ -41,39 +46,37 @@ export function RadioGroup<T = string>({
   containerClassName = '',
   ...props
 }: RadioGroupProps<T>) {
-  const [selectedValue, setSelectedValue] = useState<T | undefined>(value);
+  const [selectedValue, setSelectedValue] = useState<T | undefined>(value)
 
   const handleSelect = (optionValue: T) => {
-    setSelectedValue(optionValue);
-    onChange?.(optionValue);
-  };
+    setSelectedValue(optionValue)
+    onChange?.(optionValue)
+  }
 
   const containerClass = cn(
     orientation === 'horizontal' ? 'flex-row flex-wrap' : 'space-y-3',
-    containerClassName
-  );
+    containerClassName,
+  )
 
   const renderRadioButton = (option: RadioOption<T>, isSelected: boolean) => {
     const animatedStyle = useAnimatedStyle(() => ({
       borderColor: withSpring(isSelected ? '#10B981' : '#4B5563'),
       backgroundColor: withSpring(isSelected ? '#10B981' : 'transparent'),
-    }));
+    }))
 
     return (
       <Animated.View
         style={animatedStyle}
-        className="w-5 h-5 rounded-full border-2 items-center justify-center"
+        className='h-5 w-5 items-center justify-center rounded-full border-2'
       >
-        {isSelected && (
-          <View className="w-2 h-2 rounded-full bg-white" />
-        )}
+        {isSelected && <View className='h-2 w-2 rounded-full bg-white' />}
       </Animated.View>
-    );
-  };
+    )
+  }
 
   const renderOption = (option: RadioOption<T>) => {
-    const isSelected = selectedValue === option.value;
-    const isDisabled = option.disabled;
+    const isSelected = selectedValue === option.value
+    const isDisabled = option.disabled
 
     if (variant === 'card') {
       return (
@@ -82,30 +85,30 @@ export function RadioGroup<T = string>({
           onPress={() => !isDisabled && handleSelect(option.value)}
           disabled={isDisabled}
           className={cn(
-            orientation === 'horizontal' ? 'flex-1 mx-1' : 'w-full',
-            isDisabled && 'opacity-50'
+            orientation === 'horizontal' ? 'mx-1 flex-1' : 'w-full',
+            isDisabled && 'opacity-50',
           )}
         >
           <Card
             variant={isSelected ? 'default' : 'outlined'}
             className={cn(
               'p-4',
-              isSelected && 'border-primary-500 bg-primary-500/10'
+              isSelected && 'border-primary-500 bg-primary-500/10',
             )}
           >
-            <View className="flex-row items-start">
+            <View className='flex-row items-start'>
               {renderRadioButton(option, isSelected)}
-              <View className="ml-3 flex-1">
-                {option.icon && <View className="mb-2">{option.icon}</View>}
+              <View className='ml-3 flex-1'>
+                {option.icon && <View className='mb-2'>{option.icon}</View>}
                 <Text
-                  variant="body"
+                  variant='body'
                   weight={isSelected ? 'semibold' : 'regular'}
                   color={isSelected ? 'white' : 'gray'}
                 >
                   {option.label}
                 </Text>
                 {option.description && (
-                  <Text variant="caption" color="gray" className="mt-1">
+                  <Text variant='caption' color='gray' className='mt-1'>
                     {option.description}
                   </Text>
                 )}
@@ -113,7 +116,7 @@ export function RadioGroup<T = string>({
             </View>
           </Card>
         </TouchableOpacity>
-      );
+      )
     }
 
     if (variant === 'button') {
@@ -123,24 +126,24 @@ export function RadioGroup<T = string>({
           onPress={() => !isDisabled && handleSelect(option.value)}
           disabled={isDisabled}
           className={cn(
-            'px-4 py-3 rounded-xl border',
-            orientation === 'horizontal' ? 'flex-1 mx-1' : 'w-full',
+            'rounded-xl border px-4 py-3',
+            orientation === 'horizontal' ? 'mx-1 flex-1' : 'w-full',
             isSelected
-              ? 'bg-primary-500 border-primary-500'
-              : 'bg-dark-800 border-dark-700',
-            isDisabled && 'opacity-50'
+              ? 'border-primary-500 bg-primary-500'
+              : 'border-dark-700 bg-dark-800',
+            isDisabled && 'opacity-50',
           )}
         >
           <Text
-            variant="body"
-            weight="medium"
+            variant='body'
+            weight='medium'
             color={isSelected ? 'white' : 'gray'}
-            align="center"
+            align='center'
           >
             {option.label}
           </Text>
         </TouchableOpacity>
-      );
+      )
     }
 
     // Default variant
@@ -152,46 +155,41 @@ export function RadioGroup<T = string>({
         className={cn(
           'flex-row items-center',
           orientation === 'horizontal' ? 'mr-6' : '',
-          isDisabled && 'opacity-50'
+          isDisabled && 'opacity-50',
         )}
       >
         {renderRadioButton(option, isSelected)}
-        <View className="ml-3">
-          <Text
-            variant="body"
-            color={isSelected ? 'white' : 'gray'}
-          >
+        <View className='ml-3'>
+          <Text variant='body' color={isSelected ? 'white' : 'gray'}>
             {option.label}
           </Text>
           {option.description && (
-            <Text variant="caption" color="gray">
+            <Text variant='caption' color='gray'>
               {option.description}
             </Text>
           )}
         </View>
       </TouchableOpacity>
-    );
-  };
+    )
+  }
 
   return (
-    <View className="w-full" {...props}>
+    <View className='w-full' {...props}>
       {label && (
-        <Text variant="label" color="gray" className="mb-3">
+        <Text variant='label' color='gray' className='mb-3'>
           {label}
         </Text>
       )}
 
-      <View className={containerClass}>
-        {options.map(renderOption)}
-      </View>
+      <View className={containerClass}>{options.map(renderOption)}</View>
 
       {error && (
-        <Text variant="caption" color="error" className="mt-2">
+        <Text variant='caption' color='error' className='mt-2'>
           {error}
         </Text>
       )}
     </View>
-  );
+  )
 }
 
-export default RadioGroup;
+export default RadioGroup

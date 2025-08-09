@@ -31,4 +31,4 @@ export const typography = {
     normal: 1.5,
     relaxed: 1.75,
   },
-} as const;
+} as const

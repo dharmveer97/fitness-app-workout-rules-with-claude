@@ -34,7 +34,15 @@ interface AuthActions {
 interface AuthContextType extends AuthState, AuthActions {}
 
 // Auth hook return type
-interface UseAuthReturn extends AuthContextType {}
+interface UseAuthReturn extends AuthContextType {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
+  user: UserProfile | null;
+  login: (credentials: LoginFormType) => Promise<void>;
+  register: (userData: RegisterFormType) => Promise<void>;
+  logout: () => Promise<void>;
+}
 
 // Token types
 interface AuthTokens {

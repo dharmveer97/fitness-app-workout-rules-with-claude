@@ -1,17 +1,21 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import React from 'react'
+
+import { View, Text, StyleSheet } from 'react-native'
+
+import { StatusBar } from 'expo-status-bar'
 
 export default function OnboardingTest() {
-  console.log('OnboardingTest component rendering');
-  
+  console.log('OnboardingTest component rendering')
+
   return (
     <View style={styles.container}>
-      <StatusBar style="light" />
+      <StatusBar style='light' />
       <Text style={styles.text}>Onboarding Test Screen</Text>
-      <Text style={styles.subtext}>If you can see this, the navigation is working!</Text>
+      <Text style={styles.subtext}>
+        If you can see this, the navigation is working!
+      </Text>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -34,4 +38,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-});
+})

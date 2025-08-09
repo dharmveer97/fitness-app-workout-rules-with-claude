@@ -1,9 +1,11 @@
+import type { ColorSchemeName } from 'react-native'
+
 import { Colors } from '../constants/colors'
+
 import { useColorScheme } from './useColorScheme'
-import { ColorSchemeName } from 'react-native'
 
 export function useThemeColor(
-  props: ThemeColorProps,
+  props: { light: string; dark: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
 ): string {
   const theme: ColorSchemeName = useColorScheme() ?? 'light'

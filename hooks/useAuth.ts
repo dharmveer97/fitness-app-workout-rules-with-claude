@@ -1,20 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import { StorageUtils } from '../lib/storage';
-
+import { StorageUtils } from '../lib/storage'
 
 export const useAuth = (): UseAuthReturn => {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [user, setUser] = useState<UserProfile | null>(null)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   const login = async (credentials: LoginFormType): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Mock user data
       const newUser: UserProfile = {
@@ -50,130 +49,135 @@ export const useAuth = (): UseAuthReturn => {
         },
         createdAt: new Date(),
         updatedAt: new Date(),
-      };
+      }
 
       // Store tokens securely
       await StorageUtils.storeAuthTokens(
         'mock-access-token',
-        'mock-refresh-token'
-      );
+        'mock-refresh-token',
+      )
 
       // Store user profile
-      await StorageUtils.storeUserProfile(newUser);
+      await StorageUtils.storeUserProfile(newUser)
 
-      setUser(newUser);
-      setIsAuthenticated(true);
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Login failed');
+      setUser(newUser)
+      setIsAuthenticated(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const register = async (userData: RegisterFormType): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       // Mock registration success
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Registration failed');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Registration failed')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const logout = async (): Promise<void> => {
     try {
       // Clear all user data including secure tokens
-      await StorageUtils.clearUserData();
-      setUser(null);
-      setIsAuthenticated(false);
-      setError(null);
-    } catch (error) {
-      console.error('Logout error:', error);
+      await StorageUtils.clearUserData()
+      setUser(null)
+      setIsAuthenticated(false)
+      setError(null)
+    } catch (err) {
+      console.error('Logout error:', err)
     }
-  };
+  }
 
   const forgotPassword = async (email: string): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to send reset email');
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+    } catch (err) {
+      console.error('Forgot password error:', error)
+      setError(
+        err instanceof Error ? err.message : 'Failed to send reset email',
+      )
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const resetPassword = async (data: ResetPasswordFormType): Promise<void> => {
-    setIsLoading(true);
-    setError(null);
+    setIsLoading(true)
+    setError(null)
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to reset password');
+      setError(
+        error instanceof Error ? error.message : 'Failed to reset password',
+      )
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   const clearError = (): void => {
-    setError(null);
-  };
+    setError(null)
+  }
 
   const refreshUser = async (): Promise<void> => {
-    if (!user) return;
+    if (!user) return
 
     try {
       // Simulate API call to refresh user data
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500))
 
       // Update user data
       const updatedUser = {
         ...user,
         updatedAt: new Date(),
-      };
+      }
 
       // Store updated user profile
-      await StorageUtils.storeUserProfile(updatedUser);
-      setUser(updatedUser);
+      await StorageUtils.storeUserProfile(updatedUser)
+      setUser(updatedUser)
     } catch (error) {
-      console.error('Failed to refresh user:', error);
+      console.error('Failed to refresh user:', error)
     }
-  };
+  }
 
   const setUserProfile = (userProfile: UserProfile): void => {
-    setUser(userProfile);
-    setIsAuthenticated(true);
-  };
+    setUser(userProfile)
+    setIsAuthenticated(true)
+  }
 
   // Check for stored tokens on app start
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const isUserAuthenticated = await StorageUtils.isAuthenticated();
+        const isUserAuthenticated = await StorageUtils.isAuthenticated()
         if (isUserAuthenticated && !isAuthenticated) {
           // Token exists but user not authenticated, load user profile
-          const userProfile = await StorageUtils.getUserProfile();
+          const userProfile = await StorageUtils.getUserProfile()
           if (userProfile) {
-            setUserProfile(userProfile);
+            setUserProfile(userProfile)
           } else {
             // Token exists but no user profile, refresh user data
-            await refreshUser();
+            await refreshUser()
           }
         }
       } catch (error) {
-        console.error('Auth check error:', error);
+        console.error('Auth check error:', error)
       }
-    };
+    }
 
-    checkAuthStatus();
-  }, []);
+    checkAuthStatus()
+  }, [])
 
   return {
     user,
@@ -187,18 +191,18 @@ export const useAuth = (): UseAuthReturn => {
     resetPassword,
     verifyOTP: async (data) => {
       // TODO: Implement OTP verification
-      console.warn('OTP verification not implemented', data);
+      console.warn('OTP verification not implemented', data)
     },
     resetPasswordWithOTP: async (data) => {
       // TODO: Implement password reset with OTP
-      console.warn('Password reset with OTP not implemented', data);
+      console.warn('Password reset with OTP not implemented', data)
     },
     resendOTP: async (email) => {
       // TODO: Implement OTP resend
-      console.warn('OTP resend not implemented', email);
+      console.warn('OTP resend not implemented', email)
     },
     clearError,
     refreshUser,
     setUser: setUserProfile,
-  };
-};
+  }
+}

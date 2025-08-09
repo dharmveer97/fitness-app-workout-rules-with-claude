@@ -1,14 +1,25 @@
-import React from 'react';
-import { Text as RNText, TextProps as RNTextProps, StyleSheet } from 'react-native';
-import { cn } from '@/utils/cn';
+import React from 'react'
+
+import type { TextProps as RNTextProps } from 'react-native'
+import { Text as RNText, StyleSheet } from 'react-native'
+
+import { cn } from '@/utils/cn'
 
 export interface TextProps extends RNTextProps {
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'label' | 'tiny';
-  weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold';
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'white' | 'dark' | 'gray';
-  align?: 'left' | 'center' | 'right' | 'justify';
-  className?: string;
-  children?: React.ReactNode;
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'label' | 'tiny'
+  weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold'
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'white'
+    | 'dark'
+    | 'gray'
+  align?: 'left' | 'center' | 'right' | 'justify'
+  className?: string
+  children?: React.ReactNode
 }
 
 const variantStyles = {
@@ -20,7 +31,7 @@ const variantStyles = {
   caption: 'text-sm',
   label: 'text-sm font-medium',
   tiny: 'text-xs',
-};
+}
 
 const weightStyles = {
   light: 'font-light',
@@ -28,7 +39,7 @@ const weightStyles = {
   medium: 'font-medium',
   semibold: 'font-semibold',
   bold: 'font-bold',
-};
+}
 
 const colorStyles = {
   primary: 'text-primary-500',
@@ -39,14 +50,14 @@ const colorStyles = {
   white: 'text-white',
   dark: 'text-dark-900',
   gray: 'text-dark-400',
-};
+}
 
 const alignStyles = {
   left: 'text-left',
   center: 'text-center',
   right: 'text-right',
   justify: 'text-justify',
-};
+}
 
 export const Text: React.FC<TextProps> = ({
   variant = 'body',
@@ -63,14 +74,14 @@ export const Text: React.FC<TextProps> = ({
     weight && weightStyles[weight],
     colorStyles[color],
     alignStyles[align],
-    className
-  );
+    className,
+  )
 
   return (
     <RNText className={textClass} style={style} {...props}>
       {children}
     </RNText>
-  );
-};
+  )
+}
 
-export default Text;
+export default Text

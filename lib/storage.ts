@@ -1,8 +1,9 @@
-import * as SecureStore from 'expo-secure-store';
-import { MMKV } from 'react-native-mmkv';
+import * as SecureStore from 'expo-secure-store'
+
+import { MMKV } from 'react-native-mmkv'
 
 // Initialize MMKV instance for non-sensitive data
-const storage = new MMKV();
+const storage = new MMKV()
 
 // Storage keys
 const STORAGE_KEYS = {
@@ -19,7 +20,7 @@ const STORAGE_KEYS = {
   FOOD_ENTRIES: 'food_entries',
   APP_SETTINGS: 'app_settings',
   ONBOARDING_COMPLETED: 'onboarding_completed',
-} as const;
+} as const
 
 export class StorageUtils {
   // ===== SECURE STORAGE (Sensitive Data) =====
@@ -29,16 +30,16 @@ export class StorageUtils {
    */
   static async storeAuthTokens(
     accessToken: string,
-    refreshToken: string
+    refreshToken: string,
   ): Promise<void> {
     try {
       await Promise.all([
         SecureStore.setItemAsync(STORAGE_KEYS.ACCESS_TOKEN, accessToken),
         SecureStore.setItemAsync(STORAGE_KEYS.REFRESH_TOKEN, refreshToken),
-      ]);
+      ])
     } catch (error) {
-      console.error('Failed to store auth tokens:', error);
-      throw new Error('Failed to store authentication tokens');
+      console.error('Failed to store auth tokens:', error)
+      throw new Error('Failed to store authentication tokens')
     }
   }
 
@@ -47,10 +48,10 @@ export class StorageUtils {
    */
   static async getAccessToken(): Promise<string | null> {
     try {
-      return await SecureStore.getItemAsync(STORAGE_KEYS.ACCESS_TOKEN);
+      return await SecureStore.getItemAsync(STORAGE_KEYS.ACCESS_TOKEN)
     } catch (error) {
-      console.error('Failed to get access token:', error);
-      return null;
+      console.error('Failed to get access token:', error)
+      return null
     }
   }
 
@@ -59,10 +60,10 @@ export class StorageUtils {
    */
   static async getRefreshToken(): Promise<string | null> {
     try {
-      return await SecureStore.getItemAsync(STORAGE_KEYS.REFRESH_TOKEN);
+      return await SecureStore.getItemAsync(STORAGE_KEYS.REFRESH_TOKEN)
     } catch (error) {
-      console.error('Failed to get refresh token:', error);
-      return null;
+      console.error('Failed to get refresh token:', error)
+      return null
     }
   }
 
@@ -72,12 +73,12 @@ export class StorageUtils {
   static async isAuthenticated(): Promise<boolean> {
     try {
       const accessToken = await SecureStore.getItemAsync(
-        STORAGE_KEYS.ACCESS_TOKEN
-      );
-      return !!accessToken;
+        STORAGE_KEYS.ACCESS_TOKEN,
+      )
+      return !!accessToken
     } catch (error) {
-      console.error('Failed to check auth status:', error);
-      return false;
+      console.error('Failed to check auth status:', error)
+      return false
     }
   }
 
@@ -86,17 +87,14 @@ export class StorageUtils {
    */
   static async storeUserCredentials(
     email: string,
-    encryptedPassword: string
+    encryptedPassword: string,
   ): Promise<void> {
     try {
-      const credentials = JSON.stringify({ email, encryptedPassword });
-      await SecureStore.setItemAsync(
-        STORAGE_KEYS.USER_CREDENTIALS,
-        credentials
-      );
+      const credentials = JSON.stringify({ email, encryptedPassword })
+      await SecureStore.setItemAsync(STORAGE_KEYS.USER_CREDENTIALS, credentials)
     } catch (error) {
-      console.error('Failed to store user credentials:', error);
-      throw new Error('Failed to store user credentials');
+      console.error('Failed to store user credentials:', error)
+      throw new Error('Failed to store user credentials')
     }
   }
 
@@ -104,17 +102,17 @@ export class StorageUtils {
    * Get stored user credentials
    */
   static async getUserCredentials(): Promise<{
-    email: string;
-    encryptedPassword: string;
+    email: string
+    encryptedPassword: string
   } | null> {
     try {
       const credentials = await SecureStore.getItemAsync(
-        STORAGE_KEYS.USER_CREDENTIALS
-      );
-      return credentials ? JSON.parse(credentials) : null;
+        STORAGE_KEYS.USER_CREDENTIALS,
+      )
+      return credentials ? JSON.parse(credentials) : null
     } catch (error) {
-      console.error('Failed to get user credentials:', error);
-      return null;
+      console.error('Failed to get user credentials:', error)
+      return null
     }
   }
 
@@ -127,9 +125,9 @@ export class StorageUtils {
         SecureStore.deleteItemAsync(STORAGE_KEYS.ACCESS_TOKEN),
         SecureStore.deleteItemAsync(STORAGE_KEYS.REFRESH_TOKEN),
         SecureStore.deleteItemAsync(STORAGE_KEYS.USER_CREDENTIALS),
-      ]);
+      ])
     } catch (error) {
-      console.error('Failed to clear secure data:', error);
+      console.error('Failed to clear secure data:', error)
     }
   }
 
@@ -140,10 +138,10 @@ export class StorageUtils {
    */
   static async storeUserProfile(profile: UserProfile): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.USER_PROFILE, JSON.stringify(profile));
+      storage.set(STORAGE_KEYS.USER_PROFILE, JSON.stringify(profile))
     } catch (error) {
-      console.error('Failed to store user profile:', error);
-      throw new Error('Failed to store user profile');
+      console.error('Failed to store user profile:', error)
+      throw new Error('Failed to store user profile')
     }
   }
 
@@ -152,11 +150,11 @@ export class StorageUtils {
    */
   static async getUserProfile(): Promise<UserProfile | null> {
     try {
-      const profile = storage.getString(STORAGE_KEYS.USER_PROFILE);
-      return profile ? JSON.parse(profile) : null;
+      const profile = storage.getString(STORAGE_KEYS.USER_PROFILE)
+      return profile ? JSON.parse(profile) : null
     } catch (error) {
-      console.error('Failed to get user profile:', error);
-      return null;
+      console.error('Failed to get user profile:', error)
+      return null
     }
   }
 
@@ -164,26 +162,28 @@ export class StorageUtils {
    * Store user preferences
    */
   static async storeUserPreferences(
-    preferences: UserProfile['preferences']
+    preferences: UserProfile['preferences'],
   ): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.USER_PREFERENCES, JSON.stringify(preferences));
+      storage.set(STORAGE_KEYS.USER_PREFERENCES, JSON.stringify(preferences))
     } catch (error) {
-      console.error('Failed to store user preferences:', error);
-      throw new Error('Failed to store user preferences');
+      console.error('Failed to store user preferences:', error)
+      throw new Error('Failed to store user preferences')
     }
   }
 
   /**
    * Get user preferences
    */
-  static async getUserPreferences(): Promise<UserProfile['preferences'] | null> {
+  static async getUserPreferences(): Promise<
+    UserProfile['preferences'] | null
+  > {
     try {
-      const preferences = storage.getString(STORAGE_KEYS.USER_PREFERENCES);
-      return preferences ? JSON.parse(preferences) : null;
+      const preferences = storage.getString(STORAGE_KEYS.USER_PREFERENCES)
+      return preferences ? JSON.parse(preferences) : null
     } catch (error) {
-      console.error('Failed to get user preferences:', error);
-      return null;
+      console.error('Failed to get user preferences:', error)
+      return null
     }
   }
 
@@ -192,10 +192,10 @@ export class StorageUtils {
    */
   static async storeJournalEntries(entries: JournalEntryType[]): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.JOURNAL_ENTRIES, JSON.stringify(entries));
+      storage.set(STORAGE_KEYS.JOURNAL_ENTRIES, JSON.stringify(entries))
     } catch (error) {
-      console.error('Failed to store journal entries:', error);
-      throw new Error('Failed to store journal entries');
+      console.error('Failed to store journal entries:', error)
+      throw new Error('Failed to store journal entries')
     }
   }
 
@@ -204,11 +204,11 @@ export class StorageUtils {
    */
   static async getJournalEntries(): Promise<JournalEntryType[]> {
     try {
-      const entries = storage.getString(STORAGE_KEYS.JOURNAL_ENTRIES);
-      return entries ? JSON.parse(entries) : [];
+      const entries = storage.getString(STORAGE_KEYS.JOURNAL_ENTRIES)
+      return entries ? JSON.parse(entries) : []
     } catch (error) {
-      console.error('Failed to get journal entries:', error);
-      return [];
+      console.error('Failed to get journal entries:', error)
+      return []
     }
   }
 
@@ -217,10 +217,10 @@ export class StorageUtils {
    */
   static async storeChallenges(challenges: UserChallengeType[]): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.CHALLENGES, JSON.stringify(challenges));
+      storage.set(STORAGE_KEYS.CHALLENGES, JSON.stringify(challenges))
     } catch (error) {
-      console.error('Failed to store challenges:', error);
-      throw new Error('Failed to store challenges');
+      console.error('Failed to store challenges:', error)
+      throw new Error('Failed to store challenges')
     }
   }
 
@@ -229,11 +229,11 @@ export class StorageUtils {
    */
   static async getChallenges(): Promise<UserChallengeType[]> {
     try {
-      const challenges = storage.getString(STORAGE_KEYS.CHALLENGES);
-      return challenges ? JSON.parse(challenges) : [];
+      const challenges = storage.getString(STORAGE_KEYS.CHALLENGES)
+      return challenges ? JSON.parse(challenges) : []
     } catch (error) {
-      console.error('Failed to get challenges:', error);
-      return [];
+      console.error('Failed to get challenges:', error)
+      return []
     }
   }
 
@@ -242,10 +242,10 @@ export class StorageUtils {
    */
   static async storeFoodEntries(entries: FoodEntryType[]): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.FOOD_ENTRIES, JSON.stringify(entries));
+      storage.set(STORAGE_KEYS.FOOD_ENTRIES, JSON.stringify(entries))
     } catch (error) {
-      console.error('Failed to store food entries:', error);
-      throw new Error('Failed to store food entries');
+      console.error('Failed to store food entries:', error)
+      throw new Error('Failed to store food entries')
     }
   }
 
@@ -254,11 +254,11 @@ export class StorageUtils {
    */
   static async getFoodEntries(): Promise<FoodEntryType[]> {
     try {
-      const entries = storage.getString(STORAGE_KEYS.FOOD_ENTRIES);
-      return entries ? JSON.parse(entries) : [];
+      const entries = storage.getString(STORAGE_KEYS.FOOD_ENTRIES)
+      return entries ? JSON.parse(entries) : []
     } catch (error) {
-      console.error('Failed to get food entries:', error);
-      return [];
+      console.error('Failed to get food entries:', error)
+      return []
     }
   }
 
@@ -267,10 +267,10 @@ export class StorageUtils {
    */
   static async storeAppSettings(settings: Record<string, any>): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.APP_SETTINGS, JSON.stringify(settings));
+      storage.set(STORAGE_KEYS.APP_SETTINGS, JSON.stringify(settings))
     } catch (error) {
-      console.error('Failed to store app settings:', error);
-      throw new Error('Failed to store app settings');
+      console.error('Failed to store app settings:', error)
+      throw new Error('Failed to store app settings')
     }
   }
 
@@ -279,11 +279,11 @@ export class StorageUtils {
    */
   static async getAppSettings(): Promise<Record<string, any>> {
     try {
-      const settings = storage.getString(STORAGE_KEYS.APP_SETTINGS);
-      return settings ? JSON.parse(settings) : {};
+      const settings = storage.getString(STORAGE_KEYS.APP_SETTINGS)
+      return settings ? JSON.parse(settings) : {}
     } catch (error) {
-      console.error('Failed to get app settings:', error);
-      return {};
+      console.error('Failed to get app settings:', error)
+      return {}
     }
   }
 
@@ -291,12 +291,12 @@ export class StorageUtils {
    * Mark onboarding as completed
    */
   static async setOnboardingCompleted(
-    completed: boolean = true
+    completed: boolean = true,
   ): Promise<void> {
     try {
-      storage.set(STORAGE_KEYS.ONBOARDING_COMPLETED, completed);
+      storage.set(STORAGE_KEYS.ONBOARDING_COMPLETED, completed)
     } catch (error) {
-      console.error('Failed to set onboarding status:', error);
+      console.error('Failed to set onboarding status:', error)
     }
   }
 
@@ -305,10 +305,10 @@ export class StorageUtils {
    */
   static async isOnboardingCompleted(): Promise<boolean> {
     try {
-      return storage.getBoolean(STORAGE_KEYS.ONBOARDING_COMPLETED) ?? false;
+      return storage.getBoolean(STORAGE_KEYS.ONBOARDING_COMPLETED) ?? false
     } catch (error) {
-      console.error('Failed to get onboarding status:', error);
-      return false;
+      console.error('Failed to get onboarding status:', error)
+      return false
     }
   }
 
@@ -320,18 +320,18 @@ export class StorageUtils {
   static async clearUserData(): Promise<void> {
     try {
       // Clear secure data
-      await this.clearSecureData();
+      await this.clearSecureData()
 
       // Clear MMKV data
-      storage.delete(STORAGE_KEYS.USER_PROFILE);
-      storage.delete(STORAGE_KEYS.USER_PREFERENCES);
-      storage.delete(STORAGE_KEYS.JOURNAL_ENTRIES);
-      storage.delete(STORAGE_KEYS.CHALLENGES);
-      storage.delete(STORAGE_KEYS.FOOD_ENTRIES);
-      storage.delete(STORAGE_KEYS.ONBOARDING_COMPLETED);
+      storage.delete(STORAGE_KEYS.USER_PROFILE)
+      storage.delete(STORAGE_KEYS.USER_PREFERENCES)
+      storage.delete(STORAGE_KEYS.JOURNAL_ENTRIES)
+      storage.delete(STORAGE_KEYS.CHALLENGES)
+      storage.delete(STORAGE_KEYS.FOOD_ENTRIES)
+      storage.delete(STORAGE_KEYS.ONBOARDING_COMPLETED)
       // Keep app settings as they're not user-specific
     } catch (error) {
-      console.error('Failed to clear user data:', error);
+      console.error('Failed to clear user data:', error)
     }
   }
 
@@ -341,12 +341,12 @@ export class StorageUtils {
   static async clearAllData(): Promise<void> {
     try {
       // Clear secure data
-      await this.clearSecureData();
+      await this.clearSecureData()
 
       // Clear all MMKV data
-      storage.clearAll();
+      storage.clearAll()
     } catch (error) {
-      console.error('Failed to clear all data:', error);
+      console.error('Failed to clear all data:', error)
     }
   }
 
@@ -357,10 +357,10 @@ export class StorageUtils {
     try {
       return {
         mmkvSize: storage.size,
-      };
+      }
     } catch (error) {
-      console.error('Failed to get storage info:', error);
-      return { mmkvSize: 0 };
+      console.error('Failed to get storage info:', error)
+      return { mmkvSize: 0 }
     }
   }
 
@@ -370,16 +370,16 @@ export class StorageUtils {
   static setItem(key: string, value: any): void {
     try {
       if (typeof value === 'string') {
-        storage.set(key, value);
+        storage.set(key, value)
       } else if (typeof value === 'number') {
-        storage.set(key, value);
+        storage.set(key, value)
       } else if (typeof value === 'boolean') {
-        storage.set(key, value);
+        storage.set(key, value)
       } else {
-        storage.set(key, JSON.stringify(value));
+        storage.set(key, JSON.stringify(value))
       }
     } catch (error) {
-      console.error(`Failed to set item ${key}:`, error);
+      console.error(`Failed to set item ${key}:`, error)
     }
   }
 
@@ -388,10 +388,10 @@ export class StorageUtils {
    */
   static getItem(key: string): any {
     try {
-      return storage.getString(key);
+      return storage.getString(key)
     } catch (error) {
-      console.error(`Failed to get item ${key}:`, error);
-      return null;
+      console.error(`Failed to get item ${key}:`, error)
+      return null
     }
   }
 
@@ -400,9 +400,9 @@ export class StorageUtils {
    */
   static removeItem(key: string): void {
     try {
-      storage.delete(key);
+      storage.delete(key)
     } catch (error) {
-      console.error(`Failed to remove item ${key}:`, error);
+      console.error(`Failed to remove item ${key}:`, error)
     }
   }
 }

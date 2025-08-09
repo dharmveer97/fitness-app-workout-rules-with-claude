@@ -1,25 +1,28 @@
-import React, { useEffect } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
+import React, { useEffect } from 'react'
+
+import * as SplashScreen from 'expo-splash-screen'
 
 export interface NavigationProviderProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
-export const NavigationProvider: React.FC<NavigationProviderProps> = ({ children }) => {
+export const NavigationProvider: React.FC<NavigationProviderProps> = ({
+  children,
+}) => {
   useEffect(() => {
     // Simple one-time initialization
     const hideSplash = async () => {
       try {
-        await SplashScreen.hideAsync();
+        await SplashScreen.hideAsync()
       } catch (e) {
         // SplashScreen might already be hidden
       }
-    };
+    }
 
-    hideSplash();
-  }, []);
+    hideSplash()
+  }, [])
 
-  return <>{children}</>;
-};
+  return <>{children}</>
+}
 
-export default NavigationProvider;
+export default NavigationProvider

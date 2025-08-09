@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Login Schema
 export const loginSchema = z.object({
@@ -10,7 +10,7 @@ export const loginSchema = z.object({
     .string()
     .min(1, 'Password is required')
     .min(8, 'Password must be at least 8 characters'),
-});
+})
 
 // Register Schema
 export const registerSchema = z
@@ -40,7 +40,7 @@ export const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
-  });
+  })
 
 // Forgot Password Schema
 export const forgotPasswordSchema = z.object({
@@ -48,7 +48,7 @@ export const forgotPasswordSchema = z.object({
     .string()
     .min(1, 'Email is required')
     .email('Please enter a valid email address'),
-});
+})
 
 // OTP Verification Schema
 export const otpVerificationSchema = z.object({
@@ -57,11 +57,8 @@ export const otpVerificationSchema = z.object({
     .min(6, 'OTP must be 6 digits')
     .max(6, 'OTP must be 6 digits')
     .regex(/^\d{6}$/, 'OTP must contain only numbers'),
-  email: z
-    .string()
-    .email('Invalid email address')
-    .optional(),
-});
+  email: z.string().email('Invalid email address').optional(),
+})
 
 // Reset Password Schema
 export const resetPasswordSchema = z
@@ -80,7 +77,7 @@ export const resetPasswordSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
-  });
+  })
 
 // Reset Password with OTP Schema (alternative to token-based reset)
 export const resetPasswordWithOTPSchema = z
@@ -90,9 +87,7 @@ export const resetPasswordWithOTPSchema = z
       .min(6, 'OTP must be 6 digits')
       .max(6, 'OTP must be 6 digits')
       .regex(/^\d{6}$/, 'OTP must contain only numbers'),
-    email: z
-      .string()
-      .email('Invalid email address'),
+    email: z.string().email('Invalid email address'),
     password: z
       .string()
       .min(1, 'Password is required')
@@ -106,12 +101,14 @@ export const resetPasswordWithOTPSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Passwords do not match',
     path: ['confirmPassword'],
-  });
+  })
 
 // Inferred Types
-export type LoginFormInfer = z.infer<typeof loginSchema>;
-export type RegisterFormInfer = z.infer<typeof registerSchema>;
-export type ForgotPasswordFormInfer = z.infer<typeof forgotPasswordSchema>;
-export type OTPVerificationFormInfer = z.infer<typeof otpVerificationSchema>;
-export type ResetPasswordFormInfer = z.infer<typeof resetPasswordSchema>;
-export type ResetPasswordWithOTPFormInfer = z.infer<typeof resetPasswordWithOTPSchema>;
+export type LoginFormInfer = z.infer<typeof loginSchema>
+export type RegisterFormInfer = z.infer<typeof registerSchema>
+export type ForgotPasswordFormInfer = z.infer<typeof forgotPasswordSchema>
+export type OTPVerificationFormInfer = z.infer<typeof otpVerificationSchema>
+export type ResetPasswordFormInfer = z.infer<typeof resetPasswordSchema>
+export type ResetPasswordWithOTPFormInfer = z.infer<
+  typeof resetPasswordWithOTPSchema
+>

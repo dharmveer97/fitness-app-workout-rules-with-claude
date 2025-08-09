@@ -1,147 +1,61 @@
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
-import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
-import eslintPluginReactNative from 'eslint-plugin-react-native';
-import eslintPluginImport from 'eslint-plugin-import';
-import eslintPluginJSX from 'eslint-plugin-jsx-a11y';
-import prettierPlugin from 'eslint-plugin-prettier';
-import { FlatCompat } from '@eslint/eslintrc';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import js from '@eslint/js';
+import typescript from '@typescript-eslint/eslint-plugin';
+import typescriptParser from '@typescript-eslint/parser';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactNative from 'eslint-plugin-react-native';
+import importPlugin from 'eslint-plugin-import';
+import prettier from 'eslint-plugin-prettier';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-const eslintConfig = [
-  ...compat.config({
-    extends: [
-      'universe/native',
-      'plugin:@typescript-eslint/recommended',
-      'plugin:prettier/recommended',
-    ],
-  }),
+export default [
+  js.configs.recommended,
   {
     files: ['**/*.{ts,tsx,js,jsx}'],
     languageOptions: {
-      parser: tsParser,
+      parser: typescriptParser,
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
         project: './tsconfig.json',
-        tsconfigRootDir: __dirname,
         ecmaFeatures: {
           jsx: true,
         },
       },
+      globals: {
+        // Node.js globals
+        console: 'readonly',
+        process: 'readonly',
+        global: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        Buffer: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        // React globals
+        JSX: 'readonly',
+        React: 'readonly',
+        ReactNode: 'readonly',
+        // TypeScript/Node globals
+        NodeJS: 'readonly',
+        // React Native globals
+        __DEV__: 'readonly',
+        ErrorUtils: 'readonly',
+        // Expo globals
+        expo: 'readonly',
+      },
     },
     plugins: {
-      '@typescript-eslint': typescriptEslint,
-      'react-hooks': eslintPluginReactHooks,
-      'react-native': eslintPluginReactNative,
-      import: eslintPluginImport,
-      'jsx-a11y': eslintPluginJSX,
-      prettier: prettierPlugin,
-    },
-    rules: {
-      'prettier/prettier': [
-        'error',
-        {
-          trailingComma: 'es5',
-          semi: false,
-          tabWidth: 2,
-          singleQuote: true,
-          printWidth: 80,
-          endOfLine: 'auto',
-          arrowParens: 'avoid',
-          bracketSpacing: true,
-          bracketSameLine: false,
-          jsxSingleQuote: false,
-        },
-        { usePrettierrc: false },
-      ],
-
-      'react-native/no-unused-styles': 'warn',
-      'react-native/split-platform-components': 'warn',
-      'react-native/no-inline-styles': 'off',
-      'react-native/no-color-literals': 'off',
-      'react-native/no-raw-text': 'off',
-
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-
-      'no-unused-vars': 'off',
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          ignoreRestSiblings: true,
-        },
-      ],
-
-      '@typescript-eslint/explicit-function-return-type': 'off',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-empty-function': 'warn',
-      '@typescript-eslint/no-non-null-assertion': 'warn',
-      '@typescript-eslint/prefer-const': 'error',
-      '@typescript-eslint/no-var-requires': 'error',
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports' },
-      ],
-      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': 'error',
-      '@typescript-eslint/prefer-optional-chain': 'error',
-
-      'import/order': [
-        'error',
-        {
-          groups: [
-            'builtin',
-            'external',
-            'internal',
-            'parent',
-            'sibling',
-            'index',
-          ],
-          'newlines-between': 'always',
-          alphabetize: {
-            order: 'asc',
-            caseInsensitive: true,
-          },
-        },
-      ],
-      'import/no-duplicates': 'error',
-      'import/no-unused-modules': 'off',
-
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-      'no-debugger': 'error',
-      'no-alert': 'error',
-      'prefer-const': 'error',
-      'no-var': 'error',
-      'object-shorthand': 'error',
-      'prefer-template': 'error',
-
-      'react/prop-types': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/display-name': 'off',
-
-      'jsx-a11y/accessible-emoji': 'off',
-      'jsx-a11y/alt-text': 'warn',
-      'jsx-a11y/anchor-has-content': 'off',
-      'jsx-a11y/aria-props': 'warn',
-      'jsx-a11y/aria-role': 'warn',
-      'jsx-a11y/heading-has-content': 'off',
-      'jsx-a11y/iframe-has-title': 'off',
-      'jsx-a11y/img-redundant-alt': 'warn',
-      'jsx-a11y/no-access-key': 'warn',
-      'jsx-a11y/role-has-required-aria-props': 'warn',
-      'jsx-a11y/role-supports-aria-props': 'warn',
+      '@typescript-eslint': typescript,
+      'react': react,
+      'react-hooks': reactHooks,
+      'react-native': reactNative,
+      'import': importPlugin,
+      'prettier': prettier,
     },
     settings: {
       react: {
@@ -157,26 +71,199 @@ const eslintConfig = [
         },
       },
     },
-  },
-  {
-    files: ['**/*.config.{js,mjs,ts}', '**/metro.config.js'],
     rules: {
-      '@typescript-eslint/no-var-requires': 'off',
-      'import/no-anonymous-default-export': 'off',
+      // Prettier integration - use .prettierrc config
+
+      // React Native specific rules
+      'react-native/no-unused-styles': 'error',
+      'react-native/split-platform-components': 'warn',
+      'react-native/no-inline-styles': 'off', // Allow inline styles for NativeWind
+      'react-native/no-color-literals': 'off', // Allow color literals
+      'react-native/no-raw-text': 'off', // Allow raw text for better DX
+
+      // React hooks rules
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      // React rules
+      'react/prop-types': 'off', // We use TypeScript
+      'react/react-in-jsx-scope': 'off', // Not needed in React 17+
+      'react/display-name': 'warn',
+      'react/jsx-uses-react': 'off',
+      'react/jsx-uses-vars': 'error',
+      'react/jsx-key': 'error',
+      'react/jsx-no-duplicate-props': 'error',
+      'react/jsx-no-undef': 'error',
+      'react/no-danger': 'warn',
+      'react/no-direct-mutation-state': 'error',
+      'react/no-unused-state': 'warn',
+
+      // TypeScript rules
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-empty-function': 'warn',
+      '@typescript-eslint/no-non-null-assertion': 'warn',
+      '@typescript-eslint/no-var-requires': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
+      ],
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-optional-chain': 'error',
+      '@typescript-eslint/ban-ts-comment': 'warn',
+      '@typescript-eslint/no-empty-interface': 'warn',
+      'no-shadow': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+
+      // Import rules
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+            'type',
+          ],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+          pathGroups: [
+            {
+              pattern: 'react',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: 'react-native',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: 'expo-*',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: '@/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['react', 'react-native'],
+        },
+      ],
+      'prettier/prettier': [
+        'error',
+        {
+          trailingComma: 'all',
+          semi: false,
+          tabWidth: 2,
+          singleQuote: true,
+          printWidth: 80,
+          endOfLine: 'auto',
+          arrowParens: 'always',
+          plugins: ['prettier-plugin-tailwindcss'],
+        },
+      ],
+      'import/no-duplicates': 'error',
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-anonymous-default-export': 'warn',
+      'import/namespace': 'off',
+      'import/no-unresolved': 'off', // TypeScript handles this
+
+      // General JavaScript/TypeScript rules
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-debugger': 'error',
+      'no-alert': 'error',
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'object-shorthand': 'error',
+      'prefer-template': 'error',
+      'eqeqeq': ['error', 'always', { null: 'ignore' }],
+      'curly': ['error', 'multi-line'],
+
+      // Best practices
+      'no-duplicate-imports': 'error',
+      'no-return-await': 'error',
+      'prefer-arrow-callback': 'error',
+      'arrow-body-style': ['error', 'as-needed'],
+      'no-useless-return': 'error',
+      'no-else-return': 'error',
+
+      // Code style - let prettier handle formatting
+      'indent': 'off', // Let prettier handle this
+      'quotes': 'off', // Let prettier handle this
+      'semi': 'off', // Let prettier handle this
+      'comma-dangle': 'off', // Let prettier handle this
+      'brace-style': 'off', // Let prettier handle this
+      'comma-spacing': 'off', // Let prettier handle this
+      'space-before-blocks': 'off', // Let prettier handle this
+      'keyword-spacing': 'off', // Let prettier handle this
     },
   },
   {
+    // Config files - use JS parsing for config files without TypeScript project
+    files: ['**/*.config.{js,mjs}', '**/metro.config.js', '**/babel.config.js', '**/tailwind.config.js'],
+    languageOptions: {
+      parser: typescriptParser,
+      parserOptions: {
+        // Don't use TypeScript project for config files
+        project: null,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+      },
+    },
+    rules: {
+      // Disable all TypeScript type-aware rules for config files
+      '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
+      '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      '@typescript-eslint/no-shadow': 'off',
+      'import/no-anonymous-default-export': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-undef': 'off', // Config files often use module/require
+    },
+  },
+  {
+    // Test files
+    files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}', '**/__tests__/**/*'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'no-console': 'off',
+    },
+  },
+  {
+    // Ignore patterns
     ignores: [
-      'node_modules/',
-      '.expo/',
-      'dist/',
-      'build/',
-      'coverage/',
-      '*.config.js',
-      'babel.config.js',
-      'metro.config.js',
+      'node_modules/**',
+      '.expo/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      '.expo-shared/**',
+      'ios/**',
+      'android/**',
+      'web-build/**',
+      '**/*.d.ts',
     ],
   },
 ];
-
-export default eslintConfig;

@@ -13,4 +13,4 @@ export const spacing = {
   20: 80,
   24: 96,
   32: 128,
-} as const;
+} as const

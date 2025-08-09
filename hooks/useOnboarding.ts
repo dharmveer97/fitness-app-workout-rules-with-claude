@@ -1,6 +1,7 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { useCallback } from 'react';
-import type { RootState } from '@/state/store';
+import { useCallback } from 'react'
+
+import { useSelector, useDispatch } from 'react-redux'
+
 import {
   updatePersonalInfo,
   updateGoals,
@@ -11,66 +12,67 @@ import {
   previousSlide,
   markSlideCompleted,
   setCurrentSlideIndex,
-} from '@/state/slices/onboardingSlice';
+} from '@/state/slices/onboardingSlice'
+import type { RootState } from '@/state/store'
 
 export function useOnboarding() {
-  const dispatch = useDispatch();
-  const onboardingState = useSelector((state: RootState) => state.onboarding);
-  const authState = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch()
+  const onboardingState = useSelector((state: RootState) => state.onboarding)
+  const authState = useSelector((state: RootState) => state.auth)
 
   const handleUpdatePersonalInfo = useCallback(
     (data: Parameters<typeof updatePersonalInfo>[0]) => {
-      dispatch(updatePersonalInfo(data));
+      dispatch(updatePersonalInfo(data))
     },
-    [dispatch]
-  );
+    [dispatch],
+  )
 
   const handleUpdateGoals = useCallback(
     (data: Parameters<typeof updateGoals>[0]) => {
-      dispatch(updateGoals(data));
+      dispatch(updateGoals(data))
     },
-    [dispatch]
-  );
+    [dispatch],
+  )
 
   const handleUpdatePreferences = useCallback(
     (data: Parameters<typeof updatePreferences>[0]) => {
-      dispatch(updatePreferences(data));
+      dispatch(updatePreferences(data))
     },
-    [dispatch]
-  );
+    [dispatch],
+  )
 
   const handleCompleteOnboarding = useCallback(() => {
-    dispatch(completeOnboarding());
-  }, [dispatch]);
+    dispatch(completeOnboarding())
+  }, [dispatch])
 
   const handleResetOnboarding = useCallback(() => {
-    dispatch(resetOnboarding());
-  }, [dispatch]);
+    dispatch(resetOnboarding())
+  }, [dispatch])
 
   const handleNextSlide = useCallback(() => {
-    dispatch(nextSlide());
-  }, [dispatch]);
+    dispatch(nextSlide())
+  }, [dispatch])
 
   const handlePreviousSlide = useCallback(() => {
-    dispatch(previousSlide());
-  }, [dispatch]);
+    dispatch(previousSlide())
+  }, [dispatch])
 
   const handleMarkSlideCompleted = useCallback(
     (slideId: string) => {
-      dispatch(markSlideCompleted(slideId));
+      dispatch(markSlideCompleted(slideId))
     },
-    [dispatch]
-  );
+    [dispatch],
+  )
 
   const handleSetCurrentSlideIndex = useCallback(
     (index: number) => {
-      dispatch(setCurrentSlideIndex(index));
+      dispatch(setCurrentSlideIndex(index))
     },
-    [dispatch]
-  );
+    [dispatch],
+  )
 
   const isOnboardingCompleted =
-    onboardingState.isOnboardingCompleted || authState.isOnboarded;
+    onboardingState.isOnboardingCompleted || authState.isOnboarded
 
   const progress = {
     current: onboardingState.currentSlideIndex,
@@ -79,7 +81,7 @@ export function useOnboarding() {
       (onboardingState.slidesProgress.filter((s) => s.completed).length /
         onboardingState.slidesProgress.length) *
       100,
-  };
+  }
 
   return {
     ...onboardingState,
@@ -94,5 +96,5 @@ export function useOnboarding() {
     previousSlide: handlePreviousSlide,
     markSlideCompleted: handleMarkSlideCompleted,
     setCurrentSlideIndex: handleSetCurrentSlideIndex,
-  };
+  }
 }

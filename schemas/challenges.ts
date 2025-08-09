@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Challenge Category Schema
 export const challengeCategorySchema = z.enum([
@@ -12,7 +12,7 @@ export const challengeCategorySchema = z.enum([
   'creativity',
   'productivity',
   'wellness',
-]);
+])
 
 // Challenge Difficulty Schema
 export const challengeDifficultySchema = z.enum([
@@ -20,7 +20,7 @@ export const challengeDifficultySchema = z.enum([
   'medium',
   'hard',
   'expert',
-]);
+])
 
 // Challenge Progress Schema
 export const challengeProgressSchema = z.object({
@@ -30,7 +30,7 @@ export const challengeProgressSchema = z.object({
   notes: z.string().optional(),
   evidence: z.array(z.string()).optional(), // Image URLs
   timeSpent: z.number().min(0).optional(), // in minutes
-});
+})
 
 // Challenge Schema
 export const challengeSchema = z.object({
@@ -55,7 +55,7 @@ export const challengeSchema = z.object({
   tags: z.array(z.string()).max(10).default([]),
   startDate: z.date().optional(),
   endDate: z.date().optional(),
-});
+})
 
 // User Challenge Schema
 export const userChallengeSchema = z.object({
@@ -71,7 +71,7 @@ export const userChallengeSchema = z.object({
   lastActivity: z.date().optional(),
   notes: z.string().optional(),
   isPrivate: z.boolean().default(false),
-});
+})
 
 // Challenge Creation Schema
 export const createChallengeSchema = z.object({
@@ -89,7 +89,7 @@ export const createChallengeSchema = z.object({
     .max(10),
   isPublic: z.boolean().default(true),
   tags: z.array(z.string()).max(10).default([]),
-});
+})
 
 // Challenge Join Schema
 export const joinChallengeSchema = z.object({
@@ -97,15 +97,13 @@ export const joinChallengeSchema = z.object({
   startDate: z.date().optional(),
   isPrivate: z.boolean().default(false),
   personalGoal: z.string().optional(),
-});
+})
 
 // Inferred Types
-export type ChallengeCategoryInfer = z.infer<typeof challengeCategorySchema>;
-export type ChallengeDifficultyInfer = z.infer<
-  typeof challengeDifficultySchema
->;
-export type ChallengeProgressInfer = z.infer<typeof challengeProgressSchema>;
-export type ChallengeInfer = z.infer<typeof challengeSchema>;
-export type UserChallengeInfer = z.infer<typeof userChallengeSchema>;
-export type CreateChallengeInfer = z.infer<typeof createChallengeSchema>;
-export type JoinChallengeInfer = z.infer<typeof joinChallengeSchema>;
+export type ChallengeCategoryInfer = z.infer<typeof challengeCategorySchema>
+export type ChallengeDifficultyInfer = z.infer<typeof challengeDifficultySchema>
+export type ChallengeProgressInfer = z.infer<typeof challengeProgressSchema>
+export type ChallengeInfer = z.infer<typeof challengeSchema>
+export type UserChallengeInfer = z.infer<typeof userChallengeSchema>
+export type CreateChallengeInfer = z.infer<typeof createChallengeSchema>
+export type JoinChallengeInfer = z.infer<typeof joinChallengeSchema>

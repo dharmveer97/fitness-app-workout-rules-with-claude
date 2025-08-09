@@ -1,5 +1,5 @@
-const tintColorLight = '#10B981';
-const tintColorDark = '#10B981';
+const tintColorLight = '#10B981'
+const tintColorDark = '#10B981'
 
 export const Colors = {
   light: {
@@ -18,13 +18,13 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
-};
+}
 
 export const colors = {
   // Base colors
   black: '#000000',
   white: '#FFFFFF',
-  
+
   // App specific colors
   background: '#0A0A0B',
   card: '#18181B',
@@ -104,4 +104,4 @@ export const colors = {
     dark: ['#0A0A0B', '#18181B'],
     glass: ['rgba(255,255,255,0.1)', 'rgba(255,255,255,0.05)'],
   },
-} as const;
+} as const

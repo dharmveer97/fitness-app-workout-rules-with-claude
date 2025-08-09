@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import {
-  useColorScheme as useRNColorScheme,
-  ColorSchemeName,
-} from 'react-native'
+
+import type { ColorSchemeName } from 'react-native'
+
+import { useColorScheme as useRNColorScheme } from 'nativewind'
 
 /**
  * A custom hook that ensures consistent color scheme usage across platforms,
@@ -18,7 +18,7 @@ export function useColorScheme(): ColorSchemeName {
     setHasHydrated(true)
   }, [])
 
-  const colorScheme: ColorSchemeName = useRNColorScheme()
+  const colorScheme: ColorSchemeName = useRNColorScheme().colorScheme ?? 'light'
 
   return hasHydrated ? colorScheme : 'light'
 }

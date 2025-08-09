@@ -1,33 +1,33 @@
-import React from 'react';
-import {
-  TouchableOpacity,
-  TouchableOpacityProps,
-  ActivityIndicator,
-  View,
-} from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { cn } from '@/utils/cn';
+import React from 'react'
+
+import type { TouchableOpacityProps } from 'react-native'
+import { TouchableOpacity, ActivityIndicator, View } from 'react-native'
+
+import { Ionicons } from '@expo/vector-icons'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
   withSequence,
-} from 'react-native-reanimated';
-import Text from './Text';
+} from 'react-native-reanimated'
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+import { cn } from '@/utils/cn'
+
+import Text from './Text'
+
+const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity)
 
 export interface ButtonProps extends TouchableOpacityProps {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg' | 'xl';
-  fullWidth?: boolean;
-  loading?: boolean;
-  leftIcon?: keyof typeof Ionicons.glyphMap;
-  rightIcon?: keyof typeof Ionicons.glyphMap;
-  children?: React.ReactNode;
-  className?: string;
-  textClassName?: string;
-  animate?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  fullWidth?: boolean
+  loading?: boolean
+  leftIcon?: keyof typeof Ionicons.glyphMap
+  rightIcon?: keyof typeof Ionicons.glyphMap
+  children?: React.ReactNode
+  className?: string
+  textClassName?: string
+  animate?: boolean
 }
 
 const variantStyles = {
@@ -36,21 +36,21 @@ const variantStyles = {
   outline: 'bg-transparent border-2 border-primary-500',
   ghost: 'bg-transparent',
   danger: 'bg-red-500 active:bg-red-600',
-};
+}
 
 const sizeStyles = {
   sm: 'px-3 py-2',
   md: 'px-4 py-3',
   lg: 'px-6 py-4',
   xl: 'px-8 py-5',
-};
+}
 
 const textSizeStyles = {
   sm: 'text-sm',
   md: 'text-base',
   lg: 'text-lg',
   xl: 'text-xl',
-};
+}
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
@@ -67,35 +67,35 @@ export const Button: React.FC<ButtonProps> = ({
   onPress,
   ...props
 }) => {
-  const scale = useSharedValue(1);
+  const scale = useSharedValue(1)
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
-  }));
+  }))
 
   const handlePressIn = () => {
     if (animate && !disabled && !loading) {
-      scale.value = withSpring(0.95, { damping: 10, stiffness: 400 });
+      scale.value = withSpring(0.95, { damping: 10, stiffness: 400 })
     }
-  };
+  }
 
   const handlePressOut = () => {
     if (animate && !disabled && !loading) {
-      scale.value = withSpring(1, { damping: 10, stiffness: 400 });
+      scale.value = withSpring(1, { damping: 10, stiffness: 400 })
     }
-  };
+  }
 
   const handlePress = (e: any) => {
     if (!disabled && !loading && onPress) {
       if (animate) {
         scale.value = withSequence(
           withSpring(0.95, { damping: 10, stiffness: 400 }),
-          withSpring(1, { damping: 10, stiffness: 400 })
-        );
+          withSpring(1, { damping: 10, stiffness: 400 }),
+        )
       }
-      onPress(e);
+      onPress(e)
     }
-  };
+  }
 
   const buttonClass = cn(
     'flex-row items-center justify-center rounded-xl',
@@ -103,16 +103,17 @@ export const Button: React.FC<ButtonProps> = ({
     sizeStyles[size],
     fullWidth && 'w-full',
     (disabled || loading) && 'opacity-50',
-    className
-  );
+    className,
+  )
 
   const textColor =
-    variant === 'outline' || variant === 'ghost' ? 'primary' : 'white';
+    variant === 'outline' || variant === 'ghost' ? 'primary' : 'white'
 
   const iconColor =
-    variant === 'outline' || variant === 'ghost' ? '#10B981' : '#FFFFFF';
+    variant === 'outline' || variant === 'ghost' ? '#10B981' : '#FFFFFF'
 
-  const iconSize = size === 'sm' ? 16 : size === 'md' ? 20 : size === 'lg' ? 24 : 28;
+  const iconSize =
+    size === 'sm' ? 16 : size === 'md' ? 20 : size === 'lg' ? 24 : 28
 
   return (
     <AnimatedTouchable
@@ -126,7 +127,7 @@ export const Button: React.FC<ButtonProps> = ({
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color={iconColor} size="small" />
+        <ActivityIndicator color={iconColor} size='small' />
       ) : (
         <>
           {leftIcon && (
@@ -140,7 +141,11 @@ export const Button: React.FC<ButtonProps> = ({
           {typeof children === 'string' ? (
             <Text
               color={textColor}
-              className={cn(textSizeStyles[size], 'font-semibold', textClassName)}
+              className={cn(
+                textSizeStyles[size],
+                'font-semibold',
+                textClassName,
+              )}
             >
               {children}
             </Text>
@@ -158,7 +163,7 @@ export const Button: React.FC<ButtonProps> = ({
         </>
       )}
     </AnimatedTouchable>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

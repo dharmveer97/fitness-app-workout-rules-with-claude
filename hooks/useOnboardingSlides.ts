@@ -1,5 +1,8 @@
-import { useRef, useState, useCallback, Dispatch, SetStateAction } from 'react'
-import { Animated, useWindowDimensions, ViewToken } from 'react-native'
+import type { Dispatch, SetStateAction } from 'react'
+import { useRef, useState, useCallback } from 'react'
+
+import type { ViewToken } from 'react-native'
+import { Animated, useWindowDimensions } from 'react-native'
 
 export const useOnboardingSlides = <T = any>({
   slidesLength,

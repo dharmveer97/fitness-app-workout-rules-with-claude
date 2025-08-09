@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // Personal Info Schema
 export const personalInfoSchema = z.object({
@@ -8,8 +8,8 @@ export const personalInfoSchema = z.object({
     .min(2, 'Name must be at least 2 characters')
     .max(50, 'Name must be less than 50 characters'),
   dateOfBirth: z.date().refine((date) => {
-    const age = new Date().getFullYear() - date.getFullYear();
-    return age >= 13 && age <= 120;
+    const age = new Date().getFullYear() - date.getFullYear()
+    return age >= 13 && age <= 120
   }, 'You must be between 13 and 120 years old'),
   gender: z.enum(['male', 'female', 'other', 'prefer-not-to-say']),
   height: z
@@ -27,7 +27,7 @@ export const personalInfoSchema = z.object({
     'very-active',
     'extremely-active',
   ]),
-});
+})
 
 // Goals Schema
 export const goalsSchema = z.object({
@@ -64,7 +64,7 @@ export const goalsSchema = z.object({
     .min(0, 'Workout goal cannot be negative')
     .max(14, 'Workout goal must be less than 14 per week')
     .default(3),
-});
+})
 
 // Preferences Schema
 export const preferencesSchema = z.object({
@@ -88,17 +88,17 @@ export const preferencesSchema = z.object({
     allowFriends: z.boolean().default(true),
     publicProfile: z.boolean().default(false),
   }),
-});
+})
 
 // Complete Onboarding Schema
 export const completeOnboardingSchema = z.object({
   personalInfo: personalInfoSchema,
   goals: goalsSchema,
   preferences: preferencesSchema,
-});
+})
 
 // Inferred Types
-export type PersonalInfoStepInfer = z.infer<typeof personalInfoSchema>;
-export type GoalsStepInfer = z.infer<typeof goalsSchema>;
-export type PreferencesStepInfer = z.infer<typeof preferencesSchema>;
-export type CompleteOnboardingInfer = z.infer<typeof completeOnboardingSchema>;
+export type PersonalInfoStepInfer = z.infer<typeof personalInfoSchema>
+export type GoalsStepInfer = z.infer<typeof goalsSchema>
+export type PreferencesStepInfer = z.infer<typeof preferencesSchema>
+export type CompleteOnboardingInfer = z.infer<typeof completeOnboardingSchema>
