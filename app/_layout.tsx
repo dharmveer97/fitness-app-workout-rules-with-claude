@@ -13,7 +13,6 @@ import { store, persistor } from '../state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../state/store';
-import { NavigationProvider } from '../components/navigation';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,9 +51,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationProvider>
-          <RootLayoutNav />
-        </NavigationProvider>
+        <RootLayoutNav />
       </PersistGate>
     </Provider>
   );
@@ -75,6 +72,15 @@ function RootLayoutNav() {
   // Combined onboarding check - either from auth slice or onboarding slice
   const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted;
 
+  // Handle redirects BEFORE rendering the Stack to prevent loops
+  if (!hasCompletedOnboarding) {
+    return <Redirect href="/(auth)/onboarding" />;
+  }
+  
+  if (hasCompletedOnboarding && !isAuthenticated) {
+    return <Redirect href="/(auth)/sign-in" />;
+  }
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
@@ -82,10 +88,6 @@ function RootLayoutNav() {
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: true }} />
       </Stack>
-      
-      {/* Simple redirects without RouteGuard to prevent loops */}
-      {!hasCompletedOnboarding && <Redirect href="/(auth)/onboarding" />}
-      {hasCompletedOnboarding && !isAuthenticated && <Redirect href="/(auth)/sign-in" />}
     </ThemeProvider>
   );
 }
