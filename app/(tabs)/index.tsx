@@ -1,31 +1,306 @@
-import { StyleSheet } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, RefreshControl, Alert } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import type { RootState } from '@/state/store';
+import { router } from 'expo-router';
+import { signOut } from '@/state/slices/authSlice';
+import { FontAwesome } from '@expo/vector-icons';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+// Import our new components
+import StatsCard from '@/components/home/StatsCard';
+import ProgressRing from '@/components/home/ProgressRing';
+import WeeklyChart from '@/components/home/WeeklyChart';
+import QuickActionButton from '@/components/home/QuickActionButton';
+import ActivityItem from '@/components/home/ActivityItem';
 
-export default function TabOneScreen() {
+// Types are now globally available from .d.ts files
+
+export default function HomeScreen() {
+  const user = useSelector((s: RootState) => s.auth.user);
+  const dispatch = useDispatch();
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Mock data - in a real app, this would come from your API/state
+  const todayStats: StatsCardData[] = [
+    {
+      title: 'Steps',
+      value: 8432,
+      unit: '',
+      change: 12,
+      changeLabel: 'vs yesterday',
+      icon: 'footprint-o',
+      color: '#10B981',
+      trend: 'up',
+    },
+    {
+      title: 'Calories Burned',
+      value: 642,
+      unit: 'cal',
+      change: -5,
+      changeLabel: 'vs yesterday',
+      icon: 'fire',
+      color: '#F97316',
+      trend: 'down',
+    },
+    {
+      title: 'Active Time',
+      value: 47,
+      unit: 'min',
+      change: 23,
+      changeLabel: 'vs yesterday',
+      icon: 'clock-o',
+      color: '#3B82F6',
+      trend: 'up',
+    },
+    {
+      title: 'Water Intake',
+      value: 1.8,
+      unit: 'L',
+      change: 8,
+      changeLabel: 'vs yesterday',
+      icon: 'tint',
+      color: '#06B6D4',
+      trend: 'up',
+    },
+  ];
+
+  const dailyGoals: ProgressRingData[] = [
+    {
+      value: 8432,
+      maxValue: 10000,
+      color: '#10B981',
+      label: 'Steps',
+      icon: 'footprint-o',
+    },
+    {
+      value: 642,
+      maxValue: 800,
+      color: '#F97316',
+      label: 'Calories',
+      unit: 'cal',
+      icon: 'fire',
+    },
+    {
+      value: 1.8,
+      maxValue: 2.5,
+      color: '#06B6D4',
+      label: 'Water',
+      unit: 'L',
+      icon: 'tint',
+    },
+  ];
+
+  const weeklyData: ChartDataPoint[] = [
+    { label: 'Monday', value: 7832 },
+    { label: 'Tuesday', value: 9124 },
+    { label: 'Wednesday', value: 6543 },
+    { label: 'Thursday', value: 8901 },
+    { label: 'Friday', value: 10234 },
+    { label: 'Saturday', value: 11567 },
+    { label: 'Sunday', value: 8432 },
+  ];
+
+  const recentActivities: Activity[] = [
+    {
+      id: '1',
+      type: 'workout',
+      title: 'Morning Run',
+      description: 'Central Park Loop',
+      value: 5.2,
+      unit: 'km',
+      timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+      calories: 342,
+      duration: 28,
+    },
+    {
+      id: '2',
+      type: 'water',
+      title: 'Water Logged',
+      value: 500,
+      unit: 'ml',
+      timestamp: new Date(Date.now() - 1 * 60 * 60 * 1000),
+    },
+    {
+      id: '3',
+      type: 'meal',
+      title: 'Protein Shake',
+      description: 'Post-workout recovery',
+      timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+      calories: 285,
+    },
+  ];
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    // Simulate API call
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const handleQuickAction = (action: string) => {
+    switch (action) {
+      case 'workout':
+        router.push('/(tabs)/workouts');
+        break;
+      case 'meal':
+        Alert.alert('Log Meal', 'Meal logging feature coming soon!');
+        break;
+      case 'water':
+        Alert.alert('Track Water', 'Water tracking feature coming soon!');
+        break;
+      case 'sleep':
+        Alert.alert('Log Sleep', 'Sleep tracking feature coming soon!');
+        break;
+    }
+  };
+
+  const handleActivityPress = (activity: Activity) => {
+    Alert.alert('Activity Details', `View details for ${activity.title}`);
+  };
+
+  const handleStatsPress = (title: string) => {
+    Alert.alert('Stats Details', `View detailed stats for ${title}`);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View className="flex-1 bg-[#0A0A0B]">
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#10B981" />
+        }
+        showsVerticalScrollIndicator={false}
+        className="flex-1"
+      >
+        <View className="px-6 py-4">
+          {/* Header */}
+          <View className="flex-row items-center justify-between mb-8 mt-4">
+            <View>
+              <Text className="text-gray-400 text-lg">Good morning</Text>
+              <Text className="text-white text-3xl font-bold">
+                {user?.name ?? 'Athlete'}
+              </Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => router.push('/(tabs)/profile')}
+              className="w-12 h-12 bg-[#18181B] rounded-full items-center justify-center border border-gray-800"
+            >
+              <FontAwesome name="user" size={20} color="#10B981" />
+            </TouchableOpacity>
+          </View>
+
+          {/* Today's Stats Cards */}
+          <View className="mb-8">
+            <Text className="text-white text-xl font-bold mb-4">Today's Stats</Text>
+            <View className="flex-row flex-wrap justify-between">
+              {todayStats.map((stat, index) => (
+                <View key={stat.title} className="w-[48%] mb-4">
+                  <StatsCard
+                    {...stat}
+                    delay={index * 100}
+                    onPress={() => handleStatsPress(stat.title)}
+                  />
+                </View>
+              ))}
+            </View>
+          </View>
+
+          {/* Daily Goals Progress Rings */}
+          <View className="mb-8">
+            <Text className="text-white text-xl font-bold mb-4">Daily Goals</Text>
+            <View className="bg-[#18181B] rounded-2xl p-6 border border-gray-800/50">
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View className="flex-row space-x-8">
+                  {dailyGoals.map((goal, index) => (
+                    <ProgressRing
+                      key={goal.label}
+                      {...goal}
+                      delay={200 + index * 150}
+                    />
+                  ))}
+                </View>
+              </ScrollView>
+            </View>
+          </View>
+
+          {/* Weekly Progress Chart */}
+          <View className="mb-8">
+            <WeeklyChart
+              data={weeklyData}
+              title="Weekly Steps"
+              color="#10B981"
+              delay={400}
+            />
+          </View>
+
+          {/* Quick Actions */}
+          <View className="mb-8">
+            <Text className="text-white text-xl font-bold mb-4">Quick Actions</Text>
+            <View className="flex-row flex-wrap gap-3">
+              <View className="w-[48%]">
+                <QuickActionButton
+                  title="Start Workout"
+                  icon="heartbeat"
+                  color="#EF4444"
+                  onPress={() => handleQuickAction('workout')}
+                  delay={500}
+                />
+              </View>
+              <View className="w-[48%]">
+                <QuickActionButton
+                  title="Log Meal"
+                  icon="cutlery"
+                  color="#F97316"
+                  onPress={() => handleQuickAction('meal')}
+                  delay={550}
+                  variant="secondary"
+                />
+              </View>
+              <View className="w-[48%]">
+                <QuickActionButton
+                  title="Track Water"
+                  icon="tint"
+                  color="#06B6D4"
+                  onPress={() => handleQuickAction('water')}
+                  delay={600}
+                  variant="secondary"
+                />
+              </View>
+              <View className="w-[48%]">
+                <QuickActionButton
+                  title="Log Sleep"
+                  icon="moon-o"
+                  color="#8B5CF6"
+                  onPress={() => handleQuickAction('sleep')}
+                  delay={650}
+                  variant="secondary"
+                />
+              </View>
+            </View>
+          </View>
+
+          {/* Recent Activities */}
+          <View className="mb-8">
+            <View className="flex-row items-center justify-between mb-4">
+              <Text className="text-white text-xl font-bold">Recent Activities</Text>
+              <TouchableOpacity>
+                <Text className="text-[#10B981] text-base font-semibold">View All</Text>
+              </TouchableOpacity>
+            </View>
+            {recentActivities.map((activity, index) => (
+              <ActivityItem
+                key={activity.id}
+                activity={activity}
+                onPress={() => handleActivityPress(activity)}
+                delay={700 + index * 50}
+              />
+            ))}
+          </View>
+
+          {/* Footer spacing */}
+          <View className="h-8" />
+        </View>
+      </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
