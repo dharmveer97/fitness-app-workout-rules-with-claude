@@ -14,7 +14,7 @@ import GoalInput from '@/components/profile/GoalInput';
 export default function ProfileScreen() {
   const user = useSelector((s: RootState) => s.auth.user);
   const dispatch = useDispatch();
-  
+
   const [refreshing, setRefreshing] = useState(false);
   const [showGoalsSection, setShowGoalsSection] = useState(false);
 
@@ -122,7 +122,7 @@ export default function ProfileScreen() {
   };
 
   const handleAbout = () => {
-    Alert.alert('About', 'Daily Deposits Fitness App\nVersion 1.0.0\n\nTrack your fitness journey with style!');
+    Alert.alert('About', 'Daily fitness Fitness App\nVersion 1.0.0\n\nTrack your fitness journey with style!');
   };
 
   const handleSignOut = () => {
@@ -167,7 +167,7 @@ export default function ProfileScreen() {
                 onPress={() => setShowGoalsSection(!showGoalsSection)}
               />
             </View>
-            
+
             {showGoalsSection && (
               <View className="mt-4">
                 <GoalInput
@@ -183,7 +183,7 @@ export default function ProfileScreen() {
                   delay={100}
                   suggestions={[8000, 10000, 12000, 15000]}
                 />
-                
+
                 <GoalInput
                   icon="tint"
                   label="Daily Water"
@@ -197,7 +197,7 @@ export default function ProfileScreen() {
                   delay={200}
                   suggestions={[2000, 2500, 3000, 3500]}
                 />
-                
+
                 <GoalInput
                   icon="fire"
                   label="Daily Calories"
@@ -211,7 +211,7 @@ export default function ProfileScreen() {
                   delay={300}
                   suggestions={[2000, 2200, 2500, 3000]}
                 />
-                
+
                 <GoalInput
                   icon="heartbeat"
                   label="Weekly Workouts"
@@ -243,7 +243,7 @@ export default function ProfileScreen() {
                 onToggle={(value) => handleNotificationToggle('workoutReminders', value)}
                 delay={100}
               />
-              
+
               <SettingsItem
                 icon="tint"
                 title="Water Reminders"
@@ -254,7 +254,7 @@ export default function ProfileScreen() {
                 onToggle={(value) => handleNotificationToggle('waterReminders', value)}
                 delay={150}
               />
-              
+
               <SettingsItem
                 icon="moon-o"
                 title="Sleep Reminders"
@@ -282,7 +282,7 @@ export default function ProfileScreen() {
                 onToggle={(value) => handlePrivacyToggle('shareStats', value)}
                 delay={100}
               />
-              
+
               <SettingsItem
                 icon="heartbeat"
                 title="Share Workouts"
@@ -309,7 +309,7 @@ export default function ProfileScreen() {
                 onPress={handleAccountSettings}
                 delay={100}
               />
-              
+
               <SettingsItem
                 icon="globe"
                 title="Units"
@@ -320,7 +320,7 @@ export default function ProfileScreen() {
                 onPress={() => Alert.alert('Units', 'Unit system settings coming soon!')}
                 delay={150}
               />
-              
+
               <SettingsItem
                 icon="question-circle"
                 title="Help & Support"
@@ -330,7 +330,7 @@ export default function ProfileScreen() {
                 onPress={handleSupport}
                 delay={200}
               />
-              
+
               <SettingsItem
                 icon="info-circle"
                 title="About"

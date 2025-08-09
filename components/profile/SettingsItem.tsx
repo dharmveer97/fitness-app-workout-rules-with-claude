@@ -8,18 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
 
-interface SettingsItemProps {
-  icon: string;
-  title: string;
-  subtitle?: string;
-  value?: string | number | boolean;
-  type?: 'navigation' | 'switch' | 'value' | 'action';
-  color?: string;
-  onPress?: () => void;
-  onToggle?: (value: boolean) => void;
-  delay?: number;
-  destructive?: boolean;
-}
+// SettingsItemProps is globally available from /types/components.d.ts
 
 export default function SettingsItem({
   icon,

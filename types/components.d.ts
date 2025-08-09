@@ -206,3 +206,50 @@ interface SocialLoginGroupProps {
   facebookLoading?: boolean;
   disabled?: boolean;
 }
+
+// Onboarding component types
+interface OnboardingSlide {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  icon: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+  gradient: string[];
+}
+
+interface OnboardingSlideProps {
+  slide: OnboardingSlide;
+  index: number;
+  scrollX: SharedValue<number>;
+}
+
+interface PaginationDotProps {
+  index: number;
+  currentIndex: number;
+  onPress: () => void;
+}
+
+// Home component types
+interface QuickActionButtonProps {
+  title: string;
+  icon: string;
+  color?: string;
+  onPress: () => void;
+  delay?: number;
+  variant?: 'primary' | 'secondary';
+}
+
+// Profile component types
+interface SettingsItemProps {
+  icon: string;
+  title: string;
+  subtitle?: string;
+  value?: string | number | boolean;
+  type?: 'navigation' | 'switch' | 'value' | 'action';
+  color?: string;
+  onPress?: () => void;
+  onToggle?: (value: boolean) => void;
+  delay?: number;
+  destructive?: boolean;
+}

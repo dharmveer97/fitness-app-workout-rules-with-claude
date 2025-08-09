@@ -17,15 +17,7 @@ import AuthButton from '@/components/auth/AuthButton';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-interface OnboardingSlide {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  image: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  gradient: string[];
-}
+// OnboardingSlide, OnboardingSlideProps, PaginationDotProps are globally available from /types/components.d.ts
 
 const onboardingSlides: OnboardingSlide[] = [
   {
@@ -191,11 +183,6 @@ export default function OnboardingScreen() {
   );
 }
 
-interface OnboardingSlideProps {
-  slide: OnboardingSlide;
-  index: number;
-  scrollX: Animated.SharedValue<number>;
-}
 
 function OnboardingSlide({ slide, index, scrollX }: OnboardingSlideProps) {
   const animatedStyle = useAnimatedStyle(() => {
@@ -269,11 +256,6 @@ function OnboardingSlide({ slide, index, scrollX }: OnboardingSlideProps) {
   );
 }
 
-interface PaginationDotProps {
-  index: number;
-  currentIndex: number;
-  onPress: () => void;
-}
 
 function PaginationDot({ index, currentIndex, onPress }: PaginationDotProps) {
   const isActive = index === currentIndex;

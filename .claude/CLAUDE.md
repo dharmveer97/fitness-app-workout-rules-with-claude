@@ -1,6 +1,7 @@
-# Daily Deposits App - Development Guidelines
+# fitness Deposits App - Development Guidelines
 
 ## Project Overview
+
 This is a React Native Expo application using TypeScript, Redux Toolkit, Formik, Zod, and NativeWind for styling.
 
 ## Core Development Rules
@@ -8,39 +9,48 @@ This is a React Native Expo application using TypeScript, Redux Toolkit, Formik,
 ### 1. TypeScript Type System Architecture
 
 #### Type Definition Files (.d.ts)
+
 - All type definition files MUST end with `.d.ts`
 - Located in `/types` directory
 - These files are globally available - NO imports/exports needed in .d.ts files
 - Components can use types directly without importing
 
 #### Import Type Pattern
+
 When referencing Zod schema types in .d.ts files, use this pattern:
+
 ```typescript
 type LoginFormType = import('../schemas/auth').LoginFormInfer;
 type RegisterFormType = import('../schemas/auth').RegisterFormInfer;
 ```
 
 #### Schema Structure
+
 1. Define Zod schemas in `/schemas` directory
 2. Export inferred types from schema files:
+
 ```typescript
 export type LoginFormInfer = z.infer<typeof loginSchema>;
 ```
+
 3. Reference these in .d.ts files using the import pattern above
 
 ### 2. Form Handling Rules
 
 #### ALWAYS Use Formik
+
 - Every form in the application MUST use Formik
 - Never use plain React state for form management
 - Use formik hooks: `useFormik`, `useField`, `useFormikContext`
 
 #### ALWAYS Use Zod for Validation
+
 - Define validation schemas in `/schemas` directory
 - Use `zod-formik-adapter` for integration
 - Never write custom validation logic
 
 Example pattern:
+
 ```typescript
 import { useFormik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
@@ -56,6 +66,7 @@ const formik = useFormik({
 ### 3. Component Structure
 
 #### File Organization
+
 ```
 components/
   common/        # Reusable UI components
@@ -65,6 +76,7 @@ components/
 ```
 
 #### Component Rules
+
 - Use functional components with TypeScript
 - Props interfaces defined in component file or types/components.d.ts
 - Use NativeWind classes for styling
@@ -73,18 +85,21 @@ components/
 ### 4. State Management
 
 #### Redux Toolkit Patterns
+
 - Store configuration in `/state/store.ts`
 - Slices in `/state/slices/`
 - Use Redux Toolkit's `createSlice` and `createAsyncThunk`
 - Persist sensitive data using `expo-secure-store` via `securePersistStorage.ts`
 
 #### State Types
+
 - Define state interfaces in respective .d.ts files
 - Use typed hooks: `useAppDispatch`, `useAppSelector`
 
 ### 5. Styling with NativeWind
 
 #### Class Usage
+
 - Use Tailwind classes via NativeWind
 - Custom colors defined in `tailwind.config.js`
 - Dark mode support with `darkMode: 'class'`
@@ -93,6 +108,7 @@ components/
 ### 6. Navigation
 
 #### Expo Router
+
 - File-based routing in `/app` directory
 - Layout files: `_layout.tsx`
 - Tab navigation in `(tabs)` group
@@ -101,6 +117,7 @@ components/
 ### 7. API & Data Fetching
 
 #### Patterns
+
 - Use Redux Toolkit's `createAsyncThunk` for API calls
 - Handle loading states in slices
 - Type all API responses
@@ -109,6 +126,7 @@ components/
 ### 8. Testing Requirements
 
 #### Before Committing
+
 - Run `npm run lint` - ESLint must pass
 - Run `npm run typecheck` - TypeScript must compile without errors
 - Run `npm run test` - All tests must pass
@@ -117,12 +135,15 @@ components/
 ### 9. Code Quality Standards
 
 #### No Comments Unless Necessary
+
 - Write self-documenting code
 - Use descriptive variable/function names
 - Comments only for complex business logic
 
 #### Import Organization
+
 Follow ESLint import order:
+
 1. Built-in modules
 2. External packages
 3. Internal modules
@@ -133,6 +154,7 @@ Follow ESLint import order:
 ### 10. Security Rules
 
 #### Never Commit Secrets
+
 - Use environment variables
 - Store sensitive data in `expo-secure-store`
 - Never log sensitive information
@@ -141,6 +163,7 @@ Follow ESLint import order:
 ### 11. Performance Guidelines
 
 #### Optimization Rules
+
 - Use React.memo for expensive components
 - Implement virtualization for long lists
 - Lazy load screens and components
@@ -149,6 +172,7 @@ Follow ESLint import order:
 ### 12. Expo SDK Integration
 
 Required SDK features to implement:
+
 - `expo-splash-screen` - App loading screen
 - `expo-status-bar` - Status bar configuration
 - `expo-tracking-transparency` - iOS tracking
@@ -188,6 +212,7 @@ npm run test       # Run tests
 ## Environment Setup
 
 Required tools:
+
 - Node.js 18+
 - npm or yarn
 - Expo CLI
@@ -197,6 +222,7 @@ Required tools:
 ## Common Patterns
 
 ### Form Component Template
+
 ```typescript
 import { useFormik } from 'formik';
 import { toFormikValidationSchema } from 'zod-formik-adapter';
@@ -228,6 +254,7 @@ const MyForm = () => {
 ```
 
 ### Custom Hook Template
+
 ```typescript
 import { useState, useEffect } from 'react';
 

@@ -8,14 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
 
-interface QuickActionButtonProps {
-  title: string;
-  icon: string;
-  color?: string;
-  onPress: () => void;
-  delay?: number;
-  variant?: 'primary' | 'secondary';
-}
+// QuickActionButtonProps is globally available from /types/components.d.ts
 
 export default function QuickActionButton({
   title,
