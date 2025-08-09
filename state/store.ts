@@ -22,6 +22,7 @@ const onboardingPersistConfig = {
   key: 'onboarding',
   storage: securePersistStorage,
   whitelist: ['isOnboardingCompleted', 'personalInfo', 'goals', 'preferences'],
+  blacklist: ['_hasHydrated', 'isLoading', 'error', 'analytics'],
 };
 
 const rootReducer = combineReducers({

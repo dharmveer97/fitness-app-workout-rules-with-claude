@@ -5,7 +5,6 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
-  interpolate,
   useAnimatedProps,
 } from 'react-native-reanimated';
 import Svg, { Rect, Line, Text as SvgText, Defs, LinearGradient, Stop } from 'react-native-svg';
@@ -34,7 +33,7 @@ export default function WeeklyChart({
     setTimeout(() => {
       opacity.value = withSpring(1);
       scale.value = withSpring(1, { damping: 12, stiffness: 100 });
-      
+
       // Animate bars with stagger
       animatedValues.forEach((animValue, index) => {
         setTimeout(() => {
@@ -77,12 +76,12 @@ export default function WeeklyChart({
   };
 
   return (
-    <Animated.View 
+    <Animated.View
       className="bg-[#18181B] rounded-2xl p-4 border border-gray-800/50"
       style={containerStyle}
     >
       <Text className="text-white text-lg font-bold mb-4">{title}</Text>
-      
+
       <View style={{ height: chartHeight + 40 }}>
         <Svg width={chartWidth} height={chartHeight + 40}>
           <Defs>
@@ -91,7 +90,7 @@ export default function WeeklyChart({
               <Stop offset="100%" stopColor={color} stopOpacity="0.3" />
             </LinearGradient>
           </Defs>
-          
+
           {/* Grid lines */}
           {[0.25, 0.5, 0.75, 1].map((ratio, index) => (
             <Line
@@ -105,7 +104,7 @@ export default function WeeklyChart({
               strokeOpacity={0.3}
             />
           ))}
-          
+
           {/* Y-axis labels */}
           {[0.25, 0.5, 0.75, 1].map((ratio, index) => (
             <SvgText
@@ -119,12 +118,12 @@ export default function WeeklyChart({
               {formatValue(maxValue * ratio)}
             </SvgText>
           ))}
-          
+
           {/* Bars */}
           {data.map((point, index) => {
             const x = 40 + index * (barWidth + 8);
             const barHeight = (point.value / maxValue) * chartHeight;
-            
+
             return (
               <AnimatedRect
                 key={index}
@@ -145,7 +144,7 @@ export default function WeeklyChart({
               />
             );
           })}
-          
+
           {/* X-axis labels */}
           {data.map((point, index) => {
             const x = 40 + index * (barWidth + 8) + barWidth / 2;

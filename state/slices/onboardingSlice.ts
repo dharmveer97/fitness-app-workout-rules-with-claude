@@ -51,12 +51,12 @@ export interface OnboardingState {
   error: string | null;
 }
 
-// Async thunks for complex operations
+// Simple async thunk without complex state updates
 export const initializeOnboarding = createAsyncThunk(
   'onboarding/initialize',
   async () => {
+    // Simple initialization without SecureStore writes that cause loops
     const startTime = new Date().toISOString();
-    await SecureStore.setItemAsync('onboarding_start_time', startTime);
     return { startTime };
   }
 );
@@ -81,10 +81,17 @@ export const completeOnboardingAsync = createAsyncThunk(
     const completionTime = new Date().toISOString();
     await SecureStore.setItemAsync('onboarding_completed', 'true');
     await SecureStore.setItemAsync('onboarding_completion_time', completionTime);
-    
-    // Save final progress
-    dispatch(saveOnboardingProgress());
-    
+
+    // Save final progress without dispatching to avoid loops
+    const state = getState() as { onboarding: OnboardingState };
+    const progressData = JSON.stringify({
+      personalInfo: state.onboarding.personalInfo,
+      goals: state.onboarding.goals,
+      preferences: state.onboarding.preferences,
+      slidesProgress: state.onboarding.slidesProgress,
+    });
+    await SecureStore.setItemAsync('onboarding_progress', progressData);
+
     return { completionTime };
   }
 );
@@ -119,7 +126,6 @@ const onboardingSlice = createSlice({
   reducers: {
     setCurrentSlideIndex(state, action: PayloadAction<number>) {
       state.currentSlideIndex = action.payload;
-      state.analytics.interactionCount = (state.analytics.interactionCount || 0) + 1;
     },
     markSlideCompleted(state, action: PayloadAction<string>) {
       const slide = state.slidesProgress.find(s => s.id === action.payload);
@@ -141,15 +147,12 @@ const onboardingSlice = createSlice({
     },
     updatePersonalInfo(state, action: PayloadAction<OnboardingState['personalInfo']>) {
       state.personalInfo = { ...state.personalInfo, ...action.payload };
-      state.analytics.interactionCount = (state.analytics.interactionCount || 0) + 1;
     },
     updateGoals(state, action: PayloadAction<OnboardingState['goals']>) {
       state.goals = { ...state.goals, ...action.payload };
-      state.analytics.interactionCount = (state.analytics.interactionCount || 0) + 1;
     },
     updatePreferences(state, action: PayloadAction<OnboardingState['preferences']>) {
       state.preferences = { ...state.preferences, ...action.payload };
-      state.analytics.interactionCount = (state.analytics.interactionCount || 0) + 1;
     },
     completeOnboarding(state) {
       state.isOnboardingCompleted = true;
@@ -175,13 +178,11 @@ const onboardingSlice = createSlice({
     nextSlide(state) {
       if (state.currentSlideIndex < state.slidesProgress.length - 1) {
         state.currentSlideIndex += 1;
-        state.analytics.interactionCount = (state.analytics.interactionCount || 0) + 1;
       }
     },
     previousSlide(state) {
       if (state.currentSlideIndex > 0) {
         state.currentSlideIndex -= 1;
-        state.analytics.interactionCount = (state.analytics.interactionCount || 0) + 1;
       }
     },
     setHasHydrated(state, action: PayloadAction<boolean>) {

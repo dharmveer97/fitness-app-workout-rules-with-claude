@@ -15,7 +15,7 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({ children
         // SplashScreen might already be hidden
       }
     };
-    
+
     hideSplash();
   }, []);
 
