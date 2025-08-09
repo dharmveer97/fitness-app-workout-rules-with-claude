@@ -13,6 +13,7 @@ import { store, persistor } from '../state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../state/store';
+import { NavigationProvider, RouteGuard } from '../components/navigation';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -51,7 +52,9 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <RootLayoutNav />
+        <NavigationProvider>
+          <RootLayoutNav />
+        </NavigationProvider>
       </PersistGate>
     </Provider>
   );
@@ -60,20 +63,34 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
   const isOnboarded = useSelector((s: RootState) => s.auth.isOnboarded);
+  const isOnboardingCompleted = useSelector((s: RootState) => s.onboarding.isOnboardingCompleted);
   const isAuthenticated = useSelector((s: RootState) => Boolean(s.auth.accessToken));
+
+  // Combined onboarding check - either from auth slice or onboarding slice
+  const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted;
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-        {!isOnboarded ? (
-          <Stack.Screen name="(auth)" />
-        ) : !isAuthenticated ? (
-          <Stack.Screen name="(auth)" />
-        ) : (
+      <RouteGuard
+        guards={[
+          {
+            condition: !hasCompletedOnboarding,
+            redirect: '/(auth)/onboarding',
+            priority: 100, // Highest priority
+          },
+          {
+            condition: hasCompletedOnboarding && !isAuthenticated,
+            redirect: '/(auth)/sign-in',
+            priority: 90,
+          },
+        ]}
+      >
+        <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(tabs)" />
-        )}
-        <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: true }} />
-      </Stack>
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: true }} />
+        </Stack>
+      </RouteGuard>
     </ThemeProvider>
   );
 }

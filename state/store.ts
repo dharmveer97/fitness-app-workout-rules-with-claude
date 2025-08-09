@@ -3,6 +3,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import authReducer from './slices/authSlice';
 import preferencesReducer from './slices/preferencesSlice';
+import onboardingReducer from './slices/onboardingSlice';
 import { securePersistStorage } from './securePersistStorage';
 
 const rootPersistConfig = {
@@ -17,9 +18,16 @@ const authPersistConfig = {
   whitelist: ['accessToken', 'refreshToken', 'user', 'isOnboarded'],
 };
 
+const onboardingPersistConfig = {
+  key: 'onboarding',
+  storage: securePersistStorage,
+  whitelist: ['isOnboardingCompleted', 'personalInfo', 'goals', 'preferences'],
+};
+
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   preferences: preferencesReducer,
+  onboarding: persistReducer(onboardingPersistConfig, onboardingReducer),
 });
 
 export const store = configureStore({
