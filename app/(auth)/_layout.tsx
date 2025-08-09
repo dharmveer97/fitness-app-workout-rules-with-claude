@@ -4,6 +4,13 @@ export default function AuthLayout() {
   return (
     <Stack screenOptions={{ headerShown: false, gestureEnabled: true }}>
       <Stack.Screen 
+        name="onboarding-test" 
+        options={{ 
+          gestureEnabled: false,
+          animation: 'slide_from_right' 
+        }} 
+      />
+      <Stack.Screen 
         name="onboarding" 
         options={{ 
           gestureEnabled: false,

@@ -5,6 +5,7 @@ import { Slot, Stack, Redirect } from 'expo-router';
 import { Provider } from 'react-redux';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { View, Text } from 'react-native';
 import 'react-native-reanimated';
 import '../global.css';
 
@@ -50,7 +51,19 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate 
+        loading={
+          <View style={{ 
+            flex: 1, 
+            justifyContent: 'center', 
+            alignItems: 'center', 
+            backgroundColor: '#111827' 
+          }}>
+            <Text style={{ color: 'white', fontSize: 16 }}>Loading...</Text>
+          </View>
+        } 
+        persistor={persistor}
+      >
         <RootLayoutNav />
       </PersistGate>
     </Provider>
@@ -62,25 +75,31 @@ function RootLayoutNav() {
   const isOnboarded = useSelector((s: RootState) => s.auth.isOnboarded);
   const isOnboardingCompleted = useSelector((s: RootState) => s.onboarding.isOnboardingCompleted);
   const isAuthenticated = useSelector((s: RootState) => Boolean(s.auth.accessToken));
-  const { _hasHydrated } = useSelector((s: RootState) => s.onboarding);
 
-  // Don't render anything until hydrated to prevent navigation loops
-  if (!_hasHydrated) {
-    return null;
-  }
+  // Remove the hydration check that was causing white screen
+  // Since we set _hasHydrated to true by default, this was blocking rendering
+  
+  console.log('Navigation State:', {
+    isOnboarded,
+    isOnboardingCompleted,
+    isAuthenticated
+  });
 
   // Combined onboarding check - either from auth slice or onboarding slice
   const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted;
 
   // Handle redirects BEFORE rendering the Stack to prevent loops
   if (!hasCompletedOnboarding) {
-    return <Redirect href="/(auth)/onboarding" />;
+    console.log('Redirecting to onboarding');
+    return <Redirect href="/(auth)/onboarding-test" />;
   }
   
   if (hasCompletedOnboarding && !isAuthenticated) {
+    console.log('Redirecting to sign-in');
     return <Redirect href="/(auth)/sign-in" />;
   }
 
+  console.log('Rendering main app');
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
