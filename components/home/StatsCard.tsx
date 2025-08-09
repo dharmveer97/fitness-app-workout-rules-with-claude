@@ -8,11 +8,7 @@ import Animated, {
   withSequence,
 } from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
-// Types are now globally available from .d.ts files
-interface StatsCardPropsExtended extends StatsCardProps {
-  onPress?: () => void;
-  delay?: number;
-}
+// Types are now globally available from /types/components.d.ts
 
 export default function StatsCard({
   title,

@@ -13,17 +13,9 @@ import Svg, { Rect } from 'react-native-svg';
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
-interface PasswordStrengthIndicatorProps {
-  password: string;
-  showRequirements?: boolean;
-  className?: string;
-}
+// PasswordStrengthIndicatorProps is globally available from /types/components.d.ts
 
-interface PasswordRequirement {
-  id: string;
-  label: string;
-  test: (password: string) => boolean;
-}
+// PasswordRequirement is globally available from /types/components.d.ts
 
 const passwordRequirements: PasswordRequirement[] = [
   {
@@ -53,7 +45,7 @@ const passwordRequirements: PasswordRequirement[] = [
   },
 ];
 
-type PasswordStrength = 'weak' | 'fair' | 'good' | 'strong';
+// PasswordStrength type is globally available from /types/auth.d.ts
 
 const getPasswordStrength = (password: string): PasswordStrength => {
   if (password.length === 0) return 'weak';
@@ -176,11 +168,7 @@ export default function PasswordStrengthIndicator({
   );
 }
 
-interface RequirementItemProps {
-  label: string;
-  isMet: boolean;
-  isVisible: boolean;
-}
+// RequirementItemProps is globally available from /types/components.d.ts
 
 function RequirementItem({ label, isMet, isVisible }: RequirementItemProps) {
   const opacity = useSharedValue(0);

@@ -4,9 +4,9 @@ import { router } from 'expo-router';
 import { useDispatch } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, { 
-  useAnimatedStyle, 
-  useSharedValue, 
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
   withSpring,
   interpolate,
   useAnimatedScrollHandler,
@@ -79,7 +79,7 @@ export default function OnboardingScreen() {
   const dispatch = useDispatch();
   const scrollViewRef = useRef<Animated.ScrollView>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   const scrollX = useSharedValue(0);
   const isLastSlide = currentIndex === onboardingSlides.length - 1;
 
@@ -121,10 +121,10 @@ export default function OnboardingScreen() {
   return (
     <View className="flex-1 bg-dark-900">
       <StatusBar style="light" />
-      
+
       {/* Header with Skip button */}
       <View className="flex-row justify-end items-center pt-12 px-6 pb-4">
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={handleSkip}
           className="py-2 px-4 rounded-full bg-dark-700"
         >
@@ -144,9 +144,9 @@ export default function OnboardingScreen() {
         className="flex-1"
       >
         {onboardingSlides.map((slide, index) => (
-          <OnboardingSlide 
-            key={slide.id} 
-            slide={slide} 
+          <OnboardingSlide
+            key={slide.id}
+            slide={slide}
             index={index}
             scrollX={scrollX}
           />
@@ -174,9 +174,9 @@ export default function OnboardingScreen() {
             onPress={handleNext}
             rightIcon={isLastSlide ? "rocket" : "arrow-forward"}
           />
-          
+
           {!isLastSlide && (
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={handleGetStarted}
               className="py-3"
             >
@@ -243,7 +243,7 @@ function OnboardingSlide({ slide, index, scrollX }: OnboardingSlideProps) {
               className="rounded-3xl"
             />
           </View>
-          
+
           {/* Floating Icon */}
           <View className="absolute -bottom-4 -right-4 w-16 h-16 bg-primary-500 rounded-2xl items-center justify-center shadow-lg">
             <Ionicons name={slide.icon} size={28} color="white" />
@@ -255,11 +255,11 @@ function OnboardingSlide({ slide, index, scrollX }: OnboardingSlideProps) {
           <Text className="text-primary-400 text-sm font-semibold mb-2 text-center">
             {slide.subtitle}
           </Text>
-          
+
           <Text className="text-white text-2xl font-bold mb-4 text-center">
             {slide.title}
           </Text>
-          
+
           <Text className="text-dark-300 text-base leading-6 text-center max-w-sm">
             {slide.description}
           </Text>
@@ -277,12 +277,12 @@ interface PaginationDotProps {
 
 function PaginationDot({ index, currentIndex, onPress }: PaginationDotProps) {
   const isActive = index === currentIndex;
-  
+
   const animatedStyle = useAnimatedStyle(() => {
     const scale = withSpring(isActive ? 1.2 : 1);
     const opacity = withSpring(isActive ? 1 : 0.5);
     const width = withSpring(isActive ? 24 : 8);
-    
+
     return {
       transform: [{ scale }],
       opacity,

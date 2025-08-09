@@ -2,22 +2,7 @@ import { useCallback } from 'react';
 import * as Haptics from 'expo-haptics';
 import { Platform } from 'react-native';
 
-interface UseHapticsReturn {
-  light: () => void;
-  medium: () => void;
-  heavy: () => void;
-  success: () => void;
-  warning: () => void;
-  error: () => void;
-  selection: () => void;
-  impactLight: () => void;
-  impactMedium: () => void;
-  impactHeavy: () => void;
-  notificationSuccess: () => void;
-  notificationWarning: () => void;
-  notificationError: () => void;
-  selectionChanged: () => void;
-}
+// UseHapticsReturn is globally available from /types/hooks.d.ts
 
 export const useHaptics = (): UseHapticsReturn => {
   // Check if haptics are supported

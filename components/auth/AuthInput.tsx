@@ -3,15 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, TextInputProps } from 'react-n
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
 
-interface AuthInputProps extends TextInputProps {
-  label: string;
-  error?: string;
-  touched?: boolean;
-  isPassword?: boolean;
-  leftIcon?: keyof typeof Ionicons.glyphMap;
-  rightIcon?: keyof typeof Ionicons.glyphMap;
-  onRightIconPress?: () => void;
-}
+// AuthInputProps is globally available from /types/components.d.ts
 
 export default function AuthInput({
   label,

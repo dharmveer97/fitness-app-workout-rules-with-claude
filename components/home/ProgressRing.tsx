@@ -10,17 +10,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { FontAwesome } from '@expo/vector-icons';
-// Types are now globally available from .d.ts files
+// ProgressRingProps is globally available from /types/components.d.ts
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
-interface ProgressRingProps extends ProgressRingData {
-  size?: number;
-  strokeWidth?: number;
-  delay?: number;
-  showValue?: boolean;
-  icon?: string;
-}
 
 export default function ProgressRing({
   value,

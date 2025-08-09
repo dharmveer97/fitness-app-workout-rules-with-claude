@@ -1,7 +1,4 @@
-// React types
-type ReactNode = import('react').ReactNode;
-type Dispatch<T> = import('react').Dispatch<T>;
-type SetStateAction<T> = import('react').SetStateAction<T>;
+// Authentication types - React types are available globally from global.d.ts
 
 // Auth schema inferred types
 type LoginFormType = import('../schemas/auth').LoginFormInfer;
@@ -52,3 +49,9 @@ interface UserSession {
   tokens: AuthTokens;
   lastActivity: Date;
 }
+
+// Password strength types
+type PasswordStrength = 'weak' | 'fair' | 'good' | 'strong';
+
+// Social login types
+type SocialProvider = 'google' | 'apple' | 'facebook';

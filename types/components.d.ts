@@ -1,87 +1,12 @@
-// React types
-type ReactNode = import('react').ReactNode;
-type ComponentProps<T> = import('react').ComponentProps<T>;
-type FC<P = {}> = import('react').FC<P>;
+// Specific Component Props - Basic UI types are in basic.d.ts
 
-// Atomic component types
-interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'glass';
-  size?: 'sm' | 'md' | 'lg';
-  children: ReactNode;
-  onPress: () => void;
-  disabled?: boolean;
-  loading?: boolean;
-  icon?: ReactNode;
-  haptic?: boolean;
-  fullWidth?: boolean;
-  className?: string;
-}
-
-interface TextProps {
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'overline';
-  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold';
-  color?: string;
-  children: ReactNode;
-  className?: string;
-}
-
-interface InputProps {
-  label?: string;
-  placeholder?: string;
-  value: string;
-  onChangeText: (text: string) => void;
-  error?: string;
-  type?: 'text' | 'email' | 'password' | 'number';
-  icon?: ReactNode;
-  rightIcon?: ReactNode;
-  variant?: 'default' | 'glass';
-  className?: string;
-  autoFocus?: boolean;
-  disabled?: boolean;
-}
-
-interface IconProps {
-  name: string;
-  size?: number;
-  color?: string;
-  className?: string;
-}
-
-// Molecular component types
-interface CardProps {
-  children: ReactNode;
-  variant?: 'default' | 'glass' | 'elevated';
-  padding?: 'none' | 'sm' | 'md' | 'lg';
-  className?: string;
-  onPress?: () => void;
-}
-
-interface FormFieldProps {
-  children: ReactNode;
-  label?: string;
-  error?: string;
-  required?: boolean;
-  className?: string;
-}
-
-interface ListItemProps {
-  title: string;
-  subtitle?: string;
-  icon?: ReactNode;
-  rightIcon?: ReactNode;
-  onPress?: () => void;
-  disabled?: boolean;
-  className?: string;
-}
-
-interface ProgressRingProps {
-  progress: number;
+// Home component types
+interface ProgressRingProps extends ProgressRingData {
   size?: number;
   strokeWidth?: number;
-  color?: string;
-  backgroundColor?: string;
-  showText?: boolean;
-  children?: ReactNode;
+  delay?: number;
+  showValue?: boolean;
+  icon?: string;
 }
 
 interface StatsCardProps {
@@ -92,7 +17,47 @@ interface StatsCardProps {
   changeLabel?: string;
   icon?: string;
   color?: string;
-  trend?: 'up' | 'down' | 'neutral';
+  trend?: TrendDirection;
+}
+
+interface StatsCardPropsExtended extends StatsCardProps {
+  onPress?: () => void;
+  delay?: number;
+}
+
+interface WeeklyChartProps {
+  data: ChartDataPoint[];
+  title: string;
+  color?: string;
+  height?: number;
+  delay?: number;
+}
+
+interface ActivityItemProps {
+  activity: Activity;
+  onPress?: () => void;
+  delay?: number;
+}
+
+// Profile component types
+interface ProfileHeaderProps {
+  profile: UserProfile;
+  onEditPress?: () => void;
+  onAvatarPress?: () => void;
+}
+
+interface GoalInputProps {
+  icon: string;
+  label: string;
+  value: number;
+  unit: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  color?: string;
+  onValueChange: (value: number) => void;
+  delay?: number;
+  suggestions?: number[];
 }
 
 // Organism component types
@@ -117,21 +82,6 @@ interface TabBarProps {
   activeTab: string;
   onTabPress: (tab: string) => void;
   variant?: 'default' | 'floating' | 'glass';
-}
-
-interface JournalFormProps {
-  initialData?: Partial<JournalEntryType>;
-  onSubmit: (data: JournalEntryType) => void;
-  onCancel?: () => void;
-  isLoading?: boolean;
-}
-
-interface ChallengeCardProps {
-  challenge: ChallengeType;
-  userChallenge?: UserChallengeType;
-  onJoin?: () => void;
-  onView?: () => void;
-  variant?: 'default' | 'compact' | 'featured';
 }
 
 // Template component types
@@ -178,20 +128,81 @@ interface ScaleInProps {
   delay?: number;
 }
 
-// Modal component types
-interface ModalProps {
-  visible: boolean;
-  onClose: () => void;
-  children: ReactNode;
-  variant?: 'center' | 'bottom' | 'fullscreen';
-  animationType?: 'slide' | 'fade' | 'none';
-  transparent?: boolean;
+// Auth component types
+interface AuthButtonProps extends TouchableOpacityProps {
+  title: string;
+  loading?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'small' | 'medium' | 'large';
+  leftIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+  rightIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+  fullWidth?: boolean;
 }
 
-interface BottomSheetProps {
-  visible: boolean;
-  onClose: () => void;
-  children: ReactNode;
-  height?: number | string;
-  snapPoints?: (string | number)[];
+interface AuthInputProps {
+  label: string;
+  placeholder?: string;
+  value?: string;
+  onChangeText?: (text: string) => void;
+  onBlur?: (e: any) => void;
+  onFocus?: (e: any) => void;
+  error?: string;
+  touched?: boolean;
+  isPassword?: boolean;
+  leftIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+  rightIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap;
+  onRightIconPress?: () => void;
+  keyboardType?: import('react-native').KeyboardTypeOptions;
+  autoCapitalize?: import('react-native').AutoCapitalize;
+  autoComplete?: import('react-native').TextInputProps['autoComplete'];
+}
+
+interface OTPInputProps {
+  length?: number;
+  value: string;
+  onChangeText: (otp: string) => void;
+  onComplete?: (otp: string) => void;
+  error?: string;
+  autoFocus?: boolean;
+}
+
+interface OTPWithTimerProps extends OTPInputProps {
+  resendTimer?: number;
+  onResend?: () => void;
+  resendText?: string;
+}
+
+interface PasswordStrengthIndicatorProps {
+  password: string;
+  showRequirements?: boolean;
+  className?: string;
+}
+
+interface PasswordRequirement {
+  id: string;
+  label: string;
+  test: (password: string) => boolean;
+}
+
+interface RequirementItemProps {
+  label: string;
+  isMet: boolean;
+  isVisible: boolean;
+}
+
+interface SocialLoginButtonProps {
+  provider: SocialProvider;
+  onPress: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+}
+
+interface SocialLoginGroupProps {
+  onGooglePress?: () => void;
+  onApplePress?: () => void;
+  onFacebookPress?: () => void;
+  googleLoading?: boolean;
+  appleLoading?: boolean;
+  facebookLoading?: boolean;
+  disabled?: boolean;
 }

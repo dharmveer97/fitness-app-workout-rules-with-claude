@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import type { Storage } from 'redux-persist';
 
-// Minimal SecureStore adapter compatible with redux-persist Storage interface
+// Minimal SecureStore adapter compatible with redux-persist Storage
 export const securePersistStorage: Storage = {
   async getItem(key: string): Promise<string | null> {
     try {

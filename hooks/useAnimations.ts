@@ -8,56 +8,10 @@ import {
   withDelay,
   withRepeat,
   runOnJS,
-  type SharedValue,
 } from 'react-native-reanimated';
 import * as Haptics from 'expo-haptics';
 
-interface AnimationConfig {
-  duration?: number;
-  delay?: number;
-  damping?: number;
-  stiffness?: number;
-  mass?: number;
-}
-
-interface UseAnimationsReturn {
-  // Shared values
-  opacity: SharedValue<number>;
-  scale: SharedValue<number>;
-  translateX: SharedValue<number>;
-  translateY: SharedValue<number>;
-  rotate: SharedValue<number>;
-
-  // Animation functions
-  fadeIn: (config?: AnimationConfig) => void;
-  fadeOut: (config?: AnimationConfig) => void;
-  scaleIn: (config?: AnimationConfig) => void;
-  scaleOut: (config?: AnimationConfig) => void;
-  slideInFromLeft: (config?: AnimationConfig) => void;
-  slideInFromRight: (config?: AnimationConfig) => void;
-  slideInFromTop: (config?: AnimationConfig) => void;
-  slideInFromBottom: (config?: AnimationConfig) => void;
-  slideOut: (
-    direction: 'left' | 'right' | 'top' | 'bottom',
-    config?: AnimationConfig
-  ) => void;
-  bounce: (config?: AnimationConfig) => void;
-  shake: (config?: AnimationConfig) => void;
-  pulse: (config?: AnimationConfig) => void;
-  rotate360: (config?: AnimationConfig) => void;
-
-  // Combined animations
-  enterAnimation: (config?: AnimationConfig) => void;
-  exitAnimation: (config?: AnimationConfig) => void;
-  pressAnimation: (onComplete?: () => void) => void;
-
-  // Animated styles
-  fadeStyle: ReturnType<typeof useAnimatedStyle>;
-  scaleStyle: ReturnType<typeof useAnimatedStyle>;
-  slideStyle: ReturnType<typeof useAnimatedStyle>;
-  rotateStyle: ReturnType<typeof useAnimatedStyle>;
-  combinedStyle: ReturnType<typeof useAnimatedStyle>;
-}
+// AnimationConfig and UseAnimationsReturn types are globally available from /types/hooks.d.ts
 
 export const useAnimations = (initialValues?: {
   opacity?: number;
@@ -213,7 +167,7 @@ export const useAnimations = (initialValues?: {
   );
 
   const shake = useCallback(
-    (config: AnimationConfig = {}) => {
+    (_config: AnimationConfig = {}) => {
       const shakeDistance = 10;
       translateX.value = withSequence(
         withTiming(-shakeDistance, { duration: 50 }),

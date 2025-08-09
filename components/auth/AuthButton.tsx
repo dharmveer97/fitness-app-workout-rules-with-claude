@@ -6,15 +6,7 @@ import { TapGestureHandler, TapGestureHandlerGestureEvent } from 'react-native-g
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
-interface AuthButtonProps extends TouchableOpacityProps {
-  title: string;
-  loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'small' | 'medium' | 'large';
-  leftIcon?: keyof typeof Ionicons.glyphMap;
-  rightIcon?: keyof typeof Ionicons.glyphMap;
-  fullWidth?: boolean;
-}
+// AuthButtonProps is globally available from /types/components.d.ts
 
 export default function AuthButton({
   title,
@@ -68,18 +60,18 @@ export default function AuthButton({
     let variantStyles = '';
     switch (variant) {
       case 'primary':
-        variantStyles = disabled || loading 
-          ? 'bg-dark-600' 
+        variantStyles = disabled || loading
+          ? 'bg-dark-600'
           : 'bg-primary-500';
         break;
       case 'secondary':
-        variantStyles = disabled || loading 
-          ? 'bg-dark-600' 
+        variantStyles = disabled || loading
+          ? 'bg-dark-600'
           : 'bg-dark-700 border border-dark-500';
         break;
       case 'outline':
-        variantStyles = disabled || loading 
-          ? 'border border-dark-600' 
+        variantStyles = disabled || loading
+          ? 'border border-dark-600'
           : 'border-2 border-primary-500 bg-transparent';
         break;
     }
@@ -117,7 +109,7 @@ export default function AuthButton({
 
   const getIconColor = () => {
     if (disabled || loading) return '#52525B'; // dark-400
-    
+
     switch (variant) {
       case 'primary':
       case 'secondary':
@@ -148,29 +140,29 @@ export default function AuthButton({
       >
         {loading ? (
           <>
-            <ActivityIndicator 
-              size="small" 
-              color={getIconColor()} 
-              style={{ marginRight: 8 }} 
+            <ActivityIndicator
+              size="small"
+              color={getIconColor()}
+              style={{ marginRight: 8 }}
             />
             <Text className={getTextStyles()}>Loading...</Text>
           </>
         ) : (
           <>
             {leftIcon && (
-              <Ionicons 
-                name={leftIcon} 
-                size={getIconSize()} 
-                color={getIconColor()} 
+              <Ionicons
+                name={leftIcon}
+                size={getIconSize()}
+                color={getIconColor()}
                 style={{ marginRight: 8 }}
               />
             )}
             <Text className={getTextStyles()}>{title}</Text>
             {rightIcon && (
-              <Ionicons 
-                name={rightIcon} 
-                size={getIconSize()} 
-                color={getIconColor()} 
+              <Ionicons
+                name={rightIcon}
+                size={getIconSize()}
+                color={getIconColor()}
                 style={{ marginLeft: 8 }}
               />
             )}

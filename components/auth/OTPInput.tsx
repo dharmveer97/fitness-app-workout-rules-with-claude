@@ -8,14 +8,7 @@ import Animated, {
   withTiming 
 } from 'react-native-reanimated';
 
-interface OTPInputProps {
-  length?: number;
-  value: string;
-  onChangeText: (otp: string) => void;
-  onComplete?: (otp: string) => void;
-  error?: string;
-  autoFocus?: boolean;
-}
+// Types are now globally available from /types/components.d.ts
 
 const { width } = Dimensions.get('window');
 const INPUT_WIDTH = Math.min((width - 80) / 6, 50);
@@ -203,11 +196,7 @@ export default function OTPInput({
 }
 
 // Helper component for OTP with timer
-interface OTPWithTimerProps extends OTPInputProps {
-  resendTimer?: number;
-  onResend?: () => void;
-  resendText?: string;
-}
+// OTPWithTimerProps is globally available from /types/components.d.ts
 
 export function OTPWithTimer({
   resendTimer = 60,

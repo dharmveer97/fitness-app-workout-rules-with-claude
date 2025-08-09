@@ -6,13 +6,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
-// Types are now globally available from .d.ts files
-
-interface ProfileHeaderProps {
-  profile: UserProfile;
-  onEditPress?: () => void;
-  onAvatarPress?: () => void;
-}
+// ProfileHeaderProps is globally available from /types/components.d.ts
 
 export default function ProfileHeader({
   profile,

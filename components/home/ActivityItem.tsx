@@ -7,13 +7,7 @@ import Animated, {
   withSequence,
 } from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
-// Types are now globally available from .d.ts files
-
-interface ActivityItemProps {
-  activity: Activity;
-  onPress?: () => void;
-  delay?: number;
-}
+// ActivityItemProps is globally available from /types/components.d.ts
 
 export default function ActivityItem({ activity, onPress, delay = 0 }: ActivityItemProps) {
   const scale = useSharedValue(0);

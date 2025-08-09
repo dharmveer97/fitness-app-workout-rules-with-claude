@@ -7,19 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { FontAwesome } from '@expo/vector-icons';
 
-interface GoalInputProps {
-  icon: string;
-  label: string;
-  value: number;
-  unit: string;
-  min?: number;
-  max?: number;
-  step?: number;
-  color?: string;
-  onValueChange: (value: number) => void;
-  delay?: number;
-  suggestions?: number[];
-}
+// GoalInputProps is globally available from /types/components.d.ts
 
 export default function GoalInput({
   icon,

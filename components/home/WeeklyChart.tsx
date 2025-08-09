@@ -9,18 +9,10 @@ import Animated, {
   useAnimatedProps,
 } from 'react-native-reanimated';
 import Svg, { Rect, Line, Text as SvgText, Defs, LinearGradient, Stop } from 'react-native-svg';
-// Types are now globally available from .d.ts files
+// Types are now globally available from /types/components.d.ts
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 const { width: screenWidth } = Dimensions.get('window');
-
-interface WeeklyChartProps {
-  data: ChartDataPoint[];
-  title: string;
-  color?: string;
-  height?: number;
-  delay?: number;
-}
 
 export default function WeeklyChart({
   data,

@@ -22,6 +22,108 @@ You are the **TypeScript Architect** for the Daily Deposits App — a specialize
   - **or any folder outside `/types`**
   → **Move it into `/types`** as a `.d.ts` file following the global type pattern.
 
+### Type File Organization Rules
+
+**Categorize types into dedicated `.d.ts` files based on purpose:**
+
+1. **`basic.d.ts`** - Basic UI elements (atoms & molecules)
+   - Button variants, sizes, and base props
+   - Input types and variants
+   - Common reusable interfaces (`WithLoading`, `WithDisabled`, etc.)
+   - Animation directions, color variants, theme modes
+   - Base component interfaces that other components extend
+
+2. **`components.d.ts`** - Complex component interfaces
+   - Component-specific props that extend basic types
+   - Organism and template component interfaces
+   - Component composition patterns
+
+3. **`hooks.d.ts`** - Hook-related types
+   - Hook return types and configuration interfaces
+   - Animation configurations and hook interfaces
+   - Custom hook parameter types
+
+4. **`auth.d.ts`** - Authentication related types
+   - Login, registration, and password types
+   - Auth state and context types
+   - Social provider and security types
+
+5. **`fitness.d.ts`** - Domain-specific business types
+   - User profiles, workouts, challenges
+   - Business logic interfaces
+   - Domain entities and data models
+
+6. **`settings.d.ts`** - Configuration and settings types
+   - App preferences and user settings
+   - Notification and privacy configurations
+   - System and sync settings
+
+7. **`global.d.ts`** - Cross-cutting types used everywhere
+   - **React types with proper generics**: `ReactNode`, `FC<P>`, `ComponentProps<T>`, `Dispatch<T>`, `RefObject<T>`
+   - **React Native types with generics**: `ViewStyle`, `StyleProp<T>`, `NativeSyntheticEvent<T>`, `TouchableOpacityProps`
+   - **Reanimated types with generics**: `SharedValue<T>`, `AnimatedStyle<T>`, `AnimatedProps<T>`
+   - **Expo types**: `ColorSchemeName`
+   - **ALWAYS preserve generic type parameters** `<T>` when creating type aliases
+   - Third-party library type references
+   - Types used across multiple domains
+
+### Global Type Reusability Rules
+
+- **ALWAYS include generic parameters** when they exist:
+  ```ts
+  // ✅ Correct - preserves generic
+  type ComponentProps<T extends keyof JSX.IntrinsicElements | FC<any>> = import('react').ComponentProps<T>;
+  
+  // ❌ Wrong - loses generic capability
+  type ComponentProps = import('react').ComponentProps<any>;
+  ```
+
+- **Create comprehensive type coverage** to avoid repeated imports:
+  ```ts
+  // React types
+  type SharedValue<T> = import('react-native-reanimated').SharedValue<T>;
+  type AnimatedStyle<T = any> = import('react-native-reanimated').AnimatedStyle<T>;
+  type StyleProp<T> = import('react-native').StyleProp<T>;
+  ```
+
+### Type Reusability Rules
+
+- **Create base interfaces** for common patterns:
+  ```ts
+  interface BaseComponentProps extends WithClassName, WithDisabled {
+    children?: ReactNode;
+  }
+  ```
+
+- **Use composition over duplication**:
+  ```ts
+  interface ButtonProps extends InteractiveComponentProps, StyledComponentProps {
+    variant?: ButtonVariant;
+    onPress: () => void;
+  }
+  ```
+
+- **Define common type unions** in `basic.d.ts`:
+  ```ts
+  type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline';
+  type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  ```
+
+- **NEVER repeat imports** - use global types instead:
+  ```ts
+  // ❌ Bad - repeated imports in every file
+  import type { ReactNode } from 'react';
+  import type { ViewStyle } from 'react-native';
+  import type { SharedValue } from 'react-native-reanimated';
+  
+  // ✅ Good - use global types (available everywhere)
+  interface MyComponentProps {
+    children: ReactNode;
+    style?: StyleProp<ViewStyle>;
+    animatedValue: SharedValue<number>;
+  }
+  ```
+
 ## 2. Zod Schema Integration Pattern
 
 - Keep all Zod schemas in `/schemas` directory.

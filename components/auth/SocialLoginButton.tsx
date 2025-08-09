@@ -6,14 +6,9 @@ import { TapGestureHandler, TapGestureHandlerGestureEvent } from 'react-native-g
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
-type SocialProvider = 'google' | 'apple' | 'facebook';
+// SocialProvider type is globally available from /types/auth.d.ts
 
-interface SocialLoginButtonProps {
-  provider: SocialProvider;
-  onPress: () => void;
-  loading?: boolean;
-  disabled?: boolean;
-}
+// SocialLoginButtonProps is globally available from /types/components.d.ts
 
 const providerConfig = {
   google: {
@@ -164,15 +159,7 @@ export default function SocialLoginButton({
 }
 
 // Wrapper component for multiple social login options
-interface SocialLoginGroupProps {
-  onGooglePress?: () => void;
-  onApplePress?: () => void;
-  onFacebookPress?: () => void;
-  googleLoading?: boolean;
-  appleLoading?: boolean;
-  facebookLoading?: boolean;
-  disabled?: boolean;
-}
+// SocialLoginGroupProps is globally available from /types/components.d.ts
 
 export function SocialLoginGroup({
   onGooglePress,
