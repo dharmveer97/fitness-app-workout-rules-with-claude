@@ -1,7 +1,6 @@
 import React from 'react'
 
-import type { TextProps as RNTextProps } from 'react-native'
-import { Text as RNText, StyleSheet } from 'react-native'
+import { Text as RNText, type TextProps as RNTextProps } from 'react-native'
 
 import { cn } from '@/utils/cn'
 

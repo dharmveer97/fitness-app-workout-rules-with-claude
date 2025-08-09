@@ -102,15 +102,15 @@ export default function ActivityItem({
   const formatValue = () => {
     if (activity.value !== undefined) {
       if (activity.type === 'water') {
-        return `${activity.value} ${activity.unit || 'ml'}`
+        return `${activity.value} ${activity.unit ?? 'ml'}`
       }
       if (activity.type === 'steps') {
         return `${activity.value.toLocaleString()} steps`
       }
       if (activity.type === 'weight') {
-        return `${activity.value} ${activity.unit || 'kg'}`
+        return `${activity.value} ${activity.unit ?? 'kg'}`
       }
-      return `${activity.value} ${activity.unit || ''}`
+      return `${activity.value} ${activity.unit ?? ''}`
     }
     return null
   }

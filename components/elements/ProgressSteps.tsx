@@ -1,5 +1,6 @@
 import React from 'react'
 
+import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
@@ -43,22 +44,23 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   containerClassName = '',
   ...props
 }) => {
-  const progress = (currentStep / (steps.length - 1)) * 100
-
-  const renderStepIndicator = (step: Step, index: number) => {
-    const isCompleted = index < currentStep
+  // Create step indicator animated styles at component level
+  const stepIndicatorStyles = steps.map((step, index) => {
     const isActive = index === currentStep
-    const isDisabled = step.disabled ?? index > currentStep
-
-    const animatedStyle = useAnimatedStyle(() => {
+    return useAnimatedStyle(() => {
       const scale = withSpring(isActive ? 1.2 : 1)
       return {
         transform: [{ scale }],
       }
     })
+  })
+  const renderStepIndicator = (step: Step, index: number) => {
+    const isCompleted = index < currentStep
+    const isActive = index === currentStep
+    const isDisabled = step.disabled ?? index > currentStep
 
     return (
-      <Animated.View style={animatedStyle}>
+      <Animated.View style={stepIndicatorStyles[index]}>
         <TouchableOpacity
           onPress={() => !isDisabled && onStepPress?.(index, step)}
           disabled={isDisabled}
@@ -95,7 +97,6 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   const renderConnector = (index: number) => {
     if (!showConnector || index === steps.length - 1) return null
 
-    const isCompleted = index < currentStep
     const connectorProgress = interpolate(
       currentStep,
       [index, index + 1],

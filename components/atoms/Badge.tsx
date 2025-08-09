@@ -1,7 +1,6 @@
 import React from 'react'
 
-import type { ViewProps } from 'react-native'
-import { View } from 'react-native'
+import { View, type ViewProps } from 'react-native'
 
 import { cn } from '@/utils/cn'
 

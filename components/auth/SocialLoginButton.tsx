@@ -1,9 +1,12 @@
 import React from 'react'
 
-import { Text, TouchableOpacity, View, Image } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
-import { TapGestureHandler } from 'react-native-gesture-handler'
+import {
+  TapGestureHandler,
+  type TapGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -11,8 +14,6 @@ import Animated, {
   useAnimatedGestureHandler,
   runOnJS,
 } from 'react-native-reanimated'
-
-import type { TapGestureHandlerGestureEvent } from 'react-native-gesture-handler'
 
 const AnimatedTouchableOpacity =
   Animated.createAnimatedComponent(TouchableOpacity)

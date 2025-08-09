@@ -1,7 +1,12 @@
 import React, { useState, forwardRef } from 'react'
 
-import type { TextInputProps } from 'react-native'
-import { TextInput, View, TouchableOpacity, Animated } from 'react-native'
+import {
+  TextInput,
+  View,
+  TouchableOpacity,
+  Animated,
+  type TextInputProps,
+} from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 
@@ -149,7 +154,7 @@ export const Input = forwardRef<TextInput, InputProps>(
             {...props}
           />
 
-          {(rightIcon || type === 'password') && (
+          {(rightIcon ?? type === 'password') && (
             <TouchableOpacity
               onPress={() => {
                 if (type === 'password') {

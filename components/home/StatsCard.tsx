@@ -7,7 +7,6 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  interpolate,
   withSequence,
 } from 'react-native-reanimated'
 // Types are now globally available from /types/components.d.ts
@@ -46,10 +45,6 @@ export default function StatsCard({
   const cardAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }, { translateY: slideY.value }],
     opacity: opacity.value,
-  }))
-
-  const pressInStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value * 0.95 }],
   }))
 
   const animatedNumberStyle = useAnimatedStyle(() => ({

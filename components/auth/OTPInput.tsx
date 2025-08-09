@@ -27,14 +27,9 @@ export default function OTPInput({
   const inputRefs = useRef<TextInput[]>([])
   const shakeAnimation = useSharedValue(0)
 
-  // Animation values for each input
-  const scaleValues = useRef(
-    Array.from({ length }, () => useSharedValue(1)),
-  ).current
-
-  const borderValues = useRef(
-    Array.from({ length }, () => useSharedValue(0)),
-  ).current
+  // Animation values for each input - create them using useMemo to avoid hook rule violations
+  const scaleValues = useMemo(() => Array.from({ length }, () => useSharedValue(1)), [length])
+  const borderValues = useMemo(() => Array.from({ length }, () => useSharedValue(0)), [length])
 
   useEffect(() => {
     if (autoFocus && inputRefs.current[0]) {
@@ -123,7 +118,8 @@ export default function OTPInput({
     transform: [{ translateX: shakeAnimation.value }],
   }))
 
-  const getInputAnimatedStyle = (index: number) =>
+  // Move useAnimatedStyle to component level - create styles for each input
+  const inputAnimatedStyles = Array.from({ length }, (_, index) =>
     useAnimatedStyle(() => {
       const isError = !!error
       const isFocused = focusedIndex === index
@@ -139,12 +135,13 @@ export default function OTPInput({
       }
 
       return {
-        transform: [{ scale: scaleValues[index].value }],
+        transform: [{ scale: scaleValues[index]?.value ?? 1 }],
         borderColor,
         borderWidth: isFocused || hasValue || isError ? 2 : 1,
         backgroundColor: hasValue ? '#065F46' : '#18181B', // primary-800 : dark-700
       }
     })
+  )
 
   return (
     <View className='items-center'>
@@ -156,7 +153,7 @@ export default function OTPInput({
           <Animated.View
             key={index}
             style={[
-              getInputAnimatedStyle(index),
+              inputAnimatedStyles[index],
               {
                 width: INPUT_WIDTH,
                 height: INPUT_WIDTH,

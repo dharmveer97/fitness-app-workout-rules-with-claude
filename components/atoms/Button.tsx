@@ -1,7 +1,10 @@
 import React from 'react'
 
-import type { TouchableOpacityProps } from 'react-native'
-import { TouchableOpacity, ActivityIndicator, View } from 'react-native'
+import {
+  TouchableOpacity,
+  ActivityIndicator,
+  type TouchableOpacityProps,
+} from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, {

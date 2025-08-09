@@ -1,11 +1,12 @@
 import React, { forwardRef } from 'react'
 
+import type { TextInput, ViewProps } from 'react-native'
 import { View } from 'react-native'
 
 import { cn } from '@/utils/cn'
 
 import { Badge } from '../atoms/Badge'
-import { Input } from '../atoms/Input'
+import { Input, type InputProps } from '../atoms/Input'
 import { Text } from '../atoms/Text'
 
 export interface InputGroupProps extends ViewProps {

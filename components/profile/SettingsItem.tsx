@@ -75,15 +75,15 @@ export default function SettingsItem({
             onValueChange={onToggle}
             trackColor={{ false: '#374151', true: `${color}40` }}
             thumbColor={value ? color : '#9CA3AF'}
-            ios_backgroundColor="#374151"
+            ios_backgroundColor='#374151'
           />
         )
 
       case 'value':
         return (
-          <View className="flex-row items-center space-x-2">
-            <Text className="text-base text-gray-400">{value}</Text>
-            <FontAwesome name="chevron-right" size={16} color="#6B7280" />
+          <View className='flex-row items-center space-x-2'>
+            <Text className='text-base text-gray-400'>{value}</Text>
+            <FontAwesome name='chevron-right' size={16} color='#6B7280' />
           </View>
         )
 
@@ -91,7 +91,7 @@ export default function SettingsItem({
         return null
 
       default:
-        return <FontAwesome name="chevron-right" size={16} color="#6B7280" />
+        return <FontAwesome name='chevron-right' size={16} color='#6B7280' />
     }
   }
 
@@ -105,27 +105,27 @@ export default function SettingsItem({
         onPressOut={handlePressOut}
         activeOpacity={isInteractive ? 0.9 : 1}
         disabled={!isInteractive}
-        className="mb-3 rounded-xl border border-gray-800/30 bg-[#18181B] p-4"
+        className='mb-3 rounded-xl border border-gray-800/30 bg-[#18181B] p-4'
       >
-        <View className="flex-row items-center space-x-4">
+        <View className='flex-row items-center space-x-4'>
           {/* Icon */}
           <View
-            className="h-10 w-10 items-center justify-center rounded-xl"
+            className='h-10 w-10 items-center justify-center rounded-xl'
             style={{ backgroundColor: `${getIconColor()}20` }}
           >
             <FontAwesome name={icon as any} size={18} color={getIconColor()} />
           </View>
 
           {/* Content */}
-          <View className="flex-1">
+          <View className='flex-1'>
             <Text
-              className="mb-1 text-base font-semibold"
+              className='mb-1 text-base font-semibold'
               style={{ color: getTitleColor() }}
             >
               {title}
             </Text>
             {subtitle && (
-              <Text className="text-sm text-gray-400" numberOfLines={2}>
+              <Text className='text-sm text-gray-400' numberOfLines={2}>
                 {subtitle}
               </Text>
             )}
@@ -139,7 +139,7 @@ export default function SettingsItem({
         {type === 'switch' && (
           <TouchableOpacity
             onPress={() => onToggle?.(!value)}
-            className="absolute inset-0 rounded-xl"
+            className='absolute inset-0 rounded-xl'
             activeOpacity={0.9}
           />
         )}

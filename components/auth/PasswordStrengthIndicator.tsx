@@ -7,13 +7,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
-  useAnimatedProps,
   interpolate,
-  useDerivedValue,
 } from 'react-native-reanimated'
-import Svg, { Rect } from 'react-native-svg'
-
-const AnimatedRect = Animated.createAnimatedComponent(Rect)
 
 // PasswordStrengthIndicatorProps is globally available from /types/components.d.ts
 
@@ -43,7 +38,7 @@ const passwordRequirements: PasswordRequirement[] = [
   {
     id: 'special',
     label: 'One special character',
-    test: (password) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+    test: (password) => /[!@#$%^&*()_+\-=[\]{};':"|,.<>/?]/.test(password),
   },
 ]
 

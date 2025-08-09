@@ -9,7 +9,6 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
-  interpolate,
 } from 'react-native-reanimated'
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg'
 // ProgressRingProps is globally available from /types/components.d.ts

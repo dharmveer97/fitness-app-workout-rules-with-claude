@@ -11,6 +11,8 @@
     "test:coverage": "jest --coverage",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:fix:format": "eslint . --fix && prettier --write .",
+    "fix": "npm run lint:fix:format",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

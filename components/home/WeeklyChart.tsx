@@ -33,9 +33,25 @@ export default function WeeklyChart({
   const scale = useSharedValue(0)
 
   // Create shared values for each data point at the top level
-  const animatedValues = useMemo(
-    () => data.map(() => useSharedValue(0)),
-    [data.length],
+  const animatedValues = useMemo(() => {
+    const values = []
+    for (let i = 0; i < data.length; i++) {
+      values.push(useSharedValue(0))
+    }
+    return values
+  }, [data.length])
+
+  // Create animated props for each bar at component level
+  const barAnimatedProps = useMemo(() => 
+    animatedValues.map((animatedValue) => 
+      useAnimatedProps(() => {
+        const animatedHeight = animatedValue.value * chartHeight
+        return {
+          height: animatedHeight,
+          y: chartHeight - animatedHeight,
+        }
+      })
+    ), [animatedValues, chartHeight]
   )
 
   const chartWidth = screenWidth - 48 // Account for padding
@@ -89,17 +105,17 @@ export default function WeeklyChart({
 
   return (
     <Animated.View
-      className="rounded-2xl border border-gray-800/50 bg-[#18181B] p-4"
+      className='rounded-2xl border border-gray-800/50 bg-[#18181B] p-4'
       style={containerStyle}
     >
-      <Text className="mb-4 text-lg font-bold text-white">{title}</Text>
+      <Text className='mb-4 text-lg font-bold text-white'>{title}</Text>
 
       <View style={{ height: chartHeight + 40 }}>
         <Svg width={chartWidth} height={chartHeight + 40}>
           <Defs>
-            <LinearGradient id="barGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <Stop offset="0%" stopColor={color} stopOpacity="0.8" />
-              <Stop offset="100%" stopColor={color} stopOpacity="0.3" />
+            <LinearGradient id='barGradient' x1='0%' y1='0%' x2='0%' y2='100%'>
+              <Stop offset='0%' stopColor={color} stopOpacity='0.8' />
+              <Stop offset='100%' stopColor={color} stopOpacity='0.3' />
             </LinearGradient>
           </Defs>
 
@@ -111,7 +127,7 @@ export default function WeeklyChart({
               y1={chartHeight * (1 - ratio)}
               x2={chartWidth - 20}
               y2={chartHeight * (1 - ratio)}
-              stroke="#374151"
+              stroke='#374151'
               strokeWidth={0.5}
               strokeOpacity={0.3}
             />
@@ -124,8 +140,8 @@ export default function WeeklyChart({
               x={35}
               y={chartHeight * (1 - ratio) + 4}
               fontSize={10}
-              fill="#9CA3AF"
-              textAnchor="end"
+              fill='#9CA3AF'
+              textAnchor='end'
             >
               {formatValue(maxValue * ratio)}
             </SvgText>
@@ -143,17 +159,10 @@ export default function WeeklyChart({
                 y={chartHeight - barHeight}
                 width={barWidth}
                 height={barHeight}
-                fill="url(#barGradient)"
+                fill='url(#barGradient)'
                 rx={4}
                 ry={4}
-                animatedProps={useAnimatedProps(() => {
-                  const animatedHeight =
-                    animatedValues[index].value * chartHeight
-                  return {
-                    height: animatedHeight,
-                    y: chartHeight - animatedHeight,
-                  }
-                })}
+                animatedProps={barAnimatedProps[index]}
               />
             )
           })}
@@ -167,8 +176,8 @@ export default function WeeklyChart({
                 x={x}
                 y={chartHeight + 20}
                 fontSize={10}
-                fill="#9CA3AF"
-                textAnchor="middle"
+                fill='#9CA3AF'
+                textAnchor='middle'
               >
                 {getDayAbbr(point.label)}
               </SvgText>
@@ -178,10 +187,10 @@ export default function WeeklyChart({
       </View>
 
       {/* Stats summary */}
-      <View className="mt-4 flex-row justify-between border-t border-gray-800/50 pt-4">
-        <View className="items-center">
-          <Text className="text-xs text-gray-400">Average</Text>
-          <Text className="text-sm font-semibold text-white">
+      <View className='mt-4 flex-row justify-between border-t border-gray-800/50 pt-4'>
+        <View className='items-center'>
+          <Text className='text-xs text-gray-400'>Average</Text>
+          <Text className='text-sm font-semibold text-white'>
             {formatValue(
               Math.round(
                 data.reduce((sum, d) => sum + d.value, 0) / data.length,
@@ -189,15 +198,15 @@ export default function WeeklyChart({
             )}
           </Text>
         </View>
-        <View className="items-center">
-          <Text className="text-xs text-gray-400">Best Day</Text>
-          <Text className="text-sm font-semibold text-white">
+        <View className='items-center'>
+          <Text className='text-xs text-gray-400'>Best Day</Text>
+          <Text className='text-sm font-semibold text-white'>
             {formatValue(maxValue)}
           </Text>
         </View>
-        <View className="items-center">
-          <Text className="text-xs text-gray-400">Total</Text>
-          <Text className="text-sm font-semibold text-white">
+        <View className='items-center'>
+          <Text className='text-xs text-gray-400'>Total</Text>
+          <Text className='text-sm font-semibold text-white'>
             {formatValue(data.reduce((sum, d) => sum + d.value, 0))}
           </Text>
         </View>

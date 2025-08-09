@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { View, Text } from 'react-native'
 
 import { useFonts } from 'expo-font'
-import { Slot, Stack, Redirect } from 'expo-router'
+import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 
 import FontAwesome from '@expo/vector-icons/FontAwesome'
@@ -16,7 +16,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Provider } from 'react-redux'
 import 'react-native-reanimated'
 import '../global.css'
-
 import { PersistGate } from 'redux-persist/integration/react'
 
 import { AuthProvider } from '../components/navigation/AuthProvider'

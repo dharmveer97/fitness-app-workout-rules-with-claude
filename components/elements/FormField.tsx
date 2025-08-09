@@ -1,7 +1,6 @@
 import React, { forwardRef } from 'react'
 
-import type { TextInput } from 'react-native'
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, type TextInput } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
@@ -9,10 +8,8 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { cn } from '@/utils/cn'
 
 import { Badge } from '../atoms/Badge'
-import { Input } from '../atoms/Input'
+import { Input, type InputProps } from '../atoms/Input'
 import { Text } from '../atoms/Text'
-
-import type { InputProps } from '../atoms/Input'
 
 export interface FormFieldProps extends InputProps {
   label?: string

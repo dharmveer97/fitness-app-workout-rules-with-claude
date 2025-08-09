@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 
+import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
@@ -41,6 +42,15 @@ export function RadioGroup<T = string>({
 }: RadioGroupProps<T>) {
   const [selectedValue, setSelectedValue] = useState<T | undefined>(value)
 
+  // Create radio button animated styles at component level
+  const radioButtonStyles = options.map((option) => {
+    const isSelected = selectedValue === option.value
+    return useAnimatedStyle(() => ({
+      borderColor: withSpring(isSelected ? '#10B981' : '#4B5563'),
+      backgroundColor: withSpring(isSelected ? '#10B981' : 'transparent'),
+    }))
+  })
+
   const handleSelect = (optionValue: T) => {
     setSelectedValue(optionValue)
     onChange?.(optionValue)
@@ -51,15 +61,10 @@ export function RadioGroup<T = string>({
     containerClassName,
   )
 
-  const renderRadioButton = (option: RadioOption<T>, isSelected: boolean) => {
-    const animatedStyle = useAnimatedStyle(() => ({
-      borderColor: withSpring(isSelected ? '#10B981' : '#4B5563'),
-      backgroundColor: withSpring(isSelected ? '#10B981' : 'transparent'),
-    }))
-
+  const renderRadioButton = (option: RadioOption<T>, isSelected: boolean, index: number) => {
     return (
       <Animated.View
-        style={animatedStyle}
+        style={radioButtonStyles[index]}
         className='h-5 w-5 items-center justify-center rounded-full border-2'
       >
         {isSelected && <View className='h-2 w-2 rounded-full bg-white' />}
@@ -67,7 +72,7 @@ export function RadioGroup<T = string>({
     )
   }
 
-  const renderOption = (option: RadioOption<T>) => {
+  const renderOption = (option: RadioOption<T>, index: number) => {
     const isSelected = selectedValue === option.value
     const isDisabled = option.disabled
 
@@ -90,7 +95,7 @@ export function RadioGroup<T = string>({
             )}
           >
             <View className='flex-row items-start'>
-              {renderRadioButton(option, isSelected)}
+              {renderRadioButton(option, isSelected, index)}
               <View className='ml-3 flex-1'>
                 {option.icon && <View className='mb-2'>{option.icon}</View>}
                 <Text
@@ -151,7 +156,7 @@ export function RadioGroup<T = string>({
           isDisabled && 'opacity-50',
         )}
       >
-        {renderRadioButton(option, isSelected)}
+        {renderRadioButton(option, isSelected, index)}
         <View className='ml-3'>
           <Text variant='body' color={isSelected ? 'white' : 'gray'}>
             {option.label}
@@ -174,7 +179,7 @@ export function RadioGroup<T = string>({
         </Text>
       )}
 
-      <View className={containerClass}>{options.map(renderOption)}</View>
+      <View className={containerClass}>{options.map((option, index) => renderOption(option, index))}</View>
 
       {error && (
         <Text variant='caption' color='error' className='mt-2'>
