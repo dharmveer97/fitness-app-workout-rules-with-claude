@@ -198,6 +198,7 @@ export default [
       'prefer-template': 'error',
       'eqeqeq': ['error', 'always', { null: 'ignore' }],
       'curly': ['error', 'multi-line'],
+      'no-undef': 'off', // Disable for TypeScript - TypeScript handles this better
 
       // Best practices
       'no-duplicate-imports': 'error',
@@ -244,6 +245,35 @@ export default [
     },
   },
   {
+    // Type definition files (.d.ts)
+    files: ['**/*.d.ts'],
+    rules: {
+      // Disable rules that don't apply to .d.ts files
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/consistent-type-imports': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
+      'no-console': 'off',
+      'import/no-duplicates': 'off',
+      'import/order': 'off',
+      'import/first': 'off',
+      'import/newline-after-import': 'off',
+      // Keep formatting rules active for auto-fix
+      'prettier/prettier': [
+        'error',
+        {
+          trailingComma: 'all',
+          semi: false,
+          tabWidth: 2,
+          singleQuote: true,
+          printWidth: 80,
+          endOfLine: 'auto',
+          arrowParens: 'always',
+          plugins: ['prettier-plugin-tailwindcss'],
+        },
+      ],
+    },
+  },
+  {
     // Test files
     files: ['**/*.test.{js,jsx,ts,tsx}', '**/*.spec.{js,jsx,ts,tsx}', '**/__tests__/**/*'],
     rules: {
@@ -263,7 +293,7 @@ export default [
       'ios/**',
       'android/**',
       'web-build/**',
-      '**/*.d.ts',
+      // Remove **/*.d.ts from ignores so they get formatted
     ],
   },
 ];

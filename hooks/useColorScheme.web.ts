@@ -9,10 +9,7 @@ import { useColorScheme as useRNColorScheme } from 'nativewind'
  * including proper hydration handling for web static rendering.
  */
 export function useColorScheme(): ColorSchemeName {
-  const [hasHydrated, setHasHydrated]: [
-    boolean,
-    React.Dispatch<React.SetStateAction<boolean>>,
-  ] = useState(false)
+  const [hasHydrated, setHasHydrated] = useState(false)
 
   useEffect(() => {
     setHasHydrated(true)
