@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
+import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { cn } from '@/utils/cn'
 
@@ -83,7 +82,7 @@ export function SelectGroup<T = string>({
   const renderChip = (option: SelectOption<T>) => {
     const selected = isSelected(option.value)
     const disabled =
-      option.disabled ||
+      option.disabled ??
       (!selected && max !== undefined && selectedValues.length >= max)
 
     return (
@@ -131,7 +130,7 @@ export function SelectGroup<T = string>({
   const renderCard = (option: SelectOption<T>) => {
     const selected = isSelected(option.value)
     const disabled =
-      option.disabled ||
+      option.disabled ??
       (!selected && max !== undefined && selectedValues.length >= max)
 
     return (
@@ -199,7 +198,7 @@ export function SelectGroup<T = string>({
   const renderDefault = (option: SelectOption<T>) => {
     const selected = isSelected(option.value)
     const disabled =
-      option.disabled ||
+      option.disabled ??
       (!selected && max !== undefined && selectedValues.length >= max)
 
     return (

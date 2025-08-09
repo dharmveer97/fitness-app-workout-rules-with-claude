@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react'
 
-import type { TextInput, ViewProps } from 'react-native'
 import { View } from 'react-native'
 
 import { cn } from '@/utils/cn'
@@ -8,8 +7,6 @@ import { cn } from '@/utils/cn'
 import { Badge } from '../atoms/Badge'
 import { Input } from '../atoms/Input'
 import { Text } from '../atoms/Text'
-
-import type { InputProps } from '../atoms/Input'
 
 export interface InputGroupProps extends ViewProps {
   label?: string

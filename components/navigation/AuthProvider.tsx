@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react'
 
-import {
-  Slot,
-  useRouter,
-  useSegments,
-  useRootNavigationState,
-} from 'expo-router'
+import { useRouter, useSegments, useRootNavigationState } from 'expo-router'
 
 import { useSelector } from 'react-redux'
 
@@ -30,7 +25,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   )
 
   const isAuthenticated = Boolean(accessToken)
-  const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted
+  const hasCompletedOnboarding = isOnboarded ?? isOnboardingCompleted
 
   useEffect(() => {
     // Don't navigate until navigation is ready
@@ -87,7 +82,7 @@ export const useAuth = () => {
 
   return {
     isAuthenticated: Boolean(accessToken),
-    isOnboarded: isOnboarded || isOnboardingCompleted,
+    isOnboarded: isOnboarded ?? isOnboardingCompleted,
     user,
   }
 }

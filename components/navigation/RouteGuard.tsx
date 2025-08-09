@@ -25,7 +25,7 @@ export const RouteGuard: React.FC<RouteGuardProps> = ({ children, guards }) => {
 
   // Sort guards by priority (higher priority first)
   const sortedGuards = guards.sort(
-    (a, b) => (b.priority || 0) - (a.priority || 0),
+    (a, b) => (b.priority ?? 0) - (a.priority ?? 0),
   )
 
   // Find the first guard that should redirect

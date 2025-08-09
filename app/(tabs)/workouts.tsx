@@ -2,7 +2,6 @@ import React, { useState, useCallback } from 'react'
 
 import {
   View,
-  Text,
   ScrollView,
   TouchableOpacity,
   Alert,
@@ -10,22 +9,16 @@ import {
 } from 'react-native'
 
 import { FontAwesome } from '@expo/vector-icons'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  useAnimatedProps,
-} from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import Svg, { Circle } from 'react-native-svg'
+
+import { Text } from '@/components/atoms'
 
 // Types are now globally available from .d.ts files
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity)
-const AnimatedCircle = Animated.createAnimatedComponent(Circle)
-
 export default function WorkoutsScreen() {
   const [refreshing, setRefreshing] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [_selectedCategory, setSelectedCategory] = useState<string>('all')
 
   // Mock data - in a real app, this would come from your API/state
   const workoutCategories: WorkoutCategory[] = [
@@ -319,7 +312,7 @@ export default function WorkoutsScreen() {
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View className='flex-row space-x-4'>
-                {workoutCategories.map((category, index) => (
+                {workoutCategories.map((category) => (
                   <TouchableOpacity
                     key={category.id}
                     onPress={() => handleCategoryPress(category)}
@@ -371,7 +364,7 @@ export default function WorkoutsScreen() {
                 </Text>
               </TouchableOpacity>
             </View>
-            {recommendedWorkouts.map((workout, index) => (
+            {recommendedWorkouts.map((workout) => (
               <View
                 key={workout.id}
                 className='mb-4 rounded-2xl border border-gray-800/50 bg-[#18181B] p-4'
@@ -466,7 +459,7 @@ export default function WorkoutsScreen() {
                 </Text>
               </TouchableOpacity>
             </View>
-            {recentWorkouts.map((session, index) => (
+            {recentWorkouts.map((session) => (
               <TouchableOpacity
                 key={session.id}
                 className='mb-3 rounded-xl border border-gray-800/30 bg-[#18181B] p-4'

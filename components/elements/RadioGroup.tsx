@@ -1,20 +1,15 @@
 import React, { useState } from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  interpolateColor,
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
 
 import { cn } from '@/utils/cn'
 
 import { Card } from '../atoms/Card'
 import { Text } from '../atoms/Text'
 
-export interface RadioOption<T = string> {
+interface RadioOption<T = string> {
   value: T
   label: string
   description?: string
@@ -22,7 +17,7 @@ export interface RadioOption<T = string> {
   icon?: React.ReactNode
 }
 
-export interface RadioGroupProps<T = string> extends ViewProps {
+interface RadioGroupProps<T = string> extends ViewProps {
   label?: string
   options: RadioOption<T>[]
   value?: T
@@ -32,8 +27,6 @@ export interface RadioGroupProps<T = string> extends ViewProps {
   error?: string
   containerClassName?: string
 }
-
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity)
 
 export function RadioGroup<T = string>({
   label,

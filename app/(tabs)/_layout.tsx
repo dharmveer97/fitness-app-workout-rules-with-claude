@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Pressable } from 'react-native'
+import { Pressable as _Pressable } from 'react-native'
 
-import { Link, Tabs } from 'expo-router'
+import { Link as _Link, Tabs } from 'expo-router'
 
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import { useSelector } from 'react-redux'
@@ -22,7 +22,7 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme()
-  const isAuthenticated = useSelector((state: RootState) =>
+  const _isAuthenticated = useSelector((state: RootState) =>
     Boolean(state.auth.accessToken),
   )
 

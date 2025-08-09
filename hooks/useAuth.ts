@@ -69,7 +69,7 @@ export const useAuth = (): UseAuthReturn => {
     }
   }
 
-  const register = async (userData: RegisterFormType): Promise<void> => {
+  const register = async (_userData: RegisterFormType): Promise<void> => {
     setIsLoading(true)
     setError(null)
     try {
@@ -95,14 +95,14 @@ export const useAuth = (): UseAuthReturn => {
     }
   }
 
-  const forgotPassword = async (email: string): Promise<void> => {
+  const forgotPassword = async (_email: string): Promise<void> => {
     setIsLoading(true)
     setError(null)
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
     } catch (err) {
-      console.error('Forgot password error:', error)
+      console.error('Forgot password error:', err)
       setError(
         err instanceof Error ? err.message : 'Failed to send reset email',
       )
@@ -111,16 +111,14 @@ export const useAuth = (): UseAuthReturn => {
     }
   }
 
-  const resetPassword = async (data: ResetPasswordFormType): Promise<void> => {
+  const resetPassword = async (_data: ResetPasswordFormType): Promise<void> => {
     setIsLoading(true)
     setError(null)
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000))
-    } catch (error) {
-      setError(
-        error instanceof Error ? error.message : 'Failed to reset password',
-      )
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to reset password')
     } finally {
       setIsLoading(false)
     }
@@ -146,8 +144,8 @@ export const useAuth = (): UseAuthReturn => {
       // Store updated user profile
       await StorageUtils.storeUserProfile(updatedUser)
       setUser(updatedUser)
-    } catch (error) {
-      console.error('Failed to refresh user:', error)
+    } catch (err) {
+      console.error('Failed to refresh user:', err)
     }
   }
 
@@ -166,18 +164,16 @@ export const useAuth = (): UseAuthReturn => {
           const userProfile = await StorageUtils.getUserProfile()
           if (userProfile) {
             setUserProfile(userProfile)
-          } else {
-            // Token exists but no user profile, refresh user data
-            await refreshUser()
           }
+          // Note: Not calling refreshUser here to avoid dependency issues
         }
-      } catch (error) {
-        console.error('Auth check error:', error)
+      } catch (err) {
+        console.error('Auth check error:', err)
       }
     }
 
     checkAuthStatus()
-  }, [])
+  }, [isAuthenticated])
 
   return {
     user,

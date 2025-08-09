@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   View,
@@ -15,9 +15,14 @@ import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Text, Button, Card } from '@/components/atoms'
-import { FormField, RadioGroup, ProgressSteps } from '@/components/elements'
-import type { RadioOption, Step } from '@/components/elements'
+import { Text, Button } from '@/components/atoms'
+import {
+  FormField,
+  RadioGroup,
+  ProgressSteps,
+  type RadioOption,
+  type Step,
+} from '@/components/elements'
 import {
   updatePersonalInfo,
   nextSlide,
@@ -29,14 +34,14 @@ export default function PersonalInfoScreen() {
   const dispatch = useDispatch()
   const { personalInfo } = useSelector((state: RootState) => state.onboarding)
 
-  const [name, setName] = useState(personalInfo.name || '')
-  const [age, setAge] = useState(personalInfo.age?.toString() || '')
+  const [name, setName] = useState(personalInfo.name ?? '')
+  const [age, setAge] = useState(personalInfo.age?.toString() ?? '')
   const [gender, setGender] = useState<'male' | 'female' | 'other'>(
-    personalInfo.gender || 'male',
+    personalInfo.gender ?? 'male',
   )
   const [fitnessLevel, setFitnessLevel] = useState<
     'beginner' | 'intermediate' | 'advanced'
-  >(personalInfo.fitnessLevel || 'beginner')
+  >(personalInfo.fitnessLevel ?? 'beginner')
 
   const handleNext = () => {
     if (name.trim() && age) {
@@ -150,9 +155,7 @@ export default function PersonalInfoScreen() {
               ] as RadioOption[]
             }
             value={gender}
-            onChange={(value) =>
-              setGender(value as 'male' | 'female' | 'other')
-            }
+            onChange={(value) => setGender(value)}
             orientation='horizontal'
             variant='button'
           />
@@ -185,9 +188,7 @@ export default function PersonalInfoScreen() {
               ] as RadioOption[]
             }
             value={fitnessLevel}
-            onChange={(value) =>
-              setFitnessLevel(value as 'beginner' | 'intermediate' | 'advanced')
-            }
+            onChange={(value) => setFitnessLevel(value)}
             variant='card'
           />
         </Animated.View>

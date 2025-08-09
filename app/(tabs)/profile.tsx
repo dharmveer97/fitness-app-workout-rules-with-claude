@@ -23,9 +23,9 @@ export default function ProfileScreen() {
 
   // Mock user profile data - in a real app, this would come from your API/state
   const userProfile: UserProfile = {
-    id: user?.id || '1',
-    name: user?.name || 'John Doe',
-    email: user?.email || 'john.doe@example.com',
+    id: user?.id ?? '1',
+    name: user?.name ?? 'John Doe',
+    email: user?.email ?? 'john.doe@example.com',
     avatar:
       'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
     age: 28,

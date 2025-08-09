@@ -21,7 +21,7 @@ export default function ProfileHeader({
   useEffect(() => {
     scale.value = withSpring(1, { damping: 12, stiffness: 100 })
     opacity.value = withSpring(1)
-  }, [])
+  }, [scale, opacity])
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],

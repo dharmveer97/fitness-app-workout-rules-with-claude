@@ -28,7 +28,7 @@ import { otpVerificationSchema } from '../../schemas/auth'
 
 export default function VerifyOTPScreen() {
   const params = useLocalSearchParams()
-  const email = (params.email as string) || ''
+  const email = (params.email as string) ?? ''
   const [loading, setLoading] = useState(false)
   const [otpError, setOtpError] = useState('')
 

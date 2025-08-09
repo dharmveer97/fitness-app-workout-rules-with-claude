@@ -14,7 +14,6 @@ import {
 } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Provider } from 'react-redux'
-
 import 'react-native-reanimated'
 import '../global.css'
 

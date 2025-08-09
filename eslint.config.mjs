@@ -10,7 +10,7 @@ import prettier from 'eslint-plugin-prettier';
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.{ts,tsx,js,jsx}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: typescriptParser,
       ecmaVersion: 'latest',
@@ -217,6 +217,80 @@ export default [
       'comma-spacing': 'off', // Let prettier handle this
       'space-before-blocks': 'off', // Let prettier handle this
       'keyword-spacing': 'off', // Let prettier handle this
+    },
+  },
+  {
+    // Plain JavaScript files (index.js, etc.)
+    files: ['**/*.{js,jsx}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+      globals: {
+        // Node.js globals
+        console: 'readonly',
+        process: 'readonly',
+        global: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        Buffer: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+        exports: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        // React Native globals
+        __DEV__: 'readonly',
+        ErrorUtils: 'readonly',
+      },
+    },
+    plugins: {
+      'react': react,
+      'react-hooks': reactHooks,
+      'react-native': reactNative,
+      'prettier': prettier,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    rules: {
+      // Prettier integration
+      'prettier/prettier': [
+        'error',
+        {
+          trailingComma: 'all',
+          semi: false,
+          tabWidth: 2,
+          singleQuote: true,
+          printWidth: 80,
+          endOfLine: 'auto',
+          arrowParens: 'always',
+          plugins: ['prettier-plugin-tailwindcss'],
+        },
+      ],
+      // Basic JavaScript rules
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-debugger': 'error',
+      'no-alert': 'error',
+      'prefer-const': 'error',
+      'no-var': 'error',
+      'no-undef': 'error', // Keep undef checking for JS files
+      // React rules
+      'react/prop-types': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+      // React Native rules
+      'react-native/no-unused-styles': 'error',
+      'react-native/no-inline-styles': 'off',
     },
   },
   {

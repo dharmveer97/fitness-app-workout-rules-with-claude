@@ -29,8 +29,8 @@ import { resetPasswordWithOTPSchema } from '../../schemas/auth'
 
 export default function ResetPasswordScreen() {
   const params = useLocalSearchParams()
-  const email = (params.email as string) || ''
-  const otp = (params.otp as string) || ''
+  const email = (params.email as string) ?? ''
+  const otp = (params.otp as string) ?? ''
   const [loading, setLoading] = useState(false)
   const [resetComplete, setResetComplete] = useState(false)
 
@@ -48,7 +48,7 @@ export default function ResetPasswordScreen() {
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000))
-
+      console.log(values, 'values')
       setResetComplete(true)
 
       // Success animation
@@ -211,7 +211,7 @@ export default function ResetPasswordScreen() {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                values,
+                values: _values,
                 errors,
                 touched,
                 isValid,
@@ -235,7 +235,7 @@ export default function ResetPasswordScreen() {
                       placeholder='Create a strong password'
                       isPassword
                       leftIcon='lock-closed'
-                      value={values.password}
+                      value={_values.password}
                       onChangeText={handleChange('password')}
                       onBlur={handleBlur('password')}
                       error={errors.password}
@@ -244,8 +244,8 @@ export default function ResetPasswordScreen() {
 
                     {/* Password Strength Indicator */}
                     <PasswordStrengthIndicator
-                      password={values.password}
-                      showRequirements={values.password.length > 0}
+                      password={_values.password}
+                      showRequirements={_values.password.length > 0}
                     />
                   </View>
 
@@ -255,7 +255,7 @@ export default function ResetPasswordScreen() {
                     placeholder='Re-enter your password'
                     isPassword
                     leftIcon='lock-closed'
-                    value={values.confirmPassword}
+                    value={_values.confirmPassword}
                     onChangeText={handleChange('confirmPassword')}
                     onBlur={handleBlur('confirmPassword')}
                     error={errors.confirmPassword}

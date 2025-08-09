@@ -32,12 +32,12 @@ export default function GoalsScreen() {
 
   const [primaryGoal, setPrimaryGoal] = useState<
     'weight-loss' | 'muscle-gain' | 'endurance' | 'general-fitness'
-  >(goals.primaryGoal || 'general-fitness')
+  >(goals.primaryGoal ?? 'general-fitness')
   const [targetWeight, setTargetWeight] = useState(
-    goals.targetWeight?.toString() || '',
+    goals.targetWeight?.toString() ?? '',
   )
   const [workoutFrequency, setWorkoutFrequency] = useState(
-    goals.workoutFrequency?.toString() || '3',
+    goals.workoutFrequency?.toString() ?? '3',
   )
 
   const handleNext = () => {
@@ -119,7 +119,9 @@ export default function GoalsScreen() {
           <Animated.View
             entering={FadeIn}
             className='h-full rounded-full bg-primary-500'
-            style={{ width: '66%' }}
+            style={{
+              width: '66%',
+            }}
           />
         </View>
         <Text className='mt-2 text-xs text-dark-400'>Step 2 of 3</Text>

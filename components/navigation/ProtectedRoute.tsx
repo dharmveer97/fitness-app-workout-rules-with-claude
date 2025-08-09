@@ -30,7 +30,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   requireVerification = false,
   fallback,
   loadingComponent,
-  unauthorizedComponent,
 }) => {
   const { isOnboarded, accessToken, user } = useSelector(
     (state: RootState) => state.auth,
@@ -51,7 +50,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // Show loading during initialization
   if (!isInitialized) {
     return (
-      loadingComponent || (
+      loadingComponent ?? (
         <View className='flex-1 items-center justify-center bg-dark-900'>
           <ActivityIndicator size='large' color='#3B82F6' />
           <Text className='mt-4 text-dark-300'>Loading...</Text>
@@ -61,24 +60,24 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Combined onboarding check - either from auth slice or onboarding slice
-  const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted
+  const hasCompletedOnboarding = isOnboarded ?? isOnboardingCompleted
 
   // Check onboarding requirement first
   if (requireOnboarding && !hasCompletedOnboarding) {
     console.log('Protected route redirecting to onboarding')
-    return <Redirect href={fallback || '/(auth)/onboarding'} />
+    return <Redirect href={fallback ?? '/(auth)/onboarding'} />
   }
 
   // Check authentication requirement
   if (requireAuth && !accessToken) {
     console.log('Protected route redirecting to sign-in')
-    return <Redirect href={fallback || '/(auth)/sign-in'} />
+    return <Redirect href={fallback ?? '/(auth)/sign-in'} />
   }
 
   // Check email verification requirement
   if (requireVerification && user && !user.emailVerified) {
     console.log('Protected route redirecting to verify-email')
-    return <Redirect href={fallback || '/(auth)/verify-otp'} />
+    return <Redirect href={fallback ?? '/(auth)/verify-otp'} />
   }
 
   // All requirements met, render children
@@ -108,7 +107,7 @@ export const useRouteProtection = ({
     (state: RootState) => state.onboarding,
   )
 
-  const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted
+  const hasCompletedOnboarding = isOnboarded ?? isOnboardingCompleted
   const isAuthenticated = Boolean(accessToken)
   const isEmailVerified = user?.emailVerified ?? false
 

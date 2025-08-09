@@ -1,13 +1,11 @@
 import React from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View, TouchableOpacity } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, {
   useAnimatedStyle,
   withSpring,
-  withTiming,
   interpolate,
 } from 'react-native-reanimated'
 
@@ -50,7 +48,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   const renderStepIndicator = (step: Step, index: number) => {
     const isCompleted = index < currentStep
     const isActive = index === currentStep
-    const isDisabled = step.disabled || index > currentStep
+    const isDisabled = step.disabled ?? index > currentStep
 
     const animatedStyle = useAnimatedStyle(() => {
       const scale = withSpring(isActive ? 1.2 : 1)

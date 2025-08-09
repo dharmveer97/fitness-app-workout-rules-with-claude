@@ -52,16 +52,9 @@ export default function StatsCard({
     transform: [{ scale: scale.value * 0.95 }],
   }))
 
-  const animatedNumberStyle = useAnimatedStyle(() => {
-    const displayValue =
-      typeof value === 'number'
-        ? interpolate(countValue.value, [0, value], [0, value])
-        : 0
-
-    return {
-      opacity: opacity.value,
-    }
-  })
+  const animatedNumberStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }))
 
   const handlePressIn = () => {
     scale.value = withSpring(0.95)

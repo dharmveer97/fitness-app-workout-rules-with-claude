@@ -1,36 +1,30 @@
-import type { Dispatch, SetStateAction } from 'react'
 import { useRef, useState, useCallback } from 'react'
 
-import type { ViewToken } from 'react-native'
-import { Animated, useWindowDimensions } from 'react-native'
+import { Animated, useWindowDimensions, type ViewToken } from 'react-native'
 
 export const useOnboardingSlides = <T = any>({
   slidesLength,
   onLastSlide,
 }: UseOnboardingSlidesProps): UseOnboardingSlidesReturn<T> => {
-  const [currentIndex, setCurrentIndex]: [
-    number,
-    Dispatch<SetStateAction<number>>,
-  ] = useState<number>(0)
-  const scrollX: Animated.Value = useRef<Animated.Value>(
-    new Animated.Value(0),
-  ).current
-  const slidesRef: any = useRef(null)
+  const [currentIndex, setCurrentIndex] = useState<number>(0)
+  const scrollX = useRef<Animated.Value>(new Animated.Value(0)).current
+  const slidesRef = useRef<any>(null)
 
-  const { width }: { width: number } = useWindowDimensions()
+  const { width } = useWindowDimensions()
 
-  const viewableItemsChanged: (info: { viewableItems: ViewToken[] }) => void =
-    useRef(({ viewableItems }: { viewableItems: ViewToken[] }): void => {
+  const viewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
       if (viewableItems.length > 0 && viewableItems[0].index !== null) {
         setCurrentIndex(viewableItems[0].index)
       }
-    }).current
+    },
+  ).current
 
-  const viewConfig: { viewAreaCoveragePercentThreshold: number } = useRef({
+  const viewConfig = useRef({
     viewAreaCoveragePercentThreshold: 50,
   }).current
 
-  const scrollToNext: () => void = useCallback((): void => {
+  const scrollToNext = useCallback(() => {
     if (currentIndex < slidesLength - 1) {
       slidesRef.current?.scrollToIndex({ index: currentIndex + 1 })
     } else {
@@ -38,7 +32,7 @@ export const useOnboardingSlides = <T = any>({
     }
   }, [currentIndex, slidesLength, onLastSlide])
 
-  const scrollToPrev: () => void = useCallback((): void => {
+  const scrollToPrev = useCallback(() => {
     if (currentIndex > 0) {
       slidesRef.current?.scrollToIndex({ index: currentIndex - 1 })
     } else {

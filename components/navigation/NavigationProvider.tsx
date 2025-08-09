@@ -15,6 +15,7 @@ export const NavigationProvider: React.FC<NavigationProviderProps> = ({
       try {
         await SplashScreen.hideAsync()
       } catch (e) {
+        console.log(e, 'Error: SplashScreen might already be hidden')
         // SplashScreen might already be hidden
       }
     }

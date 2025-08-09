@@ -35,24 +35,37 @@ export default function PreferencesScreen() {
 
   const [workoutTime, setWorkoutTime] = useState<
     'morning' | 'afternoon' | 'evening'
-  >(preferences.workoutTime || 'morning')
+  >(preferences.workoutTime ?? 'morning')
   const [notifications, setNotifications] = useState(
     preferences.notifications ?? true,
   )
   const [reminders, setReminders] = useState(preferences.reminders ?? true)
 
-  const handleComplete = () => {
-    dispatch(
-      updatePreferences({
-        workoutTime,
-        notifications,
-        reminders,
-      }),
-    )
-    dispatch(markSlideCompleted('preferences'))
-    dispatch(completeOnboarding())
-    dispatch(authCompleteOnboarding())
-    router.replace('/(tabs)')
+  const handleComplete = async () => {
+    try {
+      // Update preferences first
+      dispatch(
+        updatePreferences({
+          workoutTime,
+          notifications,
+          reminders,
+        }),
+      )
+
+      // Mark slide as completed
+      dispatch(markSlideCompleted('preferences'))
+
+      // Complete onboarding in sequence to avoid race conditions
+      dispatch(completeOnboarding())
+      dispatch(authCompleteOnboarding())
+
+      // Small delay to allow state to update before navigation
+      setTimeout(() => {
+        router.replace('/(tabs)')
+      }, 100)
+    } catch (error) {
+      console.error('Error completing onboarding:', error)
+    }
   }
 
   const handleBack = () => {
@@ -105,8 +118,7 @@ export default function PreferencesScreen() {
         <View className='h-1 overflow-hidden rounded-full bg-dark-700'>
           <Animated.View
             entering={FadeIn}
-            className='h-full rounded-full bg-primary-500'
-            style={{ width: '100%' }}
+            className='h-full w-full rounded-full bg-primary-500'
           />
         </View>
         <Text className='mt-2 text-xs text-dark-400'>Step 3 of 3</Text>

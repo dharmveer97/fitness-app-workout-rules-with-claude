@@ -56,16 +56,9 @@ export default function ProgressRing({
     opacity: opacity.value,
   }))
 
-  const animatedTextStyle = useAnimatedStyle(() => {
-    const displayValue = interpolate(
-      animatedValue.value,
-      [0, progress],
-      [0, value],
-    )
-    return {
-      opacity: opacity.value,
-    }
-  })
+  const animatedTextStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }))
 
   const getProgressColor = () => {
     if (progress >= 1) return '#10B981' // Success green

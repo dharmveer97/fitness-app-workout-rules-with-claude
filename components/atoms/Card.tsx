@@ -1,6 +1,5 @@
 import React from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View } from 'react-native'
 
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'

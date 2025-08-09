@@ -20,14 +20,14 @@ import ProgressRing from '@/components/home/ProgressRing'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
 import WeeklyChart from '@/components/home/WeeklyChart'
-import { signOut } from '@/state/slices/authSlice'
+import { signOut as _signOut } from '@/state/slices/authSlice'
 import type { RootState } from '@/state/store'
 
 // Types are now globally available from .d.ts files
 
 export default function HomeScreen() {
   const user = useSelector((s: RootState) => s.auth.user)
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
   const [refreshing, setRefreshing] = useState(false)
 
   // Mock data - in a real app, this would come from your API/state

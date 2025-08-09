@@ -72,7 +72,7 @@ export function useOnboarding() {
   )
 
   const isOnboardingCompleted =
-    onboardingState.isOnboardingCompleted || authState.isOnboarded
+    onboardingState.isOnboardingCompleted ?? authState.isOnboarded
 
   const progress = {
     current: onboardingState.currentSlideIndex,

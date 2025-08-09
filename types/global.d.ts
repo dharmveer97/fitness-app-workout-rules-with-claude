@@ -44,6 +44,7 @@ type LayoutChangeEvent = import('react-native').LayoutChangeEvent
 type NativeSyntheticEvent<T> = import('react-native').NativeSyntheticEvent<T>
 type ViewProps = import('react-native').ViewProps
 type TextProps = import('react-native').TextProps
+type TextInputProps = import('react-native').TextInputProps
 type TouchableOpacityProps = import('react-native').TouchableOpacityProps
 
 // Reanimated types with proper generics
