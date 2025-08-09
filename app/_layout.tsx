@@ -13,7 +13,7 @@ import { store, persistor } from '../state/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../state/store';
-import { NavigationProvider, RouteGuard } from '../components/navigation';
+import { NavigationProvider } from '../components/navigation';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -65,32 +65,27 @@ function RootLayoutNav() {
   const isOnboarded = useSelector((s: RootState) => s.auth.isOnboarded);
   const isOnboardingCompleted = useSelector((s: RootState) => s.onboarding.isOnboardingCompleted);
   const isAuthenticated = useSelector((s: RootState) => Boolean(s.auth.accessToken));
+  const { _hasHydrated } = useSelector((s: RootState) => s.onboarding);
+
+  // Don't render anything until hydrated to prevent navigation loops
+  if (!_hasHydrated) {
+    return null;
+  }
 
   // Combined onboarding check - either from auth slice or onboarding slice
   const hasCompletedOnboarding = isOnboarded || isOnboardingCompleted;
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <RouteGuard
-        guards={[
-          {
-            condition: !hasCompletedOnboarding,
-            redirect: '/(auth)/onboarding',
-            priority: 100, // Highest priority
-          },
-          {
-            condition: hasCompletedOnboarding && !isAuthenticated,
-            redirect: '/(auth)/sign-in',
-            priority: 90,
-          },
-        ]}
-      >
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="(auth)" />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: true }} />
-        </Stack>
-      </RouteGuard>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="modal" options={{ presentation: 'modal', headerShown: true }} />
+      </Stack>
+      
+      {/* Simple redirects without RouteGuard to prevent loops */}
+      {!hasCompletedOnboarding && <Redirect href="/(auth)/onboarding" />}
+      {hasCompletedOnboarding && !isAuthenticated && <Redirect href="/(auth)/sign-in" />}
     </ThemeProvider>
   );
 }

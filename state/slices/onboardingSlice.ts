@@ -108,7 +108,7 @@ const initialState: OnboardingState = {
   analytics: {
     interactionCount: 0,
   },
-  _hasHydrated: false,
+  _hasHydrated: true,
   isLoading: false,
   error: null,
 };
