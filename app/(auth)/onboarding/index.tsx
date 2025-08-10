@@ -73,21 +73,17 @@ export default function PersonalInfoScreen() {
       <StatusBar style='light' />
 
       {/* Header */}
-      <View className='flex-row items-center justify-between px-6 pb-4 pt-12'>
+      <View className='flex-row items-center justify-end px-6 pb-6 pt-14'>
         <TouchableOpacity
           onPress={handleSkip}
-          className='h-10 w-10 items-center justify-center rounded-full bg-dark-700'
+          className='rounded-full bg-dark-700 px-4 py-2'
         >
-          <Ionicons name='arrow-back' size={20} color='#9CA3AF' />
+          <Text className='text-sm font-medium text-dark-300'>Skip</Text>
         </TouchableOpacity>
-
-        <Button variant='ghost' size='sm' onPress={handleSkip}>
-          Skip
-        </Button>
       </View>
 
       {/* Progress Steps */}
-      <View className='mb-6 px-6'>
+      <View className='mb-8 px-6'>
         <ProgressSteps
           steps={
             [
@@ -105,99 +101,125 @@ export default function PersonalInfoScreen() {
         className='flex-1 px-6'
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps='handled'
+        contentContainerStyle={{ paddingBottom: 100 }}
       >
         {/* Title Section */}
-        <Animated.View entering={FadeIn.delay(200)}>
-          <Text variant='label' color='primary' className='mb-2'>
-            Personal Information
+        <Animated.View entering={FadeIn.delay(200)} className='mb-10'>
+          <Text
+            variant='label'
+            color='primary'
+            className='mb-3 text-sm font-semibold'
+          >
+            STEP 1 OF 3
           </Text>
-          <Text variant='h2' color='white' className='mb-2'>
+          <Text variant='h2' color='white' className='mb-3 text-3xl font-bold'>
             Let's get to know you
           </Text>
-          <Text variant='body' color='gray' className='mb-8'>
+          <Text
+            variant='body'
+            color='gray'
+            className='text-base leading-relaxed'
+          >
             This helps us personalize your fitness journey
           </Text>
         </Animated.View>
 
         {/* Form Fields */}
-        <Animated.View entering={FadeIn.delay(400)} className='space-y-6'>
+        {/* Form Fields */}
+        <Animated.View entering={FadeIn.delay(400)} className='space-y-8'>
           {/* Name Input */}
-          <FormField
-            label='Your Name'
-            required
-            value={name}
-            onChangeText={setName}
-            placeholder='Enter your name'
-            leftIcon='person'
-            hint="This is how we'll address you in the app"
-          />
+          <View className='space-y-2'>
+            <FormField
+              label='Your Name'
+              required
+              value={name}
+              onChangeText={setName}
+              placeholder='Enter your name'
+              leftIcon='person'
+              hint="This is how we'll address you in the app"
+            />
+          </View>
 
           {/* Age Input */}
-          <FormField
-            label='Your Age'
-            required
-            value={age}
-            onChangeText={setAge}
-            placeholder='Enter your age'
-            type='number'
-            leftIcon='calendar'
-            hint='Helps us customize your workout intensity'
-          />
+          <View className='space-y-2'>
+            <FormField
+              label='Your Age'
+              required
+              value={age}
+              onChangeText={setAge}
+              placeholder='Enter your age'
+              type='number'
+              leftIcon='calendar'
+              hint='Helps us customize your workout intensity'
+            />
+          </View>
 
           {/* Gender Selection */}
-          <RadioGroup
-            label='Gender'
-            options={
-              [
-                { value: 'male', label: 'Male' },
-                { value: 'female', label: 'Female' },
-                { value: 'other', label: 'Other' },
-              ] as RadioOption[]
-            }
-            value={gender}
-            onChange={(value) => setGender(value)}
-            orientation='horizontal'
-            variant='button'
-          />
+          <View className='space-y-3'>
+            <RadioGroup
+              label='Gender'
+              options={
+                [
+                  { value: 'male', label: 'Male' },
+                  { value: 'female', label: 'Female' },
+                  { value: 'other', label: 'Other' },
+                ] as RadioOption[]
+              }
+              value={gender}
+              onChange={(value) =>
+                setGender(value as 'male' | 'female' | 'other')
+              }
+              orientation='horizontal'
+              variant='button'
+            />
+          </View>
 
           {/* Fitness Level */}
-          <RadioGroup
-            label='Fitness Level'
-            options={
-              [
-                {
-                  value: 'beginner',
-                  label: 'Beginner',
-                  description: 'New to working out',
-                  icon: (
-                    <Ionicons name='star-outline' size={20} color='#10B981' />
-                  ),
-                },
-                {
-                  value: 'intermediate',
-                  label: 'Intermediate',
-                  description: 'Workout occasionally',
-                  icon: <Ionicons name='star-half' size={20} color='#F97316' />,
-                },
-                {
-                  value: 'advanced',
-                  label: 'Advanced',
-                  description: 'Regular workout routine',
-                  icon: <Ionicons name='star' size={20} color='#8B5CF6' />,
-                },
-              ] as RadioOption[]
-            }
-            value={fitnessLevel}
-            onChange={(value) => setFitnessLevel(value)}
-            variant='card'
-          />
+          <View className='space-y-3'>
+            <RadioGroup
+              label='Fitness Level'
+              options={
+                [
+                  {
+                    value: 'beginner',
+                    label: 'Beginner',
+                    description: 'New to working out',
+                    icon: (
+                      <Ionicons name='star-outline' size={20} color='#10B981' />
+                    ),
+                  },
+                  {
+                    value: 'intermediate',
+                    label: 'Intermediate',
+                    description: 'Workout occasionally',
+                    icon: (
+                      <Ionicons name='star-half' size={20} color='#F97316' />
+                    ),
+                  },
+                  {
+                    value: 'advanced',
+                    label: 'Advanced',
+                    description: 'Regular workout routine',
+                    icon: <Ionicons name='star' size={20} color='#8B5CF6' />,
+                  },
+                ] as RadioOption[]
+              }
+              value={fitnessLevel}
+              onChange={(value) =>
+                setFitnessLevel(
+                  value as 'beginner' | 'intermediate' | 'advanced',
+                )
+              }
+              variant='card'
+            />
+          </View>
         </Animated.View>
 
-        <View className='h-20' />
+        <View className='h-32' />
       </ScrollView>
 
       {/* Bottom Action Button */}
-      <View className='bg-dark-900 px-6 pb-8 pt-4'>
+      <View className='absolute bottom-0 left-0 right-0 border-t border-dark-700 bg-dark-900 px-6 pb-10 pt-6'>
         <Button
           variant='primary'
           size='lg'

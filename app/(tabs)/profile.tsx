@@ -34,9 +34,9 @@ export default function ProfileScreen() {
     gender: 'male',
     fitnessLevel: 'intermediate',
     unitSystem: 'metric',
-    joinDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 1 year ago
-    createdAt: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 1 year ago
-    updatedAt: new Date(),
+    joinDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year ago
+    createdAt: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year ago
+    updatedAt: new Date().toISOString(),
     stats: {
       totalWorkouts: 156,
       totalDuration: 7800, // minutes

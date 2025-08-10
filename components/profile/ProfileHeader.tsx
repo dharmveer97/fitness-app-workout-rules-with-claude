@@ -33,7 +33,8 @@ export default function ProfileHeader({
       year: 'numeric',
       month: 'long',
     }
-    return profile.joinDate.toLocaleDateString('en-US', options)
+    const joinDate = new Date(profile.joinDate)
+    return joinDate.toLocaleDateString('en-US', options)
   }
 
   const getFitnessLevelColor = () => {

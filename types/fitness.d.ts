@@ -134,10 +134,10 @@ interface UserProfile {
   fitnessLevel: WorkoutDifficulty
   unitSystem: UnitSystem
   goals: UserGoals
-  joinDate: Date
+  joinDate: string // ISO date string
   stats?: WorkoutStats
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string // ISO date string
+  updatedAt: string // ISO date string
   preferences: {
     notifications: {
       workoutReminders: boolean

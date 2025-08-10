@@ -45,6 +45,7 @@ export default function SignInScreen() {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1500))
 
+        const currentDate = new Date().toISOString()
         dispatch(
           signIn({
             accessToken: 'demo-token',
@@ -56,9 +57,9 @@ export default function SignInScreen() {
                 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150',
               fitnessLevel: 'beginner',
               unitSystem: 'metric',
-              joinDate: new Date(),
-              createdAt: new Date(),
-              updatedAt: new Date(),
+              joinDate: currentDate,
+              createdAt: currentDate,
+              updatedAt: currentDate,
               goals: {
                 dailySteps: 10000,
                 dailyWater: 2500,
@@ -77,10 +78,10 @@ export default function SignInScreen() {
                   shareWorkouts: true,
                 },
               },
-            },
+            } as any,
           }),
         )
-        router.replace('/')
+        router.replace('/(tabs)')
       } catch (error) {
         console.error('Sign in error:', error)
         formik.setFieldError('password', 'Invalid email or password')
@@ -97,6 +98,7 @@ export default function SignInScreen() {
       // Simulate social login
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
+      const currentDate = new Date().toISOString()
       dispatch(
         signIn({
           accessToken: 'demo-social-token',
@@ -108,9 +110,9 @@ export default function SignInScreen() {
               'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
             fitnessLevel: 'beginner',
             unitSystem: 'metric',
-            joinDate: new Date(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            joinDate: currentDate,
+            createdAt: currentDate,
+            updatedAt: currentDate,
             goals: {
               dailySteps: 10000,
               dailyWater: 2500,
@@ -129,10 +131,10 @@ export default function SignInScreen() {
                 shareWorkouts: true,
               },
             },
-          },
+          } as any,
         }),
       )
-      router.replace('/')
+      router.replace('/(tabs)')
     } catch (error) {
       console.error(`${provider} login error:`, error)
     } finally {

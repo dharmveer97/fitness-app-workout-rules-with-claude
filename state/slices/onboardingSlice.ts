@@ -109,6 +109,71 @@ export const completeOnboardingAsync = createAsyncThunk(
   },
 )
 
+// Combined action that completes onboarding and signs in the user
+export const completeOnboardingWithSignIn = createAsyncThunk(
+  'onboarding/completeWithSignIn',
+  async (_, { dispatch, getState }) => {
+    const state = getState() as { onboarding: OnboardingState }
+    const { personalInfo, preferences } = state.onboarding
+    
+    // Mark preferences slide as completed
+    dispatch(markSlideCompleted('preferences'))
+    
+    // Complete onboarding
+    dispatch(completeOnboarding())
+    
+    // Create demo user with ISO date strings
+    const currentDate = new Date().toISOString()
+    const demoUser = {
+      id: '1',
+      name: personalInfo.name ?? 'Fitness User',
+      email: 'demo@fitness.app',
+      avatar: 'https://i.pravatar.cc/150',
+      fitnessLevel: (personalInfo.fitnessLevel ?? 'beginner') as WorkoutDifficulty,
+      unitSystem: 'metric' as UnitSystem,
+      joinDate: currentDate,
+      createdAt: currentDate,
+      updatedAt: currentDate,
+      goals: {
+        dailySteps: 10000,
+        dailyWater: 2500,
+        dailyCalories: 2000,
+        weeklyWorkouts: 3,
+        sleepHours: 8,
+      },
+      preferences: {
+        notifications: {
+          workoutReminders: preferences.notifications ?? true,
+          waterReminders: preferences.reminders ?? true,
+          sleepReminders: false,
+        },
+        privacy: {
+          shareStats: false,
+          shareWorkouts: true,
+        },
+      },
+    }
+    
+    // Import and dispatch signIn from authSlice
+    const { signIn, completeOnboarding: authCompleteOnboarding } = await import('./authSlice')
+    
+    // Complete auth onboarding
+    dispatch(authCompleteOnboarding())
+    
+    // Sign in the user
+    dispatch(signIn({
+      accessToken: 'demo-token-onboarding',
+      refreshToken: 'demo-refresh-token',
+      user: demoUser,
+    }))
+    
+    // Save to SecureStore
+    await SecureStore.setItemAsync('onboarding_completed', 'true')
+    
+    return { success: true, user: demoUser }
+  },
+)
+
 const initialState: OnboardingState = {
   isOnboardingCompleted: false,
   currentSlideIndex: 0,

@@ -109,7 +109,7 @@ export default function GoalsScreen() {
       <StatusBar style='light' />
 
       {/* Header */}
-      <View className='flex-row items-center justify-between px-6 pb-4 pt-12'>
+      <View className='flex-row items-center justify-between px-6 pb-6 pt-14'>
         <TouchableOpacity
           onPress={handleBack}
           className='h-10 w-10 items-center justify-center rounded-full bg-dark-700'
@@ -126,7 +126,7 @@ export default function GoalsScreen() {
       </View>
 
       {/* Progress Bar */}
-      <View className='mb-6 px-6'>
+      <View className='mb-8 px-6'>
         <View className='h-1 overflow-hidden rounded-full bg-dark-700'>
           <Animated.View
             entering={FadeIn}
@@ -143,28 +143,29 @@ export default function GoalsScreen() {
         className='flex-1 px-6'
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps='handled'
+        contentContainerStyle={{ paddingBottom: 100 }}
       >
         {/* Title Section */}
-        <Animated.View entering={FadeIn.delay(200)}>
-          <Text className='mb-2 text-sm font-semibold text-primary-400'>
-            Fitness Goals
+        <Animated.View entering={FadeIn.delay(200)} className='mb-10'>
+          <Text className='mb-3 text-sm font-semibold uppercase text-primary-400'>
+            STEP 2 OF 3
           </Text>
-          <Text className='mb-2 text-2xl font-bold text-white'>
+          <Text className='mb-3 text-3xl font-bold text-white'>
             What's your main goal?
           </Text>
-          <Text className='mb-8 text-base text-dark-300'>
+          <Text className='text-base leading-relaxed text-dark-300'>
             We'll create a personalized plan to help you achieve it
           </Text>
         </Animated.View>
 
         {/* Form Fields */}
-        <Animated.View entering={FadeIn.delay(400)} className='space-y-6'>
+        <Animated.View entering={FadeIn.delay(400)} className='space-y-8'>
           {/* Primary Goal Selection */}
-          <View>
-            <Text className='mb-3 text-sm font-medium text-dark-200'>
+          <View className='space-y-4'>
+            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-dark-200'>
               Primary Goal
             </Text>
-            <View className='space-y-3'>
+            <View className='space-y-4'>
               {goalOptions.map((option) => (
                 <TouchableOpacity
                   key={option.value}
@@ -232,32 +233,34 @@ export default function GoalsScreen() {
           )}
 
           {/* Workout Frequency */}
-          <View>
-            <Text className='mb-2 text-sm font-medium text-dark-200'>
-              How many days per week can you workout?
+          <View className='space-y-4'>
+            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-dark-200'>
+              Workout Frequency
             </Text>
-            <View className='flex-row justify-between rounded-xl bg-dark-800 p-1'>
-              {[1, 2, 3, 4, 5, 6, 7].map((day) => (
-                <TouchableOpacity
-                  key={day}
-                  onPress={() => setWorkoutFrequency(day.toString())}
-                  className={`flex-1 rounded-lg py-3 ${
-                    parseInt(workoutFrequency) === day
-                      ? 'bg-primary-500'
-                      : 'bg-transparent'
-                  }`}
-                >
-                  <Text
-                    className={`text-center font-semibold ${
+            <View className='rounded-xl bg-dark-800 p-2'>
+              <View className='flex-row justify-between gap-1'>
+                {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                  <TouchableOpacity
+                    key={day}
+                    onPress={() => setWorkoutFrequency(day.toString())}
+                    className={`flex-1 rounded-lg py-3 ${
                       parseInt(workoutFrequency) === day
-                        ? 'text-white'
-                        : 'text-dark-400'
+                        ? 'bg-primary-500'
+                        : 'bg-transparent'
                     }`}
                   >
-                    {day}
-                  </Text>
-                </TouchableOpacity>
-              ))}
+                    <Text
+                      className={`text-center text-sm font-bold ${
+                        parseInt(workoutFrequency) === day
+                          ? 'text-white'
+                          : 'text-dark-400'
+                      }`}
+                    >
+                      {day}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
             <Text className='mt-2 text-center text-xs text-dark-400'>
               {parseInt(workoutFrequency)} days per week
@@ -265,26 +268,31 @@ export default function GoalsScreen() {
           </View>
 
           {/* Motivational Text */}
-          <View className='rounded-xl border border-primary-500/30 bg-primary-500/10 p-4'>
+          <Animated.View
+            entering={FadeIn.delay(600)}
+            className='rounded-2xl border border-primary-500/30 bg-gradient-to-br from-primary-500/10 to-primary-600/5 p-5'
+          >
             <View className='flex-row items-center'>
-              <Ionicons name='bulb' size={20} color='#10B981' />
-              <Text className='ml-2 text-sm font-semibold text-primary-400'>
+              <View className='mr-3 h-10 w-10 items-center justify-center rounded-full bg-primary-500/20'>
+                <Ionicons name='bulb' size={20} color='#10B981' />
+              </View>
+              <Text className='text-sm font-semibold uppercase tracking-wide text-primary-400'>
                 Pro Tip
               </Text>
             </View>
-            <Text className='mt-2 text-sm text-dark-200'>
+            <Text className='mt-3 text-sm leading-relaxed text-dark-200'>
               Starting with 3-4 days per week is perfect for building a
               sustainable routine. You can always increase frequency as you
               progress!
             </Text>
-          </View>
+          </Animated.View>
         </Animated.View>
 
-        <View className='h-20' />
+        <View className='h-32' />
       </ScrollView>
 
       {/* Bottom Action Buttons */}
-      <View className='bg-dark-900 px-6 pb-8 pt-4'>
+      <View className='absolute bottom-0 left-0 right-0 border-t border-dark-700 bg-dark-900 px-6 pb-10 pt-6'>
         <AuthButton
           title='Continue'
           onPress={handleNext}

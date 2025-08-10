@@ -18,12 +18,10 @@ import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 
 import AuthButton from '@/components/auth/AuthButton'
-import { completeOnboarding as authCompleteOnboarding } from '@/state/slices/authSlice'
 import {
   updatePreferences,
-  completeOnboarding,
   previousSlide,
-  markSlideCompleted,
+  completeOnboardingWithSignIn,
 } from '@/state/slices/onboardingSlice'
 import type { RootState } from '@/state/store'
 
@@ -55,17 +53,63 @@ export default function PreferencesScreen() {
       // Mark slide as completed
       dispatch(markSlideCompleted('preferences'))
 
-      // Complete onboarding in both slices to ensure state consistency
-      await dispatch(completeOnboarding())
-      await dispatch(authCompleteOnboarding())
+      // Complete onboarding in both slices
+      dispatch(completeOnboarding())
+      dispatch(authCompleteOnboarding())
 
-      // Navigate to sign-in instead of tabs to ensure proper authentication flow
-      // The AuthProvider will handle redirecting to tabs if already authenticated
-      router.replace('/(auth)/sign-in')
+      // For demo purposes, sign in the user automatically with mock data
+      // Using ISO strings instead of Date objects to avoid Redux serialization errors
+      const currentDate = new Date().toISOString()
+      
+      // Create user object with proper typing
+      const demoUser = {
+        id: '1',
+        name: personalInfo.name ?? 'Fitness User',
+        email: 'demo@fitness.app',
+        avatar: 'https://i.pravatar.cc/150',
+        fitnessLevel: (personalInfo.fitnessLevel ?? 'beginner') as WorkoutDifficulty,
+        unitSystem: 'metric' as UnitSystem,
+        joinDate: currentDate,
+        createdAt: currentDate,
+        updatedAt: currentDate,
+        goals: {
+          dailySteps: 10000,
+          dailyWater: 2500,
+          dailyCalories: 2000,
+          weeklyWorkouts: 3,
+          sleepHours: 8,
+        },
+        preferences: {
+          notifications: {
+            workoutReminders: notifications,
+            waterReminders: reminders,
+            sleepReminders: false,
+          },
+          privacy: {
+            shareStats: false,
+            shareWorkouts: true,
+          },
+        },
+      }
+      
+      dispatch(
+        signIn({
+          accessToken: 'demo-token-onboarding',
+          refreshToken: 'demo-refresh-token',
+          user: demoUser,
+        }),
+      )
+
+      // Longer delay to ensure Redux state is fully updated
+      setTimeout(() => {
+        router.replace('/(tabs)/index')
+      }, 200)
     } catch (error) {
       console.error('Error completing onboarding:', error)
-      // Show error to user but don't crash the app
-      router.replace('/(auth)/sign-in')
+      // Fallback navigation
+      setTimeout(() => {
+        router.replace('/(auth)/sign-in')
+      }, 100)
     }
   }
 
@@ -103,7 +147,7 @@ export default function PreferencesScreen() {
       <StatusBar style='light' />
 
       {/* Header */}
-      <View className='flex-row items-center justify-between px-6 pb-4 pt-12'>
+      <View className='flex-row items-center justify-between px-6 pb-6 pt-14'>
         <TouchableOpacity
           onPress={handleBack}
           className='h-10 w-10 items-center justify-center rounded-full bg-dark-700'
@@ -115,7 +159,7 @@ export default function PreferencesScreen() {
       </View>
 
       {/* Progress Bar */}
-      <View className='mb-6 px-6'>
+      <View className='mb-8 px-6'>
         <View className='h-1 overflow-hidden rounded-full bg-dark-700'>
           <Animated.View
             entering={FadeIn}
@@ -129,28 +173,29 @@ export default function PreferencesScreen() {
         className='flex-1 px-6'
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps='handled'
+        contentContainerStyle={{ paddingBottom: 100 }}
       >
         {/* Title Section */}
-        <Animated.View entering={FadeIn.delay(200)}>
-          <Text className='mb-2 text-sm font-semibold text-primary-400'>
-            Preferences
+        <Animated.View entering={FadeIn.delay(200)} className='mb-10'>
+          <Text className='mb-3 text-sm font-semibold uppercase text-primary-400'>
+            STEP 3 OF 3
           </Text>
-          <Text className='mb-2 text-2xl font-bold text-white'>
+          <Text className='mb-3 text-3xl font-bold text-white'>
             Almost there, {personalInfo.name}!
           </Text>
-          <Text className='mb-8 text-base text-dark-300'>
+          <Text className='text-base leading-relaxed text-dark-300'>
             Let's set up your workout preferences
           </Text>
         </Animated.View>
 
         {/* Form Fields */}
-        <Animated.View entering={FadeIn.delay(400)} className='space-y-6'>
+        <Animated.View entering={FadeIn.delay(400)} className='space-y-8'>
           {/* Preferred Workout Time */}
-          <View>
-            <Text className='mb-3 text-sm font-medium text-dark-200'>
+          <View className='space-y-4'>
+            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-dark-200'>
               Preferred Workout Time
             </Text>
-            <View className='space-y-3'>
+            <View className='space-y-4'>
               {workoutTimeOptions.map((option, index) => (
                 <Animated.View
                   key={option.value}
@@ -207,8 +252,8 @@ export default function PreferencesScreen() {
           </View>
 
           {/* Notification Settings */}
-          <View className='space-y-4'>
-            <Text className='text-sm font-medium text-dark-200'>
+          <View className='space-y-5'>
+            <Text className='mb-2 text-sm font-semibold uppercase tracking-wide text-dark-200'>
               Notification Settings
             </Text>
 
@@ -283,11 +328,11 @@ export default function PreferencesScreen() {
           </Animated.View>
         </Animated.View>
 
-        <View className='h-20' />
+        <View className='h-32' />
       </ScrollView>
 
       {/* Bottom Action Button */}
-      <View className='bg-dark-900 px-6 pb-8 pt-4'>
+      <View className='absolute bottom-0 left-0 right-0 border-t border-dark-700 bg-dark-900 px-6 pb-10 pt-6'>
         <AuthButton
           title='Start Your Journey'
           onPress={handleComplete}
