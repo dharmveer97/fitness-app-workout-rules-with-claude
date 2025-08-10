@@ -55,16 +55,17 @@ export default function PreferencesScreen() {
       // Mark slide as completed
       dispatch(markSlideCompleted('preferences'))
 
-      // Complete onboarding in sequence to avoid race conditions
-      dispatch(completeOnboarding())
-      dispatch(authCompleteOnboarding())
+      // Complete onboarding in both slices to ensure state consistency
+      await dispatch(completeOnboarding())
+      await dispatch(authCompleteOnboarding())
 
-      // Small delay to allow state to update before navigation
-      setTimeout(() => {
-        router.replace('/(tabs)')
-      }, 100)
+      // Navigate to sign-in instead of tabs to ensure proper authentication flow
+      // The AuthProvider will handle redirecting to tabs if already authenticated
+      router.replace('/(auth)/sign-in')
     } catch (error) {
       console.error('Error completing onboarding:', error)
+      // Show error to user but don't crash the app
+      router.replace('/(auth)/sign-in')
     }
   }
 

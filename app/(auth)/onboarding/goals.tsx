@@ -41,25 +41,37 @@ export default function GoalsScreen() {
   )
 
   const handleNext = () => {
-    dispatch(
-      updateGoals({
-        primaryGoal,
-        targetWeight: targetWeight ? parseInt(targetWeight) : undefined,
-        workoutFrequency: parseInt(workoutFrequency),
-      }),
-    )
-    dispatch(markSlideCompleted('goals'))
-    dispatch(nextSlide())
-    router.push('/(auth)/onboarding/preferences')
+    try {
+      dispatch(
+        updateGoals({
+          primaryGoal,
+          targetWeight: targetWeight ? parseInt(targetWeight, 10) : undefined,
+          workoutFrequency: parseInt(workoutFrequency, 10) ?? 3,
+        }),
+      )
+      dispatch(markSlideCompleted('goals'))
+      dispatch(nextSlide())
+      router.push('/(auth)/onboarding/preferences')
+    } catch (error) {
+      console.error('Error navigating to preferences:', error)
+    }
   }
 
   const handleBack = () => {
-    dispatch(previousSlide())
-    router.push('/(auth)/onboarding')
+    try {
+      dispatch(previousSlide())
+      router.push('/(auth)/onboarding')
+    } catch (error) {
+      console.error('Error navigating back:', error)
+    }
   }
 
   const handleSkip = () => {
-    router.replace('/(auth)/sign-in')
+    try {
+      router.replace('/(auth)/sign-in')
+    } catch (error) {
+      console.error('Error skipping onboarding:', error)
+    }
   }
 
   const goalOptions = [

@@ -9,7 +9,7 @@ import { cn } from '@/utils/cn'
 import { Card } from '../atoms/Card'
 import { Text } from '../atoms/Text'
 
-interface RadioOption<T = string> {
+export interface RadioOption<T = string> {
   value: T
   label: string
   description?: string
@@ -17,7 +17,7 @@ interface RadioOption<T = string> {
   icon?: React.ReactNode
 }
 
-interface RadioGroupProps<T = string> extends ViewProps {
+export interface RadioGroupProps<T = string> extends ViewProps {
   label?: string
   options: RadioOption<T>[]
   value?: T
