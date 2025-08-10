@@ -15,7 +15,7 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@/state/hooks'
 
 import AuthButton from '@/components/auth/AuthButton'
 import {
@@ -24,11 +24,10 @@ import {
   previousSlide,
   markSlideCompleted,
 } from '@/state/slices/onboardingSlice'
-import type { RootState } from '@/state/store'
 
 export default function GoalsScreen() {
-  const dispatch = useDispatch()
-  const { goals } = useSelector((state: RootState) => state.onboarding)
+  const dispatch = useAppDispatch()
+  const { goals } = useAppSelector((state) => state.onboarding)
 
   const [primaryGoal, setPrimaryGoal] = useState<
     'weight-loss' | 'muscle-gain' | 'endurance' | 'general-fitness'

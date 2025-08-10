@@ -112,65 +112,105 @@ export const completeOnboardingAsync = createAsyncThunk(
 // Combined action that completes onboarding and signs in the user
 export const completeOnboardingWithSignIn = createAsyncThunk(
   'onboarding/completeWithSignIn',
-  async (_, { dispatch, getState }) => {
-    const state = getState() as { onboarding: OnboardingState }
-    const { personalInfo, preferences } = state.onboarding
+  async (_, { dispatch, getState, rejectWithValue }) => {
+    console.log('🔵 Redux Thunk: completeOnboardingWithSignIn started')
     
-    // Mark preferences slide as completed
-    dispatch(markSlideCompleted('preferences'))
-    
-    // Complete onboarding
-    dispatch(completeOnboarding())
-    
-    // Create demo user with ISO date strings
-    const currentDate = new Date().toISOString()
-    const demoUser = {
-      id: '1',
-      name: personalInfo.name ?? 'Fitness User',
-      email: 'demo@fitness.app',
-      avatar: 'https://i.pravatar.cc/150',
-      fitnessLevel: (personalInfo.fitnessLevel ?? 'beginner') as WorkoutDifficulty,
-      unitSystem: 'metric' as UnitSystem,
-      joinDate: currentDate,
-      createdAt: currentDate,
-      updatedAt: currentDate,
-      goals: {
-        dailySteps: 10000,
-        dailyWater: 2500,
-        dailyCalories: 2000,
-        weeklyWorkouts: 3,
-        sleepHours: 8,
-      },
-      preferences: {
-        notifications: {
-          workoutReminders: preferences.notifications ?? true,
-          waterReminders: preferences.reminders ?? true,
-          sleepReminders: false,
+    try {
+      const state = getState() as { onboarding: OnboardingState }
+      const { personalInfo, preferences } = state.onboarding
+      
+      console.log('🔵 Redux Thunk: Current state extracted:', {
+        personalInfo,
+        preferences,
+        fullOnboardingState: state.onboarding,
+      })
+
+      // Mark preferences slide as completed
+      console.log('🔵 Redux Thunk: Step 1 - Marking preferences slide as completed')
+      dispatch(markSlideCompleted('preferences'))
+
+      // Complete onboarding
+      console.log('🔵 Redux Thunk: Step 2 - Completing onboarding')
+      dispatch(completeOnboarding())
+
+      // Create demo user with ISO date strings (safe serializable data)
+      console.log('🔵 Redux Thunk: Step 3 - Creating demo user')
+      const currentDate = new Date().toISOString()
+      const demoUser = {
+        id: '1',
+        name: personalInfo.name ?? 'Fitness User',
+        email: 'demo@fitness.app',
+        avatar: 'https://i.pravatar.cc/150',
+        fitnessLevel: (personalInfo.fitnessLevel ??
+          'beginner') as WorkoutDifficulty,
+        unitSystem: 'metric' as UnitSystem,
+        joinDate: currentDate,
+        createdAt: currentDate,
+        updatedAt: currentDate,
+        goals: {
+          dailySteps: 10000,
+          dailyWater: 2500,
+          dailyCalories: 2000,
+          weeklyWorkouts: 3,
+          sleepHours: 8,
         },
-        privacy: {
-          shareStats: false,
-          shareWorkouts: true,
+        preferences: {
+          notifications: {
+            workoutReminders: preferences.notifications ?? true,
+            waterReminders: preferences.reminders ?? true,
+            sleepReminders: false,
+          },
+          privacy: {
+            shareStats: false,
+            shareWorkouts: true,
+          },
         },
-      },
+      }
+
+      console.log('🔵 Redux Thunk: Step 4 - Demo user created:', demoUser)
+
+      // Import and dispatch signIn from authSlice (dynamic import to avoid circular deps)
+      console.log('🔵 Redux Thunk: Step 5 - Importing authSlice')
+      const authModule = await import('./authSlice')
+
+      // Complete auth onboarding first
+      console.log('🔵 Redux Thunk: Step 6 - Completing auth onboarding')
+      dispatch(authModule.completeOnboarding())
+
+      // Then sign in the user with the demo data
+      console.log('🔵 Redux Thunk: Step 7 - Signing in user with demo data')
+      dispatch(
+        authModule.signIn({
+          accessToken: 'demo-token-onboarding',
+          refreshToken: 'demo-refresh-token',
+          user: demoUser,
+        }),
+      )
+
+      // Save completion status to SecureStore
+      console.log('🔵 Redux Thunk: Step 8 - Saving to SecureStore')
+      await SecureStore.setItemAsync('onboarding_completed', 'true')
+      console.log('🔵 Redux Thunk: Step 9 - SecureStore save completed')
+
+      const result = { success: true, user: demoUser }
+      console.log('🟢 Redux Thunk: SUCCESS - Returning result:', result)
+      return result
+    } catch (error) {
+      console.error('🔴 Redux Thunk: ERROR in completeOnboardingWithSignIn:', error)
+      console.error('🔴 Redux Thunk: Error type:', typeof error)
+      console.error('🔴 Redux Thunk: Error details:', {
+        message: error?.message,
+        stack: error?.stack,
+        name: error?.name,
+        cause: error?.cause,
+      })
+      
+      return rejectWithValue({
+        message:
+          error instanceof Error ? error.message : 'Unknown error occurred',
+        originalError: error,
+      })
     }
-    
-    // Import and dispatch signIn from authSlice
-    const { signIn, completeOnboarding: authCompleteOnboarding } = await import('./authSlice')
-    
-    // Complete auth onboarding
-    dispatch(authCompleteOnboarding())
-    
-    // Sign in the user
-    dispatch(signIn({
-      accessToken: 'demo-token-onboarding',
-      refreshToken: 'demo-refresh-token',
-      user: demoUser,
-    }))
-    
-    // Save to SecureStore
-    await SecureStore.setItemAsync('onboarding_completed', 'true')
-    
-    return { success: true, user: demoUser }
   },
 )
 
@@ -305,6 +345,19 @@ const onboardingSlice = createSlice({
       })
       .addCase(saveOnboardingProgress.rejected, (state, action) => {
         state.error = action.error.message ?? 'Failed to save progress'
+      })
+      .addCase(completeOnboardingWithSignIn.pending, (state) => {
+        state.isLoading = true
+        state.error = null
+      })
+      .addCase(completeOnboardingWithSignIn.fulfilled, (state) => {
+        state.isOnboardingCompleted = true
+        state.isLoading = false
+        state.error = null
+      })
+      .addCase(completeOnboardingWithSignIn.rejected, (state, action) => {
+        state.isLoading = false
+        state.error = action.error.message ?? 'Failed to complete onboarding'
       })
   },
 })

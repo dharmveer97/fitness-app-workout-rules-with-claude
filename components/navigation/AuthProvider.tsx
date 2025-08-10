@@ -48,7 +48,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     })
 
     // Only redirect if clearly needed
-    if (!hasCompletedOnboarding && !currentPath.includes('onboarding') && !inTabsGroup) {
+    if (
+      !hasCompletedOnboarding &&
+      !currentPath.includes('onboarding') &&
+      !inTabsGroup
+    ) {
       console.log('Redirecting to onboarding')
       router.replace('/(auth)/onboarding')
     } else if (isAuthenticated && hasCompletedOnboarding && inAuthGroup) {

@@ -15,21 +15,30 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@/state/hooks'
 
 import AuthButton from '@/components/auth/AuthButton'
+import { StorageDebugger } from '@/components/dev/StorageDebugger'
 import {
   updatePreferences,
   previousSlide,
   completeOnboardingWithSignIn,
 } from '@/state/slices/onboardingSlice'
-import type { RootState } from '@/state/store'
 
 export default function PreferencesScreen() {
-  const dispatch = useDispatch()
-  const { preferences, personalInfo } = useSelector(
-    (state: RootState) => state.onboarding,
+  console.log('🔵 PreferencesScreen: Component mounted')
+
+  const dispatch = useAppDispatch()
+  const { preferences, personalInfo } = useAppSelector(
+    (state) => state.onboarding,
   )
+
+  console.log('🔵 PreferencesScreen: Current Redux state:', {
+    preferences,
+    personalInfo,
+    onboardingState: useAppSelector((state) => state.onboarding),
+    authState: useAppSelector((state) => state.auth),
+  })
 
   const [workoutTime, setWorkoutTime] = useState<
     'morning' | 'afternoon' | 'evening'
@@ -39,9 +48,43 @@ export default function PreferencesScreen() {
   )
   const [reminders, setReminders] = useState(preferences.reminders ?? true)
 
+  console.log('🔵 PreferencesScreen: Local state initialized:', {
+    workoutTime,
+    notifications,
+    reminders,
+  })
+
+  // Add useEffect to track component lifecycle
+  React.useEffect(() => {
+    console.log('🔵 PreferencesScreen: Component mounted/updated')
+
+    return () => {
+      console.log('🔵 PreferencesScreen: Component unmounting or updating')
+    }
+  })
+
+  // Track Redux state changes
+  React.useEffect(() => {
+    console.log('🔵 PreferencesScreen: Redux state changed:', {
+      preferences,
+      personalInfo,
+    })
+  }, [preferences, personalInfo])
+
   const handleComplete = async () => {
+    console.log('🟡 PreferencesScreen: handleComplete started')
+    console.log('🟡 PreferencesScreen: Current form values:', {
+      workoutTime,
+      notifications,
+      reminders,
+    })
+
     try {
-      // Update preferences first
+      console.log(
+        '🟡 PreferencesScreen: Step 1 - Dispatching updatePreferences',
+      )
+
+      // Update preferences in state
       dispatch(
         updatePreferences({
           workoutTime,
@@ -50,66 +93,44 @@ export default function PreferencesScreen() {
         }),
       )
 
-      // Mark slide as completed
-      dispatch(markSlideCompleted('preferences'))
-
-      // Complete onboarding in both slices
-      dispatch(completeOnboarding())
-      dispatch(authCompleteOnboarding())
-
-      // For demo purposes, sign in the user automatically with mock data
-      // Using ISO strings instead of Date objects to avoid Redux serialization errors
-      const currentDate = new Date().toISOString()
-      
-      // Create user object with proper typing
-      const demoUser = {
-        id: '1',
-        name: personalInfo.name ?? 'Fitness User',
-        email: 'demo@fitness.app',
-        avatar: 'https://i.pravatar.cc/150',
-        fitnessLevel: (personalInfo.fitnessLevel ?? 'beginner') as WorkoutDifficulty,
-        unitSystem: 'metric' as UnitSystem,
-        joinDate: currentDate,
-        createdAt: currentDate,
-        updatedAt: currentDate,
-        goals: {
-          dailySteps: 10000,
-          dailyWater: 2500,
-          dailyCalories: 2000,
-          weeklyWorkouts: 3,
-          sleepHours: 8,
-        },
-        preferences: {
-          notifications: {
-            workoutReminders: notifications,
-            waterReminders: reminders,
-            sleepReminders: false,
-          },
-          privacy: {
-            shareStats: false,
-            shareWorkouts: true,
-          },
-        },
-      }
-      
-      dispatch(
-        signIn({
-          accessToken: 'demo-token-onboarding',
-          refreshToken: 'demo-refresh-token',
-          user: demoUser,
-        }),
+      console.log(
+        '🟡 PreferencesScreen: Step 2 - updatePreferences dispatched successfully',
+      )
+      console.log(
+        '🟡 PreferencesScreen: Step 3 - About to dispatch completeOnboardingWithSignIn',
       )
 
-      // Longer delay to ensure Redux state is fully updated
-      setTimeout(() => {
-        router.replace('/(tabs)/index')
-      }, 200)
+      // Use the combined thunk that handles everything
+      const result = await dispatch(
+        completeOnboardingWithSignIn() as any,
+      ).unwrap()
+
+      console.log(
+        '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully:',
+        result,
+      )
+
+      console.log('🟢 PreferencesScreen: Step 5 - About to navigate to tabs')
+
+      // Navigate to tabs after successful completion
+      router.replace('/(tabs)')
+
+      console.log('🟢 PreferencesScreen: Step 6 - Navigation to tabs initiated')
     } catch (error) {
-      console.error('Error completing onboarding:', error)
-      // Fallback navigation
-      setTimeout(() => {
-        router.replace('/(auth)/sign-in')
-      }, 100)
+      console.error('🔴 PreferencesScreen: ERROR in handleComplete:', error)
+      console.error('🔴 PreferencesScreen: Error details:', {
+        message: error?.message,
+        stack: error?.stack,
+        name: error?.name,
+        cause: error?.cause,
+      })
+
+      console.log('🔴 PreferencesScreen: Fallback - navigating to sign-in')
+
+      // Fallback to sign-in on error
+      router.replace('/(auth)/sign-in')
+
+      console.log('🔴 PreferencesScreen: Fallback navigation initiated')
     }
   }
 
@@ -145,6 +166,9 @@ export default function PreferencesScreen() {
       className='flex-1 bg-dark-900'
     >
       <StatusBar style='light' />
+
+      {/* Development Storage Debugger */}
+      <StorageDebugger />
 
       {/* Header */}
       <View className='flex-row items-center justify-between px-6 pb-6 pt-14'>

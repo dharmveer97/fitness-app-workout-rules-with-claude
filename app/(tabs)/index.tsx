@@ -12,7 +12,6 @@ import {
 import { router } from 'expo-router'
 
 import { FontAwesome } from '@expo/vector-icons'
-import { useSelector, useDispatch } from 'react-redux'
 
 // Import our new components
 import ActivityItem from '@/components/home/ActivityItem'
@@ -20,15 +19,68 @@ import ProgressRing from '@/components/home/ProgressRing'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
 import WeeklyChart from '@/components/home/WeeklyChart'
-import { signOut as _signOut } from '@/state/slices/authSlice'
-import type { RootState } from '@/state/store'
+import { useAppSelector } from '@/state/hooks'
 
 // Types are now globally available from .d.ts files
 
 export default function HomeScreen() {
-  const user = useSelector((s: RootState) => s.auth.user)
-  const _dispatch = useDispatch()
+  const user = useAppSelector((state) => state.auth.user)
+  const isAuthenticated = useAppSelector((state) =>
+    Boolean(state.auth.accessToken),
+  )
   const [refreshing, setRefreshing] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Handlers for user interactions (must be before early returns)
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    // Simulate data refresh
+    setTimeout(() => {
+      setRefreshing(false)
+    }, 1000)
+  }, [])
+
+  const handleStatsPress = useCallback((statTitle: string) => {
+    Alert.alert('Stat Pressed', `You pressed ${statTitle}`)
+  }, [])
+
+  const _handleGoalPress = useCallback((goalLabel: string) => {
+    Alert.alert('Goal Pressed', `You pressed ${goalLabel} goal`)
+  }, [])
+
+  const handleQuickAction = useCallback((actionTitle: string) => {
+    Alert.alert('Quick Action', `You pressed ${actionTitle}`)
+  }, [])
+
+  const handleActivityPress = useCallback((activity: any) => {
+    Alert.alert('Activity Details', `View details for ${activity.title}`)
+  }, [])
+
+  // Safety check - redirect if not authenticated
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+      if (!isAuthenticated) {
+        router.replace('/(auth)/sign-in')
+      }
+    }, 500) // Small delay to prevent flash
+
+    return () => clearTimeout(timer)
+  }, [isAuthenticated])
+
+  // Show loading screen while initializing
+  if (isLoading) {
+    return (
+      <View className='flex-1 items-center justify-center bg-[#111827]'>
+        <Text className='text-lg text-white'>Loading...</Text>
+      </View>
+    )
+  }
+
+  // If not authenticated, show nothing (will redirect)
+  if (!isAuthenticated || !user) {
+    return null
+  }
 
   // Mock data - in a real app, this would come from your API/state
   const todayStats: StatsCardData[] = [
@@ -139,39 +191,6 @@ export default function HomeScreen() {
       calories: 285,
     },
   ]
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true)
-    // Simulate API call
-    setTimeout(() => {
-      setRefreshing(false)
-    }, 2000)
-  }, [])
-
-  const handleQuickAction = (action: string) => {
-    switch (action) {
-      case 'workout':
-        router.push('/(tabs)/workouts')
-        break
-      case 'meal':
-        Alert.alert('Log Meal', 'Meal logging feature coming soon!')
-        break
-      case 'water':
-        Alert.alert('Track Water', 'Water tracking feature coming soon!')
-        break
-      case 'sleep':
-        Alert.alert('Log Sleep', 'Sleep tracking feature coming soon!')
-        break
-    }
-  }
-
-  const handleActivityPress = (activity: Activity) => {
-    Alert.alert('Activity Details', `View details for ${activity.title}`)
-  }
-
-  const handleStatsPress = (title: string) => {
-    Alert.alert('Stats Details', `View detailed stats for ${title}`)
-  }
 
   return (
     <View className='flex-1 bg-[#0A0A0B]'>

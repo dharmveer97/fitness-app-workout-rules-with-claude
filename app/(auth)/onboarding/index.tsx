@@ -13,7 +13,7 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
-import { useDispatch, useSelector } from 'react-redux'
+import { useAppDispatch, useAppSelector } from '@/state/hooks'
 
 import { Text, Button } from '@/components/atoms'
 import {
@@ -28,11 +28,10 @@ import {
   nextSlide,
   markSlideCompleted,
 } from '@/state/slices/onboardingSlice'
-import type { RootState } from '@/state/store'
 
 export default function PersonalInfoScreen() {
-  const dispatch = useDispatch()
-  const { personalInfo } = useSelector((state: RootState) => state.onboarding)
+  const dispatch = useAppDispatch()
+  const { personalInfo } = useAppSelector((state) => state.onboarding)
 
   const [name, setName] = useState(personalInfo.name ?? '')
   const [age, setAge] = useState(personalInfo.age?.toString() ?? '')
