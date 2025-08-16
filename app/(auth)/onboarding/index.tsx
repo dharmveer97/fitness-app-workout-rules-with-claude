@@ -18,14 +18,17 @@ import { Text, Button } from '@/components/atoms'
 import { FormField, RadioGroup, ProgressSteps } from '@/components/elements'
 import { useOnboardingStore } from '@/stores'
 
+// Stable selectors to prevent infinite re-renders
+const selectPersonalInfo = (state: any) => state.personalInfo
+const selectUpdatePersonalInfo = (state: any) => state.updatePersonalInfo
+const selectMarkSlideCompleted = (state: any) => state.markSlideCompleted
+const selectNextSlide = (state: any) => state.nextSlide
+
 export default function PersonalInfoScreen() {
-  const { personalInfo, updatePersonalInfo, markSlideCompleted, nextSlide } =
-    useOnboardingStore((state) => ({
-      personalInfo: state.personalInfo,
-      updatePersonalInfo: state.updatePersonalInfo,
-      markSlideCompleted: state.markSlideCompleted,
-      nextSlide: state.nextSlide,
-    }))
+  const personalInfo = useOnboardingStore(selectPersonalInfo)
+  const updatePersonalInfo = useOnboardingStore(selectUpdatePersonalInfo)
+  const markSlideCompleted = useOnboardingStore(selectMarkSlideCompleted)
+  const nextSlide = useOnboardingStore(selectNextSlide)
 
   const [name, setName] = useState(personalInfo.name ?? '')
   const [age, setAge] = useState(personalInfo.age?.toString() ?? '')

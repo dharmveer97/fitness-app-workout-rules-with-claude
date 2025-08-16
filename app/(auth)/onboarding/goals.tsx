@@ -19,15 +19,19 @@ import Animated, { FadeIn } from 'react-native-reanimated'
 import AuthButton from '@/components/auth/AuthButton'
 import { useOnboardingStore } from '@/stores'
 
+// Stable selectors to prevent infinite re-renders
+const selectGoals = (state: any) => state.goals
+const selectUpdateGoals = (state: any) => state.updateGoals
+const selectMarkSlideCompleted = (state: any) => state.markSlideCompleted
+const selectNextSlide = (state: any) => state.nextSlide
+const selectPreviousSlide = (state: any) => state.previousSlide
+
 export default function GoalsScreen() {
-  const { goals, updateGoals, markSlideCompleted, nextSlide, previousSlide } =
-    useOnboardingStore((state) => ({
-      goals: state.goals,
-      updateGoals: state.updateGoals,
-      markSlideCompleted: state.markSlideCompleted,
-      nextSlide: state.nextSlide,
-      previousSlide: state.previousSlide,
-    }))
+  const goals = useOnboardingStore(selectGoals)
+  const updateGoals = useOnboardingStore(selectUpdateGoals)
+  const markSlideCompleted = useOnboardingStore(selectMarkSlideCompleted)
+  const nextSlide = useOnboardingStore(selectNextSlide)
+  const previousSlide = useOnboardingStore(selectPreviousSlide)
 
   const [primaryGoal, setPrimaryGoal] = useState<
     'weight-loss' | 'muscle-gain' | 'endurance' | 'general-fitness'

@@ -23,11 +23,13 @@ import { useAuthStore } from '@/stores'
 
 // Types are now globally available from .d.ts files
 
+// Stable selectors to prevent infinite re-renders
+const selectUser = (state: any) => state.user
+const selectAccessToken = (state: any) => state.accessToken
+
 export default function HomeScreen() {
-  const { user, accessToken } = useAuthStore((state) => ({
-    user: state.user,
-    accessToken: state.accessToken,
-  }))
+  const user = useAuthStore(selectUser)
+  const accessToken = useAuthStore(selectAccessToken)
 
   const isAuthenticated = Boolean(accessToken)
   const [refreshing, setRefreshing] = useState(false)

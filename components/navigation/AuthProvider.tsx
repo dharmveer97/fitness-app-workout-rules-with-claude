@@ -1,15 +1,12 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 
 import { useRouter, useSegments, useRootNavigationState } from 'expo-router'
 
 import { useAuthStore, useOnboardingStore } from '@/stores'
 
-// Stable selectors to prevent infinite re-renders
-const selectAuthData = (state: any) => ({
-  isOnboarded: state.isOnboarded,
-  accessToken: state.accessToken,
-})
-
+// Stable selectors to prevent infinite re-renders - using useCallback for absolute stability
+const selectIsOnboarded = (state: any) => state.isOnboarded
+const selectAccessToken = (state: any) => state.accessToken
 const selectOnboardingCompleted = (state: any) => state.isOnboardingCompleted
 
 /**
@@ -22,8 +19,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const segments = useSegments()
   const router = useRouter()
   const navigationState = useRootNavigationState()
+  const isNavigatingRef = useRef(false)
 
-  const { isOnboarded, accessToken } = useAuthStore(selectAuthData)
+  const isOnboarded = useAuthStore(selectIsOnboarded)
+  const accessToken = useAuthStore(selectAccessToken)
   const isOnboardingCompleted = useOnboardingStore(selectOnboardingCompleted)
 
   const authState = useMemo(
@@ -36,15 +35,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     // Don't navigate until navigation is ready
-    if (!navigationState?.key) return
+    if (!navigationState?.key || isNavigatingRef.current) return
 
     const inAuthGroup = segments[0] === '(auth)'
     const inTabsGroup = segments[0] === '(tabs)'
     const currentPath = segments.join('/')
 
-    // Don't redirect if already in the correct location
+    // Early returns to prevent infinite loops
     if (inTabsGroup && authState.isAuthenticated) return
-    if (inAuthGroup && !authState.isAuthenticated) return
+    if (
+      inAuthGroup &&
+      !authState.isAuthenticated &&
+      authState.hasCompletedOnboarding
+    ) {
+      return
+    }
+    if (
+      currentPath.includes('onboarding') &&
+      !authState.hasCompletedOnboarding
+    ) {
+      return
+    }
 
     console.log('AuthProvider navigation check:', {
       currentPath,
@@ -54,48 +65,68 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       inTabsGroup,
     })
 
-    // Only redirect if clearly needed
-    if (
-      !authState.hasCompletedOnboarding &&
-      !currentPath.includes('onboarding') &&
-      !inTabsGroup
-    ) {
-      console.log('Redirecting to onboarding')
-      router.replace('/(auth)/onboarding')
-    } else if (
-      authState.isAuthenticated &&
-      authState.hasCompletedOnboarding &&
-      inAuthGroup
-    ) {
-      // User is authenticated and trying to access auth screens
-      console.log('Redirecting authenticated user to main app')
-      router.replace('/(tabs)/index')
-    } else if (
-      !authState.isAuthenticated &&
-      !inAuthGroup &&
-      authState.hasCompletedOnboarding
-    ) {
-      // User is not authenticated and trying to access protected screens
-      console.log('Redirecting unauthenticated user to sign-in')
-      router.replace('/(auth)/sign-in')
-    }
+    // Throttle navigation to prevent loops
+    const timeoutId = setTimeout(() => {
+      if (isNavigatingRef.current) return
+
+      // Only redirect if clearly needed and not already in the right place
+      if (
+        !authState.hasCompletedOnboarding &&
+        !currentPath.includes('onboarding') &&
+        !inTabsGroup &&
+        currentPath !== ''
+      ) {
+        console.log('Redirecting to onboarding')
+        isNavigatingRef.current = true
+        router.replace('/(auth)/onboarding')
+        setTimeout(() => {
+          isNavigatingRef.current = false
+        }, 1000)
+      } else if (
+        authState.isAuthenticated &&
+        authState.hasCompletedOnboarding &&
+        inAuthGroup &&
+        !currentPath.includes('onboarding')
+      ) {
+        // User is authenticated and trying to access auth screens
+        console.log('Redirecting authenticated user to main app')
+        isNavigatingRef.current = true
+        router.replace('/(tabs)/index')
+        setTimeout(() => {
+          isNavigatingRef.current = false
+        }, 1000)
+      } else if (
+        !authState.isAuthenticated &&
+        !inAuthGroup &&
+        authState.hasCompletedOnboarding &&
+        !inTabsGroup
+      ) {
+        // User is not authenticated and trying to access protected screens
+        console.log('Redirecting unauthenticated user to sign-in')
+        isNavigatingRef.current = true
+        router.replace('/(auth)/sign-in')
+        setTimeout(() => {
+          isNavigatingRef.current = false
+        }, 1000)
+      }
+    }, 100) // Small delay to prevent rapid navigation
+
+    return () => clearTimeout(timeoutId)
   }, [segments, authState, navigationState?.key, router])
 
   return <>{children}</>
 }
 
-// Stable selector for useAuth hook
-const selectUserAuthData = (state: any) => ({
-  isOnboarded: state.isOnboarded,
-  accessToken: state.accessToken,
-  user: state.user,
-})
+// Stable selectors for useAuth hook
+const selectUser = (state: any) => state.user
 
 /**
  * Simple auth hook for accessing auth state
  */
 export const useAuth = () => {
-  const { isOnboarded, accessToken, user } = useAuthStore(selectUserAuthData)
+  const isOnboarded = useAuthStore(selectIsOnboarded)
+  const accessToken = useAuthStore(selectAccessToken)
+  const user = useAuthStore(selectUser)
   const isOnboardingCompleted = useOnboardingStore(selectOnboardingCompleted)
 
   return useMemo(

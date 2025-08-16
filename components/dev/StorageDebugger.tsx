@@ -43,7 +43,7 @@ export const StorageDebugger: React.FC = () => {
           await SecureStore.deleteItemAsync(key)
           console.log(`🧹 Cleared SecureStore key: ${key}`)
         } catch (error) {
-          console.log(`🧹 Key ${key} not found or already cleared`)
+          console.error('🧹 Key ${key} not found or already cleared', error)
         }
       }
 
