@@ -5,6 +5,7 @@ import { View, Text, ScrollView, Alert, RefreshControl } from 'react-native'
 import GoalInput from '@/components/profile/GoalInput'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import SettingsItem from '@/components/profile/SettingsItem'
+import { SettingsThemeToggle } from '@/components/theme/ThemeToggle'
 import { useAuthStore } from '@/stores'
 
 // Import our components
@@ -153,13 +154,13 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View className='flex-1 bg-[#0A0A0B]'>
+    <View className='flex-1 bg-surface-primary'>
       <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor='#10B981'
+            tintColor='rgb(var(--text-brand))'
           />
         }
         showsVerticalScrollIndicator={false}
@@ -177,7 +178,7 @@ export default function ProfileScreen() {
 
           {/* Goals Section */}
           <View className='mb-8'>
-            <View className='rounded-2xl border border-gray-800/50 bg-[#18181B] p-1'>
+            <View className='border-primary rounded-2xl border bg-surface-secondary p-1'>
               <SettingsItem
                 icon='target'
                 title='Daily Goals'
@@ -259,7 +260,7 @@ export default function ProfileScreen() {
 
           {/* Notifications Section */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>
+            <Text className='text-primary mb-4 text-xl font-bold'>
               Notifications
             </Text>
             <View className='space-y-1'>
@@ -306,7 +307,7 @@ export default function ProfileScreen() {
 
           {/* Privacy Section */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>Privacy</Text>
+            <Text className='text-primary mb-4 text-xl font-bold'>Privacy</Text>
             <View className='space-y-1'>
               <SettingsItem
                 icon='share'
@@ -334,9 +335,27 @@ export default function ProfileScreen() {
             </View>
           </View>
 
+          {/* Appearance Section */}
+          <View className='mb-8'>
+            <Text className='text-primary mb-4 text-xl font-bold'>
+              Appearance
+            </Text>
+            <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
+              <View className='mb-4'>
+                <Text className='text-primary mb-2 text-lg font-semibold'>
+                  Theme
+                </Text>
+                <Text className='text-secondary mb-4 text-sm'>
+                  Choose your preferred theme
+                </Text>
+                <SettingsThemeToggle />
+              </View>
+            </View>
+          </View>
+
           {/* General Settings */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>General</Text>
+            <Text className='text-primary mb-4 text-xl font-bold'>General</Text>
             <View className='space-y-1'>
               <SettingsItem
                 icon='user'

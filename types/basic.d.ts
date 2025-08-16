@@ -103,9 +103,13 @@ interface CustomTextProps {
   color?:
     | 'primary'
     | 'secondary'
+    | 'tertiary'
+    | 'inverse'
+    | 'brand'
     | 'success'
     | 'warning'
     | 'error'
+    | 'info'
     | 'white'
     | 'dark'
     | 'gray'
@@ -306,7 +310,6 @@ type FormFieldProps = InputProps & {
   containerClassName?: string
   animated?: boolean
 }
-
 
 // Temporary aliases for backward compatibility
 type RadioOption<T = string> = CustomRadioOption<T>

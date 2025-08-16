@@ -69,9 +69,9 @@ export default function StatsCard({
   }
 
   const getTrendColor = () => {
-    if (trend === 'up') return '#10B981'
-    if (trend === 'down') return '#EF4444'
-    return '#6B7280'
+    if (trend === 'up') return 'rgb(var(--semantic-success))'
+    if (trend === 'down') return 'rgb(var(--semantic-error))'
+    return 'rgb(var(--text-tertiary))'
   }
 
   const formatValue = () => {
@@ -90,7 +90,7 @@ export default function StatsCard({
         onPressOut={handlePressOut}
         activeOpacity={0.9}
         disabled={!onPress}
-        className='rounded-2xl border border-gray-800/50 bg-[#18181B] p-4'
+        className='border-primary bg-surface-secondary rounded-2xl border p-4'
       >
         <View className='mb-3 flex-row items-center justify-between'>
           <View
@@ -118,22 +118,22 @@ export default function StatsCard({
         </View>
 
         <View className='space-y-1'>
-          <Text className='text-sm font-medium text-gray-400'>{title}</Text>
+          <Text className='text-secondary text-sm font-medium'>{title}</Text>
 
           <Animated.View className='flex-row items-baseline space-x-1'>
             <Animated.Text
-              className='text-2xl font-bold text-white'
+              className='text-primary text-2xl font-bold'
               style={animatedNumberStyle}
             >
               {formatValue()}
             </Animated.Text>
             {unit && (
-              <Text className='text-sm font-medium text-gray-400'>{unit}</Text>
+              <Text className='text-secondary text-sm font-medium'>{unit}</Text>
             )}
           </Animated.View>
 
           {changeLabel && (
-            <Text className='text-xs text-gray-500'>{changeLabel}</Text>
+            <Text className='text-tertiary text-xs'>{changeLabel}</Text>
           )}
         </View>
 

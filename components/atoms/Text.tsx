@@ -24,14 +24,23 @@ const weightStyles = {
 }
 
 const colorStyles = {
-  primary: 'text-primary-500',
-  secondary: 'text-secondary-500',
-  success: 'text-green-500',
-  warning: 'text-yellow-500',
-  error: 'text-red-500',
+  // New semantic design tokens
+  primary: 'text-primary',
+  secondary: 'text-secondary',
+  tertiary: 'text-tertiary',
+  inverse: 'text-inverse',
+  brand: 'text-brand',
+
+  // Semantic states
+  success: 'text-semantic-success',
+  warning: 'text-semantic-warning',
+  error: 'text-semantic-error',
+  info: 'text-semantic-info',
+
+  // Legacy support
   white: 'text-white',
-  dark: 'text-dark-900',
-  gray: 'text-dark-400',
+  dark: 'text-gray-900',
+  gray: 'text-gray-400',
 }
 
 const alignStyles = {
@@ -44,7 +53,7 @@ const alignStyles = {
 export const Text: React.FC<CustomTextComponentProps> = ({
   variant = 'body',
   weight,
-  color = 'white',
+  color = 'primary',
   align = 'left',
   className = '',
   children,

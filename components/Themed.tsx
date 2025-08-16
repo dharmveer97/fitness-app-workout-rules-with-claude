@@ -5,9 +5,9 @@
 
 import { Text as DefaultText, View as DefaultView } from 'react-native'
 
-import { Colors } from '@/constants/colors'
+import { useColorScheme } from 'nativewind'
 
-import { useColorScheme } from './useColorScheme'
+import { Colors } from '@/constants/colors'
 
 // Types are now globally available from /types/basic.d.ts
 
@@ -15,7 +15,8 @@ export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
 ) {
-  const theme = useColorScheme() ?? 'light'
+  const { colorScheme } = useColorScheme()
+  const theme = colorScheme ?? 'light'
   const colorFromProps = props[theme]
 
   if (colorFromProps) {

@@ -19,6 +19,7 @@ import ProgressRing from '@/components/home/ProgressRing'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
 import WeeklyChart from '@/components/home/WeeklyChart'
+import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
 import { useAuthStore } from '@/stores'
 
 // Types are now globally available from .d.ts files
@@ -75,8 +76,8 @@ export default function HomeScreen() {
   // Show loading screen while initializing
   if (isLoading) {
     return (
-      <View className='flex-1 items-center justify-center bg-[#111827]'>
-        <Text className='text-lg text-white'>Loading...</Text>
+      <View className='flex-1 items-center justify-center bg-surface-primary'>
+        <Text className='text-primary text-lg'>Loading...</Text>
       </View>
     )
   }
@@ -197,13 +198,13 @@ export default function HomeScreen() {
   ]
 
   return (
-    <View className='flex-1 bg-[#0A0A0B]'>
+    <View className='flex-1 bg-surface-primary'>
       <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor='#10B981'
+            tintColor='rgb(var(--text-brand))'
           />
         }
         showsVerticalScrollIndicator={false}
@@ -212,23 +213,30 @@ export default function HomeScreen() {
         <View className='px-6 py-4'>
           {/* Header */}
           <View className='mb-8 mt-4 flex-row items-center justify-between'>
-            <View>
-              <Text className='text-lg text-gray-400'>Good morning</Text>
-              <Text className='text-3xl font-bold text-white'>
+            <View className='flex-1'>
+              <Text className='text-secondary text-lg'>Good morning</Text>
+              <Text className='text-primary text-3xl font-bold'>
                 {user?.name ?? 'Athlete'}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={() => router.push('/(tabs)/profile')}
-              className='h-12 w-12 items-center justify-center rounded-full border border-gray-800 bg-[#18181B]'
-            >
-              <FontAwesome name='user' size={20} color='#10B981' />
-            </TouchableOpacity>
+            <View className='flex-row items-center space-x-3'>
+              <HeaderThemeToggle />
+              <TouchableOpacity
+                onPress={() => router.push('/(tabs)/profile')}
+                className='border-primary h-12 w-12 items-center justify-center rounded-full border bg-surface-secondary'
+              >
+                <FontAwesome
+                  name='user'
+                  size={20}
+                  color='rgb(var(--text-brand))'
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           {/* Today's Stats Cards */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>
+            <Text className='text-primary mb-4 text-xl font-bold'>
               Today's Stats
             </Text>
             <View className='flex-row flex-wrap justify-between'>
@@ -246,10 +254,10 @@ export default function HomeScreen() {
 
           {/* Daily Goals Progress Rings */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>
+            <Text className='text-primary mb-4 text-xl font-bold'>
               Daily Goals
             </Text>
-            <View className='rounded-2xl border border-gray-800/50 bg-[#18181B] p-6'>
+            <View className='border-primary rounded-2xl border bg-surface-secondary p-6'>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View className='flex-row space-x-8'>
                   {dailyGoals.map((goal, index) => (
@@ -269,14 +277,14 @@ export default function HomeScreen() {
             <WeeklyChart
               data={weeklyData}
               title='Weekly Steps'
-              color='#10B981'
+              color='rgb(var(--text-brand))'
               delay={400}
             />
           </View>
 
           {/* Quick Actions */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>
+            <Text className='text-primary mb-4 text-xl font-bold'>
               Quick Actions
             </Text>
             <View className='flex-row flex-wrap gap-3'>
@@ -325,11 +333,11 @@ export default function HomeScreen() {
           {/* Recent Activities */}
           <View className='mb-8'>
             <View className='mb-4 flex-row items-center justify-between'>
-              <Text className='text-xl font-bold text-white'>
+              <Text className='text-primary text-xl font-bold'>
                 Recent Activities
               </Text>
               <TouchableOpacity>
-                <Text className='text-base font-semibold text-[#10B981]'>
+                <Text className='text-brand text-base font-semibold'>
                   View All
                 </Text>
               </TouchableOpacity>

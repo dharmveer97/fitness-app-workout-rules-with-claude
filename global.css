@@ -1,3 +1,222 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Design System CSS Variables for Daily Deposits Fitness App */
+:root {
+  /* Light theme variables */
+  --surface-primary: 255 255 255;
+  --surface-secondary: 248 250 252;
+  --surface-tertiary: 241 245 249;
+  --surface-overlay: 0 0 0 / 0.5;
+  --surface-glass: 255 255 255 / 0.1;
+
+  --text-primary: 15 23 42;
+  --text-secondary: 71 85 105;
+  --text-tertiary: 148 163 184;
+  --text-inverse: 255 255 255;
+  --text-brand: 16 185 129;
+
+  --border-primary: 226 232 240;
+  --border-secondary: 241 245 249;
+  --border-focus: 16 185 129;
+  --border-error: 239 68 68;
+
+  --interactive-primary: 16 185 129;
+  --interactive-primary-hover: 5 150 105;
+  --interactive-primary-active: 4 120 87;
+  --interactive-secondary: 241 245 249;
+  --interactive-secondary-hover: 226 232 240;
+  --interactive-ghost: transparent;
+  --interactive-ghost-hover: 241 245 249;
+
+  --semantic-success: 16 185 129;
+  --semantic-success-bg: 236 253 245;
+  --semantic-warning: 245 158 11;
+  --semantic-warning-bg: 255 251 235;
+  --semantic-error: 239 68 68;
+  --semantic-error-bg: 254 242 242;
+  --semantic-info: 59 130 246;
+  --semantic-info-bg: 239 246 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark theme variables */
+    --surface-primary: 10 10 11;
+    --surface-secondary: 24 24 27;
+    --surface-tertiary: 39 39 42;
+    --surface-overlay: 0 0 0 / 0.8;
+    --surface-glass: 255 255 255 / 0.05;
+
+    --text-primary: 248 250 252;
+    --text-secondary: 203 213 225;
+    --text-tertiary: 100 116 139;
+    --text-inverse: 15 23 42;
+    --text-brand: 52 211 153;
+
+    --border-primary: 55 65 81;
+    --border-secondary: 39 39 42;
+    --border-focus: 52 211 153;
+    --border-error: 248 113 113;
+
+    --interactive-primary: 16 185 129;
+    --interactive-primary-hover: 52 211 153;
+    --interactive-primary-active: 110 231 183;
+    --interactive-secondary: 39 39 42;
+    --interactive-secondary-hover: 55 65 81;
+    --interactive-ghost: transparent;
+    --interactive-ghost-hover: 39 39 42;
+
+    --semantic-success: 52 211 153;
+    --semantic-success-bg: 6 78 59;
+    --semantic-warning: 251 191 36;
+    --semantic-warning-bg: 120 53 15;
+    --semantic-error: 248 113 113;
+    --semantic-error-bg: 127 29 29;
+    --semantic-info: 96 165 250;
+    --semantic-info-bg: 30 58 138;
+  }
+}
+
+/* Force dark mode variables when data-theme="dark" is set */
+[data-theme="dark"] {
+  --surface-primary: 10 10 11;
+  --surface-secondary: 24 24 27;
+  --surface-tertiary: 39 39 42;
+  --surface-overlay: 0 0 0 / 0.8;
+  --surface-glass: 255 255 255 / 0.05;
+
+  --text-primary: 248 250 252;
+  --text-secondary: 203 213 225;
+  --text-tertiary: 100 116 139;
+  --text-inverse: 15 23 42;
+  --text-brand: 52 211 153;
+
+  --border-primary: 55 65 81;
+  --border-secondary: 39 39 42;
+  --border-focus: 52 211 153;
+  --border-error: 248 113 113;
+
+  --interactive-primary: 16 185 129;
+  --interactive-primary-hover: 52 211 153;
+  --interactive-primary-active: 110 231 183;
+  --interactive-secondary: 39 39 42;
+  --interactive-secondary-hover: 55 65 81;
+  --interactive-ghost: transparent;
+  --interactive-ghost-hover: 39 39 42;
+
+  --semantic-success: 52 211 153;
+  --semantic-success-bg: 6 78 59;
+  --semantic-warning: 251 191 36;
+  --semantic-warning-bg: 120 53 15;
+  --semantic-error: 248 113 113;
+  --semantic-error-bg: 127 29 29;
+  --semantic-info: 96 165 250;
+  --semantic-info-bg: 30 58 138;
+}
+
+/* Force light mode variables when data-theme="light" is set */
+[data-theme="light"] {
+  --surface-primary: 255 255 255;
+  --surface-secondary: 248 250 252;
+  --surface-tertiary: 241 245 249;
+  --surface-overlay: 0 0 0 / 0.5;
+  --surface-glass: 255 255 255 / 0.1;
+
+  --text-primary: 15 23 42;
+  --text-secondary: 71 85 105;
+  --text-tertiary: 148 163 184;
+  --text-inverse: 255 255 255;
+  --text-brand: 16 185 129;
+
+  --border-primary: 226 232 240;
+  --border-secondary: 241 245 249;
+  --border-focus: 16 185 129;
+  --border-error: 239 68 68;
+
+  --interactive-primary: 16 185 129;
+  --interactive-primary-hover: 5 150 105;
+  --interactive-primary-active: 4 120 87;
+  --interactive-secondary: 241 245 249;
+  --interactive-secondary-hover: 226 232 240;
+  --interactive-ghost: transparent;
+  --interactive-ghost-hover: 241 245 249;
+
+  --semantic-success: 16 185 129;
+  --semantic-success-bg: 236 253 245;
+  --semantic-warning: 245 158 11;
+  --semantic-warning-bg: 255 251 235;
+  --semantic-error: 239 68 68;
+  --semantic-error-bg: 254 242 242;
+  --semantic-info: 59 130 246;
+  --semantic-info-bg: 239 246 255;
+}
+
+/* Base styles with design system integration */
+@layer base {
+  html {
+    color-scheme: light dark;
+  }
+  
+  body {
+    background-color: rgb(var(--surface-primary));
+    color: rgb(var(--text-primary));
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Custom utility classes for seamless theming */
+@layer utilities {
+  .surface-primary {
+    background-color: rgb(var(--surface-primary));
+  }
+  
+  .surface-secondary {
+    background-color: rgb(var(--surface-secondary));
+  }
+  
+  .surface-tertiary {
+    background-color: rgb(var(--surface-tertiary));
+  }
+  
+  .text-primary {
+    color: rgb(var(--text-primary));
+  }
+  
+  .text-secondary {
+    color: rgb(var(--text-secondary));
+  }
+  
+  .text-tertiary {
+    color: rgb(var(--text-tertiary));
+  }
+  
+  .text-brand {
+    color: rgb(var(--text-brand));
+  }
+  
+  .border-primary {
+    border-color: rgb(var(--border-primary));
+  }
+  
+  .border-focus {
+    border-color: rgb(var(--border-focus));
+  }
+  
+  .interactive-primary {
+    background-color: rgb(var(--interactive-primary));
+  }
+  
+  .interactive-primary:hover {
+    background-color: rgb(var(--interactive-primary-hover));
+  }
+  
+  .interactive-secondary {
+    background-color: rgb(var(--interactive-secondary));
+  }
+  
+  .interactive-secondary:hover {
+    background-color: rgb(var(--interactive-secondary-hover));
+  }
+}

@@ -17,11 +17,11 @@ import Text from './Text'
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity)
 
 const variantStyles = {
-  primary: 'bg-primary-500 active:bg-primary-600',
-  secondary: 'bg-secondary-500 active:bg-secondary-600',
-  outline: 'bg-transparent border-2 border-primary-500',
-  ghost: 'bg-transparent',
-  danger: 'bg-red-500 active:bg-red-600',
+  primary: 'bg-interactive-primary active:bg-interactive-primary-active',
+  secondary: 'bg-interactive-secondary active:bg-interactive-secondary-hover',
+  outline: 'bg-transparent border-2 border-focus',
+  ghost: 'bg-interactive-ghost active:bg-interactive-ghost-hover',
+  danger: 'bg-semantic-error active:bg-semantic-error/90',
 }
 
 const sizeStyles = {
@@ -91,7 +91,7 @@ export const Button: React.FC<ButtonProps> = ({
   )
 
   const textColor =
-    variant === 'outline' || variant === 'ghost' ? 'primary' : 'white'
+    variant === 'outline' || variant === 'ghost' ? 'brand' : 'inverse'
 
   const iconColor =
     variant === 'outline' || variant === 'ghost' ? '#10B981' : '#FFFFFF'
