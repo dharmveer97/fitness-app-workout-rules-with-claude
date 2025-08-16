@@ -182,12 +182,14 @@ export const UserProfileSchema = z.object({
   joinDate: z.date(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  stats: z.object({
-    totalWorkouts: z.number().int().min(0),
-    totalDuration: z.number().min(0),
-    caloriesBurned: z.number().min(0),
-    averageIntensity: z.number().min(0).max(10),
-  }).optional(),
+  stats: z
+    .object({
+      totalWorkouts: z.number().int().min(0),
+      totalDuration: z.number().min(0),
+      caloriesBurned: z.number().min(0),
+      averageIntensity: z.number().min(0).max(10),
+    })
+    .optional(),
   preferences: z.object({
     notifications: z.object({
       workoutReminders: z.boolean().default(true),

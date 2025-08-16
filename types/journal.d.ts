@@ -1,8 +1,3 @@
-// React types
-type ReactNode = import('react').ReactNode
-type Dispatch<T> = import('react').Dispatch<T>
-type SetStateAction<T> = import('react').SetStateAction<T>
-
 // Journal schema inferred types
 type MoodType = import('../schemas/journal').MoodInfer
 type TodoItemType = import('../schemas/journal').TodoItemInfer

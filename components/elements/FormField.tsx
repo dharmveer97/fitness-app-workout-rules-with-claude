@@ -8,22 +8,8 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { cn } from '@/utils/cn'
 
 import { Badge } from '../atoms/Badge'
-import { Input, type InputProps } from '../atoms/Input'
+import { Input } from '../atoms/Input'
 import { Text } from '../atoms/Text'
-
-export interface FormFieldProps extends InputProps {
-  label?: string
-  required?: boolean
-  error?: string
-  success?: string
-  hint?: string
-  badge?: string
-  tooltip?: string
-  showTooltip?: boolean
-  onTooltipPress?: () => void
-  containerClassName?: string
-  animated?: boolean
-}
 
 export const FormField = forwardRef<TextInput, FormFieldProps>(
   (

@@ -1,8 +1,3 @@
-// React types
-type ReactNode = import('react').ReactNode
-type Dispatch<T> = import('react').Dispatch<T>
-type SetStateAction<T> = import('react').SetStateAction<T>
-
 // Challenge schema inferred types
 type ChallengeCategoryType =
   import('../schemas/challenges').ChallengeCategoryInfer

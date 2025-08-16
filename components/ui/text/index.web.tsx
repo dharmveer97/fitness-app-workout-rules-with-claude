@@ -2,8 +2,6 @@ import React from 'react'
 
 import { textStyle } from './styles'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 type ITextProps = React.ComponentProps<'span'> & VariantProps<typeof textStyle>
 
 const Text = React.forwardRef<React.ComponentRef<'span'>, ITextProps>(

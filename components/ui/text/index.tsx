@@ -4,8 +4,6 @@ import { Text as RNText } from 'react-native'
 
 import { textStyle } from './styles'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 type ITextProps = React.ComponentProps<typeof RNText> &
   VariantProps<typeof textStyle>
 

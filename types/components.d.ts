@@ -253,3 +253,27 @@ interface SettingsItemProps {
   delay?: number
   destructive?: boolean
 }
+
+// Navigation component types
+interface RouteGuardProps {
+  children: ReactNode
+  guards: Array<{
+    condition: boolean
+    redirect: string
+    priority?: number
+  }>
+}
+
+interface ProtectedRouteProps {
+  children: ReactNode
+  requireAuth?: boolean
+  requireOnboarding?: boolean
+  requireVerification?: boolean
+  fallback?: string
+  loadingComponent?: ReactNode
+  unauthorizedComponent?: ReactNode
+}
+
+interface NavigationProviderProps {
+  children: ReactNode
+}

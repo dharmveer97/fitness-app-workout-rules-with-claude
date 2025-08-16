@@ -12,8 +12,6 @@ import {
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 const SCOPE = 'ALERT'
 
 const alertStyle = tva({

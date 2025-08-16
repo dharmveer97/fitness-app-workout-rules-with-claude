@@ -82,36 +82,55 @@ interface StyledComponentProps
 }
 
 // Atomic UI component interfaces - basic building blocks
-interface ButtonProps extends InteractiveComponentProps, StyledComponentProps {
-  variant?: ButtonVariant
-  size?: ButtonSize
-  onPress: () => void
-  icon?: ReactNode
-  haptic?: boolean
-}
-
-interface TextProps {
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'overline'
-  weight?: 'light' | 'normal' | 'medium' | 'semibold' | 'bold' | 'extrabold'
-  color?: string
-  children: ReactNode
+interface CustomButtonProps {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  fullWidth?: boolean
+  loading?: boolean
+  leftIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap
+  rightIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap
+  children?: ReactNode
   className?: string
+  textClassName?: string
+  animate?: boolean
 }
 
-interface InputProps {
+type ButtonProps = CustomButtonProps & TouchableOpacityProps
+
+interface CustomTextProps {
+  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'label' | 'tiny'
+  weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold'
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'white'
+    | 'dark'
+    | 'gray'
+  align?: 'left' | 'center' | 'right' | 'justify'
+  className?: string
+  children?: ReactNode
+}
+
+type CustomTextComponentProps = CustomTextProps & RNTextProps
+
+interface CustomInputProps {
   label?: string
-  placeholder?: string
-  value: string
-  onChangeText: (text: string) => void
   error?: string
-  type?: InputType
-  icon?: ReactNode
-  rightIcon?: ReactNode
-  variant?: InputVariant
-  className?: string
-  autoFocus?: boolean
-  disabled?: boolean
+  hint?: string
+  leftIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap
+  rightIcon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap
+  onRightIconPress?: () => void
+  variant?: 'default' | 'filled' | 'outline'
+  size?: 'sm' | 'md' | 'lg'
+  containerClassName?: string
+  inputClassName?: string
+  type?: 'text' | 'email' | 'password' | 'number' | 'phone'
 }
+
+type InputProps = CustomInputProps & TextInputProps
 
 interface IconProps {
   name: string
@@ -120,22 +139,28 @@ interface IconProps {
   className?: string
 }
 
-// Molecular UI component interfaces - composed elements
-interface CardProps {
-  children: ReactNode
-  variant?: 'default' | 'glass' | 'elevated'
-  padding?: 'none' | 'sm' | 'md' | 'lg'
+interface CustomBadgeProps {
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
+  size?: 'sm' | 'md' | 'lg'
+  rounded?: boolean
+  children?: ReactNode
   className?: string
-  onPress?: () => void
+  textClassName?: string
 }
 
-interface FormFieldProps {
-  children: ReactNode
-  label?: string
-  error?: string
-  required?: boolean
+type BadgeProps = CustomBadgeProps & ViewProps
+
+// Molecular UI component interfaces - composed elements
+interface CustomCardProps {
+  variant?: 'default' | 'elevated' | 'outlined' | 'filled'
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  animated?: boolean
   className?: string
+  children?: ReactNode
 }
+
+type CardProps = CustomCardProps & ViewProps
 
 interface ListItemProps {
   title: string
@@ -181,5 +206,109 @@ interface ThemeProps {
   darkColor?: string
 }
 
-interface ThemedTextProps extends ThemeProps, TextProps {}
-interface ThemedViewProps extends ThemeProps, ViewProps {}
+type ThemedTextProps = ThemeProps & CustomTextComponentProps
+type ThemedViewProps = ThemeProps & ViewProps
+
+// Advanced UI component interfaces
+interface CustomSelectOption<T = string> {
+  value: T
+  label: string
+  description?: string
+  icon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap
+  badge?: string
+  disabled?: boolean
+}
+
+interface CustomSelectGroupProps<T = string> {
+  label?: string
+  options: CustomSelectOption<T>[]
+  value?: T[]
+  onChange?: (values: T[]) => void
+  multiple?: boolean
+  max?: number
+  min?: number
+  variant?: 'default' | 'chips' | 'cards'
+  error?: string
+  hint?: string
+  containerClassName?: string
+}
+
+type SelectGroupProps<T = string> = CustomSelectGroupProps<T> & ViewProps
+
+interface CustomRadioOption<T = string> {
+  value: T
+  label: string
+  description?: string
+  disabled?: boolean
+  icon?: ReactNode
+}
+
+interface CustomRadioGroupProps<T = string> {
+  label?: string
+  options: CustomRadioOption<T>[]
+  value?: T
+  onChange?: (value: T) => void
+  orientation?: 'vertical' | 'horizontal'
+  variant?: 'default' | 'card' | 'button'
+  error?: string
+  containerClassName?: string
+}
+
+type RadioGroupProps<T = string> = CustomRadioGroupProps<T> & ViewProps
+
+interface CustomStep {
+  id: string
+  title: string
+  description?: string
+  icon?: keyof typeof import('@expo/vector-icons').Ionicons.glyphMap
+  completed?: boolean
+  active?: boolean
+  disabled?: boolean
+}
+
+interface CustomProgressStepsProps {
+  steps: CustomStep[]
+  currentStep: number
+  onStepPress?: (index: number, step: CustomStep) => void
+  variant?: 'default' | 'compact' | 'detailed'
+  orientation?: 'horizontal' | 'vertical'
+  showConnector?: boolean
+  containerClassName?: string
+}
+
+type ProgressStepsProps = CustomProgressStepsProps & ViewProps
+
+interface CustomInputGroupProps {
+  label?: string
+  required?: boolean
+  error?: string
+  hint?: string
+  badge?: string
+  inputs?: CustomInputProps[]
+  orientation?: 'vertical' | 'horizontal'
+  gap?: 'sm' | 'md' | 'lg'
+  containerClassName?: string
+  children?: ReactNode
+}
+
+type InputGroupProps = CustomInputGroupProps & ViewProps
+
+type FormFieldProps = InputProps & {
+  label?: string
+  required?: boolean
+  error?: string
+  success?: string
+  hint?: string
+  badge?: string
+  tooltip?: string
+  showTooltip?: boolean
+  onTooltipPress?: () => void
+  containerClassName?: string
+  animated?: boolean
+}
+
+
+// Temporary aliases for backward compatibility
+type RadioOption<T = string> = CustomRadioOption<T>
+type Step = CustomStep
+type SelectOption<T = string> = CustomSelectOption<T>

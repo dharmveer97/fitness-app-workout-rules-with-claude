@@ -6,15 +6,6 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { cn } from '@/utils/cn'
 
-export interface CardProps extends ViewProps {
-  variant?: 'default' | 'elevated' | 'outlined' | 'filled'
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
-  rounded?: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full'
-  animated?: boolean
-  className?: string
-  children?: React.ReactNode
-}
-
 const variantStyles = {
   default: 'bg-dark-800 border border-dark-700',
   elevated: 'bg-dark-800 shadow-lg shadow-black/50',
@@ -39,7 +30,7 @@ const roundedStyles = {
   full: 'rounded-full',
 }
 
-export const Card: React.FC<CardProps> = ({
+export const Card: React.FC<CustomCardProps> = ({
   variant = 'default',
   padding = 'md',
   rounded = 'lg',

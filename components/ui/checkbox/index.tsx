@@ -2,7 +2,6 @@
 import React from 'react'
 
 import { View, Pressable, Text, Platform } from 'react-native'
-import type { TextProps, ViewProps } from 'react-native'
 
 import { createCheckbox } from '@gluestack-ui/core/checkbox/creator'
 import { PrimitiveIcon, UIIcon } from '@gluestack-ui/core/icon/creator'
@@ -13,9 +12,6 @@ import {
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 
-import type { IPrimitiveIcon } from '@gluestack-ui/core/icon/creator'
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 const IndicatorWrapper = React.forwardRef<
   React.ComponentRef<typeof View>,
   ViewProps
@@ -23,13 +19,17 @@ const IndicatorWrapper = React.forwardRef<
 
 const LabelWrapper = React.forwardRef<
   React.ComponentRef<typeof Text>,
-  TextProps
+  RNTextProps
 >(({ ...props }, ref) => <Text {...props} ref={ref} />)
 
 const IconWrapper = React.forwardRef<
-  React.ComponentRef<typeof PrimitiveIcon>,
-  IPrimitiveIcon
+  any,
+  any
 >(({ ...props }, ref) => <UIIcon {...props} ref={ref} />)
+
+IndicatorWrapper.displayName = 'IndicatorWrapper'
+LabelWrapper.displayName = 'LabelWrapper'
+IconWrapper.displayName = 'IconWrapper'
 
 const SCOPE = 'CHECKBOX'
 const UICheckbox = createCheckbox({
@@ -175,12 +175,15 @@ const CheckboxLabel = React.forwardRef<
 type ICheckboxIconProps = React.ComponentPropsWithoutRef<
   typeof UICheckbox.Icon
 > &
-  VariantProps<typeof checkboxIconStyle>
+  VariantProps<typeof checkboxIconStyle> & {
+    height?: number
+    width?: number
+  }
 
 const CheckboxIcon = React.forwardRef<
   React.ComponentRef<typeof UICheckbox.Icon>,
   ICheckboxIconProps
->(({ className, size, ...props }, ref) => {
+>(({ className, size, height, width, ...props }, ref) => {
   const { size: parentSize } = useStyleContext(SCOPE)
 
   if (typeof size === 'number') {
@@ -193,7 +196,7 @@ const CheckboxIcon = React.forwardRef<
       />
     )
   } else if (
-    (props.height !== undefined || props.width !== undefined) &&
+    (height !== undefined || width !== undefined) &&
     size === undefined
   ) {
     return (

@@ -22,6 +22,7 @@ type ComponentProps<
     | keyof JSX.IntrinsicElements
     | import('react').JSXElementConstructor<any>,
 > = import('react').ComponentProps<T>
+type ComponentType<T = any> = import('react').ComponentType<T>
 type FC<P = {}> = import('react').FC<P>
 type Dispatch<T> = import('react').Dispatch<T>
 type SetStateAction<T> = import('react').SetStateAction<T>
@@ -43,10 +44,10 @@ type GestureResponderEvent = import('react-native').GestureResponderEvent
 type LayoutChangeEvent = import('react-native').LayoutChangeEvent
 type NativeSyntheticEvent<T> = import('react-native').NativeSyntheticEvent<T>
 type ViewProps = import('react-native').ViewProps
-type TextProps = import('react-native').TextProps
+type RNTextProps = import('react-native').TextProps
 type TextInputProps = import('react-native').TextInputProps
 type TextInput = import('react-native').TextInput
-
+type PressableProps = import('react-native').PressableProps
 type TouchableOpacityProps = import('react-native').TouchableOpacityProps
 
 // Reanimated types with proper generics
@@ -61,6 +62,32 @@ type WithSpringConfig = import('react-native-reanimated').WithSpringConfig
 
 // Expo types
 type ColorSchemeName = import('react-native').ColorSchemeName
+
+// Gluestack UI and Tailwind Variants types (unified)
+type VariantProps<T> =
+  | import('@gluestack-ui/utils/nativewind-utils').VariantProps<T>
+  | import('tailwind-variants').VariantProps<T>
+
+// Legendapp Motion types
+type MotionComponentProps<
+  T extends ComponentType<any>,
+  TStyle,
+  TAnimate,
+  TAnimateProps,
+  TExtraProps = unknown,
+> = import('@legendapp/motion').MotionComponentProps<
+  T,
+  TStyle,
+  TAnimate,
+  TAnimateProps,
+  TExtraProps
+>
+
+// React Native SVG types
+type Svg = import('react-native-svg').Svg
+
+// Gluestack UI Icon types
+type IPrimitiveIcon = import('@gluestack-ui/core/icon/creator').IPrimitiveIcon
 
 // Journal types
 type JournalEntryType = import('../schemas/journal').JournalEntryInfer

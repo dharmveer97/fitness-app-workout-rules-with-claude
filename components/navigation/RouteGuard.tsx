@@ -4,15 +4,6 @@ import { Redirect } from 'expo-router'
 
 import { useOnboardingStore } from '@/stores'
 
-export interface RouteGuardProps {
-  children: React.ReactNode
-  guards: Array<{
-    condition: boolean
-    redirect: string
-    priority?: number
-  }>
-}
-
 export const RouteGuard: React.FC<RouteGuardProps> = ({ children, guards }) => {
   const _hasHydrated = useOnboardingStore((state) => state._hasHydrated)
 

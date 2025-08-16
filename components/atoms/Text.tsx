@@ -1,25 +1,8 @@
 import React from 'react'
 
-import { Text as RNText, type TextProps as RNTextProps } from 'react-native'
+import { Text as RNText } from 'react-native'
 
 import { cn } from '@/utils/cn'
-
-export interface TextProps extends RNTextProps {
-  variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'body' | 'caption' | 'label' | 'tiny'
-  weight?: 'light' | 'regular' | 'medium' | 'semibold' | 'bold'
-  color?:
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'warning'
-    | 'error'
-    | 'white'
-    | 'dark'
-    | 'gray'
-  align?: 'left' | 'center' | 'right' | 'justify'
-  className?: string
-  children?: React.ReactNode
-}
 
 const variantStyles = {
   h1: 'text-3xl font-bold',
@@ -58,13 +41,12 @@ const alignStyles = {
   justify: 'text-justify',
 }
 
-export const Text: React.FC<TextProps> = ({
+export const Text: React.FC<CustomTextComponentProps> = ({
   variant = 'body',
   weight,
   color = 'white',
   align = 'left',
   className = '',
-  style,
   children,
   ...props
 }) => {
@@ -77,7 +59,7 @@ export const Text: React.FC<TextProps> = ({
   )
 
   return (
-    <RNText className={textClass} style={style} {...props}>
+    <RNText className={textClass} {...props}>
       {children}
     </RNText>
   )

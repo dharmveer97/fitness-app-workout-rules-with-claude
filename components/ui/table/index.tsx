@@ -1,6 +1,5 @@
 import React, { createContext, useMemo, useContext } from 'react'
 
-import type { TextProps, ViewProps } from 'react-native'
 import { Text, View } from 'react-native'
 
 import {
@@ -128,7 +127,7 @@ const TableHead = React.forwardRef<
     <Text
       ref={ref as React.Ref<Text>}
       className={tableHeadStyle({ class: className })}
-      {...(props as TextProps)}
+      {...(props as RNTextProps)}
     />
   )
 })
@@ -170,7 +169,7 @@ const TableData = React.forwardRef<
     <Text
       ref={ref as React.Ref<Text>}
       className={tableDataStyle({ class: className })}
-      {...(props as TextProps)}
+      {...(props as RNTextProps)}
     />
   )
 })

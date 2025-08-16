@@ -161,7 +161,7 @@ export default function PreferencesScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className='flex-1 bg-dark-900'
+      className='bg-dark-900 flex-1'
     >
       <StatusBar style='light' />
 
@@ -172,7 +172,7 @@ export default function PreferencesScreen() {
       <View className='flex-row items-center justify-between px-6 pb-6 pt-14'>
         <TouchableOpacity
           onPress={handleBack}
-          className='h-10 w-10 items-center justify-center rounded-full bg-dark-700'
+          className='bg-dark-700 h-10 w-10 items-center justify-center rounded-full'
         >
           <Ionicons name='arrow-back' size={20} color='#9CA3AF' />
         </TouchableOpacity>
@@ -182,13 +182,13 @@ export default function PreferencesScreen() {
 
       {/* Progress Bar */}
       <View className='mb-8 px-6'>
-        <View className='h-1 overflow-hidden rounded-full bg-dark-700'>
+        <View className='bg-dark-700 h-1 overflow-hidden rounded-full'>
           <Animated.View
             entering={FadeIn}
             className='h-full w-full rounded-full bg-primary-500'
           />
         </View>
-        <Text className='mt-2 text-xs text-dark-400'>Step 3 of 3</Text>
+        <Text className='text-dark-400 mt-2 text-xs'>Step 3 of 3</Text>
       </View>
 
       <ScrollView
@@ -205,7 +205,7 @@ export default function PreferencesScreen() {
           <Text className='mb-3 text-3xl font-bold text-white'>
             Almost there, {personalInfo.name}!
           </Text>
-          <Text className='text-base leading-relaxed text-dark-300'>
+          <Text className='text-dark-300 text-base leading-relaxed'>
             Let's set up your workout preferences
           </Text>
         </Animated.View>
@@ -214,7 +214,7 @@ export default function PreferencesScreen() {
         <Animated.View entering={FadeIn.delay(400)} className='space-y-8'>
           {/* Preferred Workout Time */}
           <View className='space-y-4'>
-            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-dark-200'>
+            <Text className='text-dark-200 mb-4 text-sm font-semibold uppercase tracking-wide'>
               Preferred Workout Time
             </Text>
             <View className='space-y-4'>
@@ -256,7 +256,7 @@ export default function PreferencesScreen() {
                       >
                         {option.label}
                       </Text>
-                      <Text className='text-sm text-dark-400'>
+                      <Text className='text-dark-400 text-sm'>
                         {option.time}
                       </Text>
                     </View>
@@ -275,22 +275,22 @@ export default function PreferencesScreen() {
 
           {/* Notification Settings */}
           <View className='space-y-5'>
-            <Text className='mb-2 text-sm font-semibold uppercase tracking-wide text-dark-200'>
+            <Text className='text-dark-200 mb-2 text-sm font-semibold uppercase tracking-wide'>
               Notification Settings
             </Text>
 
             {/* Push Notifications */}
-            <View className='rounded-xl border border-dark-700 bg-dark-800 p-4'>
+            <View className='border-dark-700 bg-dark-800 rounded-xl border p-4'>
               <View className='flex-row items-center justify-between'>
                 <View className='flex-1 flex-row items-center'>
-                  <View className='mr-3 h-10 w-10 items-center justify-center rounded-lg bg-dark-700'>
+                  <View className='bg-dark-700 mr-3 h-10 w-10 items-center justify-center rounded-lg'>
                     <Ionicons name='notifications' size={20} color='#10B981' />
                   </View>
                   <View className='flex-1'>
                     <Text className='font-medium text-white'>
                       Push Notifications
                     </Text>
-                    <Text className='text-sm text-dark-400'>
+                    <Text className='text-dark-400 text-sm'>
                       Get updates about your workouts
                     </Text>
                   </View>
@@ -305,17 +305,17 @@ export default function PreferencesScreen() {
             </View>
 
             {/* Workout Reminders */}
-            <View className='rounded-xl border border-dark-700 bg-dark-800 p-4'>
+            <View className='border-dark-700 bg-dark-800 rounded-xl border p-4'>
               <View className='flex-row items-center justify-between'>
                 <View className='flex-1 flex-row items-center'>
-                  <View className='mr-3 h-10 w-10 items-center justify-center rounded-lg bg-dark-700'>
+                  <View className='bg-dark-700 mr-3 h-10 w-10 items-center justify-center rounded-lg'>
                     <Ionicons name='alarm' size={20} color='#F97316' />
                   </View>
                   <View className='flex-1'>
                     <Text className='font-medium text-white'>
                       Workout Reminders
                     </Text>
-                    <Text className='text-sm text-dark-400'>
+                    <Text className='text-dark-400 text-sm'>
                       Daily reminders to stay on track
                     </Text>
                   </View>
@@ -333,7 +333,7 @@ export default function PreferencesScreen() {
           {/* Completion Message */}
           <Animated.View
             entering={ZoomIn.delay(800)}
-            className='to-secondary-500/20 rounded-2xl border border-primary-500/30 bg-gradient-to-r from-primary-500/20 p-6'
+            className='rounded-2xl border border-primary-500/30 bg-gradient-to-r from-primary-500/20 to-secondary-500/20 p-6'
           >
             <View className='items-center'>
               <View className='mb-4 h-16 w-16 items-center justify-center rounded-full bg-primary-500'>
@@ -342,7 +342,7 @@ export default function PreferencesScreen() {
               <Text className='mb-2 text-lg font-bold text-white'>
                 You're All Set!
               </Text>
-              <Text className='text-center text-sm text-dark-200'>
+              <Text className='text-dark-200 text-center text-sm'>
                 Your personalized fitness journey is ready. Let's make those
                 gains together!
               </Text>
@@ -354,7 +354,7 @@ export default function PreferencesScreen() {
       </ScrollView>
 
       {/* Bottom Action Button */}
-      <View className='absolute bottom-0 left-0 right-0 border-t border-dark-700 bg-dark-900 px-6 pb-10 pt-6'>
+      <View className='border-dark-700 bg-dark-900 absolute bottom-0 left-0 right-0 border-t px-6 pb-10 pt-6'>
         <AuthButton
           title='Start Your Journey'
           onPress={handleComplete}

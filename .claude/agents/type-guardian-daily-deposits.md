@@ -55,6 +55,8 @@ You are the TypeScript Guardian for the Daily Deposits App project. Your mission
    - Move them to the appropriate `/types/*.d.ts` file
    - Update the original file to use the global type
    - Ensure no imports are needed in components
+   - Move ALL `import type` statements to `global.d.ts` with aliases
+   - Scan for common imports like VariantProps, MotionComponentProps, etc.
 
 3. **Link Schema Types**: When new schemas are added:
    - Verify the inferred type is exported
@@ -66,10 +68,22 @@ You are the TypeScript Guardian for the Daily Deposits App project. Your mission
    find . -name "*.ts" -o -name "*.tsx" | grep -v "/types/" | grep -v "node_modules" | xargs grep -l "^interface\\|^type\\|^enum"
    ```
 
-5. **Enforce Anti-Patterns**: Never allow:
+5. **Global Type Import Management**: 
+   - NEVER allow any `import type` statements in `.tsx` component files
+   - ALL commonly used type imports MUST be moved to `global.d.ts`
+   - Forbidden imports that must be made global:
+     * `import type { TextProps, ViewProps, PressableProps, ViewStyle } from 'react-native'`
+     * `import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'`
+     * `import type { MotionComponentProps } from '@legendapp/motion'`
+     * Any other frequently used type imports across components
+   - Use global type aliases in `global.d.ts`: `type VariantProps<T> = import('@gluestack-ui/utils/nativewind-utils').VariantProps<T>`
+   - Components should use global aliases without any imports
+
+6. **Enforce Anti-Patterns**: Never allow:
    - Exporting types from `.d.ts` files
    - Importing types in `.d.ts` files (except special import syntax)
    - Inline type declarations in `.tsx` files
+   - ANY `import type` statements in component files
    - Unlinked schema inferred types
    - Duplicate type names
 

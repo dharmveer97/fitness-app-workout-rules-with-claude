@@ -28,8 +28,6 @@ import {
   ActionsheetSectionHeaderText,
 } from './select-actionsheet'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 const SelectTriggerWrapper = React.forwardRef<
   React.ComponentRef<typeof Pressable>,
   React.ComponentProps<typeof Pressable>

@@ -9,25 +9,6 @@ import { cn } from '@/utils/cn'
 import { Card } from '../atoms/Card'
 import { Text } from '../atoms/Text'
 
-export interface RadioOption<T = string> {
-  value: T
-  label: string
-  description?: string
-  disabled?: boolean
-  icon?: React.ReactNode
-}
-
-export interface RadioGroupProps<T = string> extends ViewProps {
-  label?: string
-  options: RadioOption<T>[]
-  value?: T
-  onChange?: (value: T) => void
-  orientation?: 'vertical' | 'horizontal'
-  variant?: 'default' | 'card' | 'button'
-  error?: string
-  containerClassName?: string
-}
-
 export function RadioGroup<T = string>({
   label,
   options,

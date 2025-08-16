@@ -10,8 +10,6 @@ import {
   useStyleContext,
 } from '@gluestack-ui/utils/nativewind-utils'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 const SCOPE = 'AVATAR'
 
 const UIAvatar = createAvatar({

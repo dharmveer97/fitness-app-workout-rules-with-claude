@@ -11,9 +11,6 @@ import {
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-import type { Svg } from 'react-native-svg'
-
 const SCOPE = 'BADGE'
 
 const badgeStyle = tva({
@@ -168,7 +165,7 @@ type IBadgeIconProps = React.ComponentPropsWithoutRef<typeof PrimitiveIcon> &
   VariantProps<typeof badgeIconStyle>
 
 const BadgeIcon = React.forwardRef<
-  React.ComponentRef<typeof Svg>,
+  React.ComponentRef<typeof PrimitiveIcon>,
   IBadgeIconProps
 >(({ className, size, ...props }, ref) => {
   const { size: parentSize, action: parentAction } = useStyleContext(SCOPE)

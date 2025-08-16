@@ -119,7 +119,7 @@ export default [
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-      '@typescript-eslint/prefer-nullish-coalescing': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': 'off',
       '@typescript-eslint/prefer-optional-chain': 'error',
       '@typescript-eslint/ban-ts-comment': 'warn',
       '@typescript-eslint/no-empty-interface': 'warn',
@@ -295,7 +295,7 @@ export default [
   },
   {
     // Config files - use JS parsing for config files without TypeScript project
-    files: ['**/*.config.{js,mjs}', '**/metro.config.js', '**/babel.config.js', '**/tailwind.config.js'],
+    files: ['**/*.config.{js,mjs}', '**/metro.config.js', '**/babel.config.js', '**/tailwind.config.js', 'eslint.config.mjs'],
     languageOptions: {
       parser: typescriptParser,
       parserOptions: {

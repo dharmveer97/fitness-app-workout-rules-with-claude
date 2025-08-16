@@ -2,8 +2,6 @@ import React from 'react'
 
 import { vstackStyle } from './styles'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 type IVStackProps = React.ComponentProps<'div'> &
   VariantProps<typeof vstackStyle>
 

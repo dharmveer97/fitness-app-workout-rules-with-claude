@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 
-import type { PressableProps, ViewStyle } from 'react-native'
 import {
   Pressable,
   View,
@@ -22,9 +21,6 @@ import {
   createMotionAnimatedComponent,
 } from '@legendapp/motion'
 import { cssInterop } from 'nativewind'
-
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-import type { MotionComponentProps } from '@legendapp/motion'
 
 const ItemWrapper = React.forwardRef<
   React.ComponentRef<typeof Pressable>,

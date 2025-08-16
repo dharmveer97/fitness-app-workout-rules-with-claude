@@ -1,32 +1,12 @@
 import React, { useState, forwardRef } from 'react'
 
-import {
-  TextInput,
-  View,
-  TouchableOpacity,
-  Animated,
-  type TextInputProps,
-} from 'react-native'
+import { TextInput, View, TouchableOpacity, Animated } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 
 import { cn } from '@/utils/cn'
 
 import Text from './Text'
-
-export interface InputProps extends TextInputProps {
-  label?: string
-  error?: string
-  hint?: string
-  leftIcon?: keyof typeof Ionicons.glyphMap
-  rightIcon?: keyof typeof Ionicons.glyphMap
-  onRightIconPress?: () => void
-  variant?: 'default' | 'filled' | 'outline'
-  size?: 'sm' | 'md' | 'lg'
-  containerClassName?: string
-  inputClassName?: string
-  type?: 'text' | 'email' | 'password' | 'number' | 'phone'
-}
 
 const variantStyles = {
   default: 'bg-dark-800 border border-dark-700',
@@ -60,33 +40,32 @@ export const Input = forwardRef<TextInput, InputProps>(
       containerClassName = '',
       inputClassName = '',
       type = 'text',
-      secureTextEntry,
       ...props
     },
     ref,
   ) => {
     const [isFocused, setIsFocused] = useState(false)
-    const [isSecure, setIsSecure] = useState(secureTextEntry)
+    const [isSecure, setIsSecure] = useState(props.secureTextEntry)
     const animatedValue = new Animated.Value(0)
 
-    const handleFocus = () => {
+    const handleFocus = (e: any) => {
       setIsFocused(true)
       Animated.timing(animatedValue, {
         toValue: 1,
         duration: 200,
         useNativeDriver: false,
       }).start()
-      props.onFocus?.(null as any)
+      props.onFocus?.(e)
     }
 
-    const handleBlur = () => {
+    const handleBlur = (e: any) => {
       setIsFocused(false)
       Animated.timing(animatedValue, {
         toValue: 0,
         duration: 200,
         useNativeDriver: false,
       }).start()
-      props.onBlur?.(null as any)
+      props.onBlur?.(e)
     }
 
     const getKeyboardType = () => {

@@ -15,13 +15,7 @@ import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { Text, Button } from '@/components/atoms'
-import {
-  FormField,
-  RadioGroup,
-  ProgressSteps,
-  type RadioOption,
-  type Step,
-} from '@/components/elements'
+import { FormField, RadioGroup, ProgressSteps } from '@/components/elements'
 import { useOnboardingStore } from '@/stores'
 
 export default function PersonalInfoScreen() {

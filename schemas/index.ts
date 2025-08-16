@@ -4,7 +4,7 @@
 // Auth schemas
 export * from './auth'
 
-// Onboarding schemas  
+// Onboarding schemas
 export * from './onboarding'
 
 // Fitness schemas

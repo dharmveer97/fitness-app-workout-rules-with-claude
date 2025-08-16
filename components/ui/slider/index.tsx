@@ -11,8 +11,6 @@ import {
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 const SCOPE = 'SLIDER'
 const Root = withStyleContext(View, SCOPE)
 export const UISlider = createSlider({

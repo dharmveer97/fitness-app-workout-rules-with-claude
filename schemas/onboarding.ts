@@ -31,18 +31,14 @@ export const personalInfoSchema = z.object({
     'very-active',
     'extremely-active',
   ]),
-  fitnessLevel: z.enum([
-    'beginner',
-    'intermediate', 
-    'advanced'
-  ]),
+  fitnessLevel: z.enum(['beginner', 'intermediate', 'advanced']),
 })
 
 // Goals Schema
 export const goalsSchema = z.object({
   primaryGoal: z.enum([
     'weight-loss',
-    'muscle-gain', 
+    'muscle-gain',
     'endurance',
     'general-fitness',
   ]),
@@ -83,11 +79,7 @@ export const preferencesSchema = z.object({
   units: z.enum(['metric', 'imperial']).default('metric'),
   theme: z.enum(['light', 'dark', 'auto']).default('dark'),
   language: z.string().default('en'),
-  workoutTime: z.enum([
-    'morning',
-    'afternoon', 
-    'evening'
-  ]),
+  workoutTime: z.enum(['morning', 'afternoon', 'evening']),
   notifications: z.boolean().default(true),
   reminders: z.boolean().default(true),
   notificationsObject: z.object({

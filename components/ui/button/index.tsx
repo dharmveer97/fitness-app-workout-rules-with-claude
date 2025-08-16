@@ -12,8 +12,6 @@ import {
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 
-import type { VariantProps } from 'tailwind-variants'
-
 const SCOPE = 'BUTTON'
 
 const Root = withStyleContext(Pressable, SCOPE)

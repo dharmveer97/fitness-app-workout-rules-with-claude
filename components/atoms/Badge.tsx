@@ -1,19 +1,10 @@
 import React from 'react'
 
-import { View, type ViewProps } from 'react-native'
+import { View } from 'react-native'
 
 import { cn } from '@/utils/cn'
 
 import Text from './Text'
-
-export interface BadgeProps extends ViewProps {
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'error' | 'info'
-  size?: 'sm' | 'md' | 'lg'
-  rounded?: boolean
-  children?: React.ReactNode
-  className?: string
-  textClassName?: string
-}
 
 const variantStyles = {
   default: 'bg-dark-700',
@@ -45,7 +36,7 @@ const textSizes = {
   lg: 'body' as const,
 }
 
-export const Badge: React.FC<BadgeProps> = ({
+export const Badge: React.FC<CustomBadgeProps> = ({
   variant = 'default',
   size = 'md',
   rounded = true,

@@ -5,8 +5,6 @@ import { cssInterop } from 'nativewind'
 
 import { headingStyle } from './styles'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 type IHeadingProps = VariantProps<typeof headingStyle> &
   React.ComponentPropsWithoutRef<typeof H1> & {
     as?: React.ElementType

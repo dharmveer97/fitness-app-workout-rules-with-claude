@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 
-import type { ViewStyle } from 'react-native'
 import { Pressable, View, ScrollView } from 'react-native'
 
 import { createModal } from '@gluestack-ui/core/modal/creator'
@@ -16,9 +15,6 @@ import {
   createMotionAnimatedComponent,
 } from '@legendapp/motion'
 import { cssInterop } from 'nativewind'
-
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-import type { MotionComponentProps } from '@legendapp/motion'
 
 type IAnimatedPressableProps = React.ComponentProps<typeof Pressable> &
   MotionComponentProps<typeof Pressable, ViewStyle, unknown, unknown, unknown>

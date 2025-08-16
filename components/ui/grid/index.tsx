@@ -6,7 +6,6 @@ import React, {
   forwardRef,
 } from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View, Dimensions, Platform } from 'react-native'
 
 import {
@@ -16,8 +15,6 @@ import {
 import { cssInterop } from 'nativewind'
 
 import { gridStyle, gridItemStyle } from './styles'
-
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
 
 const { width: DEVICE_WIDTH } = Dimensions.get('window')
 const GridContext = createContext<any>({})

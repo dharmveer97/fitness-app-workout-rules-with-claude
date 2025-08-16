@@ -10,29 +10,6 @@ import { cn } from '@/utils/cn'
 import { Badge } from '../atoms/Badge'
 import { Text } from '../atoms/Text'
 
-export interface SelectOption<T = string> {
-  value: T
-  label: string
-  description?: string
-  icon?: keyof typeof Ionicons.glyphMap
-  badge?: string
-  disabled?: boolean
-}
-
-export interface SelectGroupProps<T = string> extends ViewProps {
-  label?: string
-  options: SelectOption<T>[]
-  value?: T[]
-  onChange?: (values: T[]) => void
-  multiple?: boolean
-  max?: number
-  min?: number
-  variant?: 'default' | 'chips' | 'cards'
-  error?: string
-  hint?: string
-  containerClassName?: string
-}
-
 export function SelectGroup<T = string>({
   label,
   options,

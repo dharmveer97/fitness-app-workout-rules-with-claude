@@ -1,10 +1,6 @@
 import React from 'react'
 
-import {
-  TouchableOpacity,
-  ActivityIndicator,
-  type TouchableOpacityProps,
-} from 'react-native'
+import { TouchableOpacity, ActivityIndicator } from 'react-native'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, {
@@ -19,19 +15,6 @@ import { cn } from '@/utils/cn'
 import Text from './Text'
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity)
-
-export interface ButtonProps extends TouchableOpacityProps {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
-  size?: 'sm' | 'md' | 'lg' | 'xl'
-  fullWidth?: boolean
-  loading?: boolean
-  leftIcon?: keyof typeof Ionicons.glyphMap
-  rightIcon?: keyof typeof Ionicons.glyphMap
-  children?: React.ReactNode
-  className?: string
-  textClassName?: string
-  animate?: boolean
-}
 
 const variantStyles = {
   primary: 'bg-primary-500 active:bg-primary-600',
@@ -65,9 +48,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   className = '',
   textClassName = '',
-  disabled,
   animate = true,
-  onPress,
   ...props
 }) => {
   const scale = useSharedValue(1)
@@ -77,26 +58,26 @@ export const Button: React.FC<ButtonProps> = ({
   }))
 
   const handlePressIn = () => {
-    if (animate && !disabled && !loading) {
+    if (animate && !props.disabled && !loading) {
       scale.value = withSpring(0.95, { damping: 10, stiffness: 400 })
     }
   }
 
   const handlePressOut = () => {
-    if (animate && !disabled && !loading) {
+    if (animate && !props.disabled && !loading) {
       scale.value = withSpring(1, { damping: 10, stiffness: 400 })
     }
   }
 
   const handlePress = (e: any) => {
-    if (!disabled && !loading && onPress) {
+    if (!props.disabled && !loading && props.onPress) {
       if (animate) {
         scale.value = withSequence(
           withSpring(0.95, { damping: 10, stiffness: 400 }),
           withSpring(1, { damping: 10, stiffness: 400 }),
         )
       }
-      onPress(e)
+      props.onPress(e)
     }
   }
 
@@ -105,7 +86,7 @@ export const Button: React.FC<ButtonProps> = ({
     variantStyles[variant],
     sizeStyles[size],
     fullWidth && 'w-full',
-    (disabled ?? loading) && 'opacity-50',
+    (props.disabled ?? loading) && 'opacity-50',
     className,
   )
 
@@ -121,7 +102,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <AnimatedTouchable
       className={buttonClass}
-      disabled={disabled ?? loading}
+      disabled={props.disabled ?? loading}
       onPress={handlePress}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}

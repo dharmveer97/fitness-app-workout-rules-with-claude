@@ -1,7 +1,6 @@
 'use client'
 import React from 'react'
 
-import type { TextProps } from 'react-native'
 import { View, Pressable, Text, Platform } from 'react-native'
 
 import { H3 } from '@expo/html-elements'
@@ -13,8 +12,6 @@ import {
   useStyleContext,
 } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
-
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
 
 const SCOPE = 'ACCORDION'
 /** Styles */
@@ -90,7 +87,7 @@ const Root = withStyleContext(View, SCOPE)
 
 const Header = (
   Platform.OS === 'web' ? H3 : View
-) as React.ComponentType<TextProps>
+) as React.ComponentType<RNTextProps>
 
 /** Creator */
 const UIAccordion = createAccordion({

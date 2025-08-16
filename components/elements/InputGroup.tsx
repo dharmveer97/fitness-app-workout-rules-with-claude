@@ -5,21 +5,8 @@ import { View } from 'react-native'
 import { cn } from '@/utils/cn'
 
 import { Badge } from '../atoms/Badge'
-import { Input, type InputProps } from '../atoms/Input'
+import { Input } from '../atoms/Input'
 import { Text } from '../atoms/Text'
-
-export interface InputGroupProps extends ViewProps {
-  label?: string
-  required?: boolean
-  error?: string
-  hint?: string
-  badge?: string
-  inputs?: InputProps[]
-  orientation?: 'vertical' | 'horizontal'
-  gap?: 'sm' | 'md' | 'lg'
-  containerClassName?: string
-  children?: React.ReactNode
-}
 
 const gapStyles = {
   sm: 'gap-2',
@@ -27,7 +14,7 @@ const gapStyles = {
   lg: 'gap-6',
 }
 
-export const InputGroup = forwardRef<TextInput, InputGroupProps>(
+export const InputGroup = forwardRef<TextInput, CustomInputGroupProps>(
   (
     {
       label,

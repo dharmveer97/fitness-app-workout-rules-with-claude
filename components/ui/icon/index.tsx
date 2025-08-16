@@ -5,9 +5,6 @@ import { tva } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 import { Path } from 'react-native-svg'
 
-import type { IPrimitiveIcon } from '@gluestack-ui/core/icon/creator'
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 export const UIIcon = createIcon({
   Root: PrimitiveIcon,
 }) as React.ForwardRefExoticComponent<

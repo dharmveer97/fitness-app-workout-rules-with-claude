@@ -13,27 +13,7 @@ import { cn } from '@/utils/cn'
 
 import { Text } from '../atoms/Text'
 
-export interface Step {
-  id: string
-  title: string
-  description?: string
-  icon?: keyof typeof Ionicons.glyphMap
-  completed?: boolean
-  active?: boolean
-  disabled?: boolean
-}
-
-export interface ProgressStepsProps extends ViewProps {
-  steps: Step[]
-  currentStep: number
-  onStepPress?: (index: number, step: Step) => void
-  variant?: 'default' | 'compact' | 'detailed'
-  orientation?: 'horizontal' | 'vertical'
-  showConnector?: boolean
-  containerClassName?: string
-}
-
-export const ProgressSteps: React.FC<ProgressStepsProps> = ({
+export const ProgressSteps: React.FC<CustomProgressStepsProps> = ({
   steps,
   currentStep,
   onStepPress,
@@ -87,7 +67,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
     stepStyle8,
     stepStyle9,
   ]
-  const renderStepIndicator = (step: Step, index: number) => {
+  const renderStepIndicator = (step: CustomStep, index: number) => {
     const isCompleted = index < currentStep
     const isActive = index === currentStep
     const isDisabled = step.disabled ?? index > currentStep
@@ -165,7 +145,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
     )
   }
 
-  const renderStep = (step: Step, index: number) => {
+  const renderStep = (step: CustomStep, index: number) => {
     const isActive = index === currentStep
     const isCompleted = index < currentStep
 

@@ -6,8 +6,6 @@ import { Switch as RNSwitch } from 'react-native'
 import { createSwitch } from '@gluestack-ui/core/switch/creator'
 import { tva, withStyleContext } from '@gluestack-ui/utils/nativewind-utils'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 const UISwitch = createSwitch({
   Root: withStyleContext(RNSwitch),
 })

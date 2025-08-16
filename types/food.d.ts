@@ -1,8 +1,3 @@
-// React types
-type ReactNode = import('react').ReactNode
-type Dispatch<T> = import('react').Dispatch<T>
-type SetStateAction<T> = import('react').SetStateAction<T>
-
 // Food schema inferred types
 type MealTypeType = import('../schemas/food').MealTypeInfer
 type FoodItemType = import('../schemas/food').FoodItemInfer

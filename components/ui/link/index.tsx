@@ -7,8 +7,6 @@ import { createLink } from '@gluestack-ui/core/link/creator'
 import { tva, withStyleContext } from '@gluestack-ui/utils/nativewind-utils'
 import { cssInterop } from 'nativewind'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 export const UILink = createLink({
   Root: withStyleContext(Pressable),
   Text,

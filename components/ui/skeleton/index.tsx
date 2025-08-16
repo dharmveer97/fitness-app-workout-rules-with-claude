@@ -4,8 +4,6 @@ import { Animated, Easing, Platform, View } from 'react-native'
 
 import { skeletonStyle, skeletonTextStyle } from './styles'
 
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils'
-
 type ISkeletonProps = React.ComponentProps<typeof View> &
   VariantProps<typeof skeletonStyle> & {
     isLoaded?: boolean

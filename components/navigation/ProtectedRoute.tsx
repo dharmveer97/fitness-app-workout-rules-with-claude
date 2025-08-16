@@ -7,16 +7,6 @@ import { Redirect } from 'expo-router'
 import { Text } from '@/components/atoms'
 import { useAuthStore, useOnboardingStore } from '@/stores'
 
-export interface ProtectedRouteProps {
-  children: ReactNode
-  requireAuth?: boolean
-  requireOnboarding?: boolean
-  requireVerification?: boolean
-  fallback?: string
-  loadingComponent?: ReactNode
-  unauthorizedComponent?: ReactNode
-}
-
 /**
  * ProtectedRoute component following Expo blog patterns for auth flows
  * Handles authentication, onboarding, and verification requirements

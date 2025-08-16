@@ -7,7 +7,6 @@ import React, {
   useState,
 } from 'react'
 
-import type { PressableProps, TextProps } from 'react-native'
 import { Platform, Pressable, Text } from 'react-native'
 
 import { FocusScope } from '@gluestack-ui/utils/aria'
@@ -278,7 +277,7 @@ export const BottomSheetItem = ({
   )
 }
 
-export const BottomSheetItemText = ({ ...props }: TextProps) => (
+export const BottomSheetItemText = ({ ...props }: RNTextProps) => (
   <Text {...props} />
 )
 

@@ -285,8 +285,7 @@ export const useOnboardingStore = create<OnboardingStore>()(
             name: personalInfo.name ?? 'Fitness User',
             email: 'demo@fitness.app',
             avatar: 'https://i.pravatar.cc/150',
-            fitnessLevel: (personalInfo.fitnessLevel ??
-              'beginner') as WorkoutDifficulty,
+            fitnessLevel: personalInfo.fitnessLevel ?? 'beginner',
             unitSystem: 'metric' as UnitSystem,
             joinDate: new Date(currentDate),
             createdAt: new Date(currentDate),
@@ -300,8 +299,14 @@ export const useOnboardingStore = create<OnboardingStore>()(
             },
             preferences: {
               notifications: {
-                workoutReminders: typeof preferences.notifications === 'boolean' ? preferences.notifications : true,
-                waterReminders: typeof preferences.reminders === 'boolean' ? preferences.reminders : true,
+                workoutReminders:
+                  typeof preferences.notifications === 'boolean'
+                    ? preferences.notifications
+                    : true,
+                waterReminders:
+                  typeof preferences.reminders === 'boolean'
+                    ? preferences.reminders
+                    : true,
                 sleepReminders: false,
               },
               privacy: {

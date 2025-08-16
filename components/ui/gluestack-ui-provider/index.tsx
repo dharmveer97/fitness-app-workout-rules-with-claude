@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 
-import type { ViewProps } from 'react-native'
 import { View } from 'react-native'
 
 import { OverlayProvider } from '@gluestack-ui/core/overlay/creator'
