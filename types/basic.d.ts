@@ -163,3 +163,23 @@ interface BottomSheetProps {
   height?: number | string
   snapPoints?: (string | number)[]
 }
+
+// Error Boundary types
+interface ErrorBoundaryProps {
+  children: ReactNode
+  fallback?: React.ComponentType<{ error: Error; resetError: () => void }>
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean
+  error: Error | null
+}
+
+// Theme types for Themed components
+interface ThemeProps {
+  lightColor?: string
+  darkColor?: string
+}
+
+interface ThemedTextProps extends ThemeProps, TextProps {}
+interface ThemedViewProps extends ThemeProps, ViewProps {}

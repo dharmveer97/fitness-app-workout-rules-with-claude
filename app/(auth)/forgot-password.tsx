@@ -77,7 +77,7 @@ export default function ForgotPasswordScreen() {
 
   if (emailSent) {
     return (
-      <View className='flex-1 bg-dark-900'>
+      <View className='bg-dark-900 flex-1'>
         <StatusBar style='light' />
 
         <ScrollView
@@ -98,7 +98,7 @@ export default function ForgotPasswordScreen() {
                 Check Your Email
               </Text>
 
-              <Text className='text-center text-base leading-6 text-dark-300'>
+              <Text className='text-dark-300 text-center text-base leading-6'>
                 We've sent a password reset link to
               </Text>
               <Text className='mt-1 text-center text-base font-semibold text-primary-400'>
@@ -107,7 +107,7 @@ export default function ForgotPasswordScreen() {
             </Animated.View>
 
             {/* Instructions */}
-            <View className='mb-8 rounded-xl bg-dark-700 p-4'>
+            <View className='bg-dark-700 mb-8 rounded-xl p-4'>
               <View className='mb-3 flex-row items-start'>
                 <Ionicons
                   name='information-circle'
@@ -119,7 +119,7 @@ export default function ForgotPasswordScreen() {
                   <Text className='mb-1 font-semibold text-white'>
                     What's next?
                   </Text>
-                  <Text className='text-sm leading-5 text-dark-300'>
+                  <Text className='text-dark-300 text-sm leading-5'>
                     Click the link in your email to reset your password. The
                     link will expire in 15 minutes.
                   </Text>
@@ -147,7 +147,7 @@ export default function ForgotPasswordScreen() {
 
             {/* Help Link */}
             <TouchableOpacity className='mt-6 py-3'>
-              <Text className='text-center text-sm text-dark-400'>
+              <Text className='text-dark-400 text-center text-sm'>
                 Didn't receive the email? Check your spam folder or{' '}
                 <Text className='font-medium text-primary-400'>
                   contact support
@@ -161,7 +161,7 @@ export default function ForgotPasswordScreen() {
   }
 
   return (
-    <View className='flex-1 bg-dark-900'>
+    <View className='bg-dark-900 flex-1'>
       <StatusBar style='light' />
 
       <KeyboardAvoidingView
@@ -177,7 +177,7 @@ export default function ForgotPasswordScreen() {
           <View className='px-6 pb-8 pt-16'>
             <TouchableOpacity
               onPress={() => router.push('/(auth)/sign-in')}
-              className='mb-8 h-10 w-10 items-center justify-center rounded-xl bg-dark-700'
+              className='bg-dark-700 mb-8 h-10 w-10 items-center justify-center rounded-xl'
             >
               <Ionicons name='arrow-back' size={20} color='#A1A1AA' />
             </TouchableOpacity>
@@ -186,7 +186,7 @@ export default function ForgotPasswordScreen() {
               <Text className='mb-2 text-3xl font-bold text-white'>
                 Forgot Password?
               </Text>
-              <Text className='text-base text-dark-300'>
+              <Text className='text-dark-300 text-base'>
                 Don't worry! It happens to the best of us. Enter your email to
                 get a reset link.
               </Text>
@@ -212,7 +212,7 @@ export default function ForgotPasswordScreen() {
                 <View className='gap-6'>
                   {/* Illustration */}
                   <View className='mb-8 items-center'>
-                    <View className='mb-4 h-24 w-24 items-center justify-center rounded-2xl bg-dark-700'>
+                    <View className='bg-dark-700 mb-4 h-24 w-24 items-center justify-center rounded-2xl'>
                       <Ionicons name='lock-closed' size={32} color='#10B981' />
                     </View>
                   </View>
@@ -242,7 +242,7 @@ export default function ForgotPasswordScreen() {
 
                   {/* Back to Sign In */}
                   <View className='mt-6 flex-row items-center justify-center'>
-                    <Text className='mr-2 text-base text-dark-400'>
+                    <Text className='text-dark-400 mr-2 text-base'>
                       Remember your password?
                     </Text>
                     <TouchableOpacity

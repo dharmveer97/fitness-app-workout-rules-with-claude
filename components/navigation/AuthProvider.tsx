@@ -1,10 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 
 import { useRouter, useSegments, useRootNavigationState } from 'expo-router'
 
-import { useSelector } from 'react-redux'
-
-import type { RootState } from '@/state/store'
+import { useAuthStore, useOnboardingStore } from '@/stores'
 
 /**
  * AuthProvider following Expo blog patterns for protected routes
@@ -17,15 +15,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const router = useRouter()
   const navigationState = useRootNavigationState()
 
-  const { isOnboarded, accessToken } = useSelector(
-    (state: RootState) => state.auth,
-  )
-  const { isOnboardingCompleted } = useSelector(
-    (state: RootState) => state.onboarding,
+  const isOnboarded = useAuthStore((state) => state.isOnboarded)
+  const accessToken = useAuthStore((state) => state.accessToken)
+  const isOnboardingCompleted = useOnboardingStore(
+    (state) => state.isOnboardingCompleted,
   )
 
-  const isAuthenticated = Boolean(accessToken)
-  const hasCompletedOnboarding = isOnboarded ?? isOnboardingCompleted
+  const authState = useMemo(() => ({
+    isAuthenticated: Boolean(accessToken),
+    hasCompletedOnboarding: isOnboarded ?? isOnboardingCompleted,
+  }), [accessToken, isOnboarded, isOnboardingCompleted])
 
   useEffect(() => {
     // Don't navigate until navigation is ready
@@ -36,35 +35,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const currentPath = segments.join('/')
 
     // Don't redirect if already in the correct location
-    if (inTabsGroup && isAuthenticated) return
-    if (inAuthGroup && !isAuthenticated) return
+    if (inTabsGroup && authState.isAuthenticated) return
+    if (inAuthGroup && !authState.isAuthenticated) return
 
     console.log('AuthProvider navigation check:', {
       currentPath,
-      isAuthenticated,
-      hasCompletedOnboarding,
+      isAuthenticated: authState.isAuthenticated,
+      hasCompletedOnboarding: authState.hasCompletedOnboarding,
       inAuthGroup,
       inTabsGroup,
     })
 
     // Only redirect if clearly needed
     if (
-      !hasCompletedOnboarding &&
+      !authState.hasCompletedOnboarding &&
       !currentPath.includes('onboarding') &&
       !inTabsGroup
     ) {
       console.log('Redirecting to onboarding')
       router.replace('/(auth)/onboarding')
-    } else if (isAuthenticated && hasCompletedOnboarding && inAuthGroup) {
+    } else if (authState.isAuthenticated && authState.hasCompletedOnboarding && inAuthGroup) {
       // User is authenticated and trying to access auth screens
       console.log('Redirecting authenticated user to main app')
       router.replace('/(tabs)/index')
-    } else if (!isAuthenticated && !inAuthGroup && hasCompletedOnboarding) {
+    } else if (!authState.isAuthenticated && !inAuthGroup && authState.hasCompletedOnboarding) {
       // User is not authenticated and trying to access protected screens
       console.log('Redirecting unauthenticated user to sign-in')
       router.replace('/(auth)/sign-in')
     }
-  }, [segments, isAuthenticated, hasCompletedOnboarding, navigationState?.key])
+  }, [segments, authState, navigationState?.key, router])
 
   return <>{children}</>
 }
@@ -73,18 +72,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
  * Simple auth hook for accessing auth state
  */
 export const useAuth = () => {
-  const { isOnboarded, accessToken, user } = useSelector(
-    (state: RootState) => state.auth,
-  )
-  const { isOnboardingCompleted } = useSelector(
-    (state: RootState) => state.onboarding,
+  const isOnboarded = useAuthStore((state) => state.isOnboarded)
+  const accessToken = useAuthStore((state) => state.accessToken)
+  const user = useAuthStore((state) => state.user)
+  const isOnboardingCompleted = useOnboardingStore(
+    (state) => state.isOnboardingCompleted,
   )
 
-  return {
+  return useMemo(() => ({
     isAuthenticated: Boolean(accessToken),
     isOnboarded: isOnboarded ?? isOnboardingCompleted,
     user,
-  }
+  }), [accessToken, isOnboarded, isOnboardingCompleted, user])
 }
 
 export default AuthProvider

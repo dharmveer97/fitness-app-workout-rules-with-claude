@@ -7,11 +7,15 @@ export const personalInfoSchema = z.object({
     .min(1, 'Name is required')
     .min(2, 'Name must be at least 2 characters')
     .max(50, 'Name must be less than 50 characters'),
+  age: z
+    .number()
+    .min(13, 'You must be at least 13 years old')
+    .max(120, 'You must be less than 120 years old'),
   dateOfBirth: z.date().refine((date) => {
     const age = new Date().getFullYear() - date.getFullYear()
     return age >= 13 && age <= 120
   }, 'You must be between 13 and 120 years old'),
-  gender: z.enum(['male', 'female', 'other', 'prefer-not-to-say']),
+  gender: z.enum(['male', 'female', 'other']),
   height: z
     .number()
     .min(50, 'Height must be at least 50cm')
@@ -27,18 +31,26 @@ export const personalInfoSchema = z.object({
     'very-active',
     'extremely-active',
   ]),
+  fitnessLevel: z.enum([
+    'beginner',
+    'intermediate', 
+    'advanced'
+  ]),
 })
 
 // Goals Schema
 export const goalsSchema = z.object({
   primaryGoal: z.enum([
-    'lose-weight',
-    'gain-weight',
-    'maintain-weight',
-    'build-muscle',
-    'improve-fitness',
-    'general-health',
+    'weight-loss',
+    'muscle-gain', 
+    'endurance',
+    'general-fitness',
   ]),
+  workoutFrequency: z
+    .number()
+    .min(1, 'Workout frequency must be at least 1')
+    .max(7, 'Workout frequency must be less than 7 per week')
+    .default(3),
   targetWeight: z
     .number()
     .min(20, 'Target weight must be at least 20kg')
@@ -71,7 +83,14 @@ export const preferencesSchema = z.object({
   units: z.enum(['metric', 'imperial']).default('metric'),
   theme: z.enum(['light', 'dark', 'auto']).default('dark'),
   language: z.string().default('en'),
-  notifications: z.object({
+  workoutTime: z.enum([
+    'morning',
+    'afternoon', 
+    'evening'
+  ]),
+  notifications: z.boolean().default(true),
+  reminders: z.boolean().default(true),
+  notificationsObject: z.object({
     enabled: z.boolean().default(true),
     waterReminders: z.boolean().default(true),
     challengeReminders: z.boolean().default(true),

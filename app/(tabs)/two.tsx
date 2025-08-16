@@ -9,12 +9,10 @@ import {
 } from 'react-native'
 
 import { Formik } from 'formik'
-import { useSelector, useDispatch } from 'react-redux'
 import { z } from 'zod'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
-import { updateProfile } from '@/state/slices/authSlice'
-import type { RootState } from '@/state/store'
+import { useAuthStore } from '@/stores'
 
 const ProfileSchema = z.object({
   name: z.string().min(2, 'Enter your name'),
@@ -24,8 +22,10 @@ const ProfileSchema = z.object({
 })
 
 export default function ProfileScreen() {
-  const user = useSelector((s: RootState) => s.auth.user)
-  const dispatch = useDispatch()
+  const { user, updateProfile } = useAuthStore((state) => ({
+    user: state.user,
+    updateProfile: state.updateProfile,
+  }))
 
   return (
     <KeyboardAvoidingView
@@ -41,19 +41,17 @@ export default function ProfileScreen() {
             initialValues={{
               name: user?.name ?? '',
               email: user?.email ?? '',
-              heightCm: user?.heightCm ? String(user.heightCm) : '',
-              weightKg: user?.weightKg ? String(user.weightKg) : '',
+              heightCm: user?.height ? String(user.height) : '',
+              weightKg: user?.weight ? String(user.weight) : '',
             }}
             validationSchema={toFormikValidationSchema(ProfileSchema)}
             onSubmit={(values) => {
-              dispatch(
-                updateProfile({
-                  name: values.name,
-                  email: values.email,
-                  height: values.heightCm ? Number(values.heightCm) : undefined,
-                  weight: values.weightKg ? Number(values.weightKg) : undefined,
-                }),
-              )
+              updateProfile({
+                name: values.name,
+                email: values.email,
+                height: values.heightCm ? Number(values.heightCm) : undefined,
+                weight: values.weightKg ? Number(values.weightKg) : undefined,
+              })
             }}
           >
             {({

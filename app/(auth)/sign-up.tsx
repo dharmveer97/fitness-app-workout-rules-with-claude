@@ -14,7 +14,6 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import { Formik } from 'formik'
-import { useDispatch } from 'react-redux'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import AuthButton from '../../components/auth/AuthButton'
@@ -22,10 +21,10 @@ import AuthInput from '../../components/auth/AuthInput'
 import PasswordStrengthIndicator from '../../components/auth/PasswordStrengthIndicator'
 import { SocialLoginGroup } from '../../components/auth/SocialLoginButton'
 import { registerSchema } from '../../schemas/auth'
-import { signIn } from '../../state/slices/authSlice'
+import { useAuthStore } from '../../stores'
 
 export default function SignUpScreen() {
-  const dispatch = useDispatch()
+  const signIn = useAuthStore((state) => state.signIn)
   const [loading, setLoading] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [socialLoading, setSocialLoading] = useState({
@@ -47,40 +46,38 @@ export default function SignUpScreen() {
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
       // Auto sign in after successful registration
-      dispatch(
-        signIn({
-          accessToken: 'demo-register-token',
-          user: {
-            id: Date.now().toString(),
-            name: values.name,
-            email: values.email,
-            avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&size=150&background=10B981&color=fff`,
-            fitnessLevel: 'beginner',
-            unitSystem: 'metric',
-            joinDate: new Date().toISOString(),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            goals: {
-              dailySteps: 10000,
-              dailyWater: 2500,
-              dailyCalories: 2000,
-              weeklyWorkouts: 3,
-              sleepHours: 8,
+      signIn({
+        accessToken: 'demo-register-token',
+        user: {
+          id: Date.now().toString(),
+          name: values.name,
+          email: values.email,
+          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&size=150&background=10B981&color=fff`,
+          fitnessLevel: 'beginner',
+          unitSystem: 'metric',
+          joinDate: new Date().toISOString(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          goals: {
+            dailySteps: 10000,
+            dailyWater: 2500,
+            dailyCalories: 2000,
+            weeklyWorkouts: 3,
+            sleepHours: 8,
+          },
+          preferences: {
+            notifications: {
+              workoutReminders: true,
+              waterReminders: true,
+              sleepReminders: false,
             },
-            preferences: {
-              notifications: {
-                workoutReminders: true,
-                waterReminders: true,
-                sleepReminders: false,
-              },
-              privacy: {
-                shareStats: false,
-                shareWorkouts: true,
-              },
+            privacy: {
+              shareStats: false,
+              shareWorkouts: true,
             },
-          } as any,
-        }),
-      )
+          },
+        } as any,
+      })
       router.replace('/(tabs)')
     } catch (error) {
       console.error('Sign up error:', error)
@@ -96,41 +93,39 @@ export default function SignUpScreen() {
       // Simulate social signup
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      dispatch(
-        signIn({
-          accessToken: 'demo-social-signup-token',
-          user: {
-            id: Date.now().toString(),
-            name: `${provider} User`,
-            email: `user@${provider}.com`,
-            avatar:
-              'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
-            fitnessLevel: 'beginner',
-            unitSystem: 'metric',
-            joinDate: new Date().toISOString(),
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            goals: {
-              dailySteps: 10000,
-              dailyWater: 2500,
-              dailyCalories: 2000,
-              weeklyWorkouts: 3,
-              sleepHours: 8,
+      signIn({
+        accessToken: 'demo-social-signup-token',
+        user: {
+          id: Date.now().toString(),
+          name: `${provider} User`,
+          email: `user@${provider}.com`,
+          avatar:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
+          fitnessLevel: 'beginner',
+          unitSystem: 'metric',
+          joinDate: new Date().toISOString(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          goals: {
+            dailySteps: 10000,
+            dailyWater: 2500,
+            dailyCalories: 2000,
+            weeklyWorkouts: 3,
+            sleepHours: 8,
+          },
+          preferences: {
+            notifications: {
+              workoutReminders: true,
+              waterReminders: true,
+              sleepReminders: false,
             },
-            preferences: {
-              notifications: {
-                workoutReminders: true,
-                waterReminders: true,
-                sleepReminders: false,
-              },
-              privacy: {
-                shareStats: false,
-                shareWorkouts: true,
-              },
+            privacy: {
+              shareStats: false,
+              shareWorkouts: true,
             },
-          } as any,
-        }),
-      )
+          },
+        } as any,
+      })
       router.replace('/(tabs)')
     } catch (error) {
       console.error(`${provider} signup error:`, error)
@@ -140,7 +135,7 @@ export default function SignUpScreen() {
   }
 
   return (
-    <View className='flex-1 bg-dark-900'>
+    <View className='bg-dark-900 flex-1'>
       <StatusBar style='light' />
 
       <KeyboardAvoidingView
@@ -156,7 +151,7 @@ export default function SignUpScreen() {
           <View className='px-6 pb-8 pt-16'>
             <TouchableOpacity
               onPress={() => router.push('/(auth)/sign-in')}
-              className='mb-8 h-10 w-10 items-center justify-center rounded-xl bg-dark-700'
+              className='bg-dark-700 mb-8 h-10 w-10 items-center justify-center rounded-xl'
             >
               <Ionicons name='arrow-back' size={20} color='#A1A1AA' />
             </TouchableOpacity>
@@ -165,7 +160,7 @@ export default function SignUpScreen() {
               <Text className='mb-2 text-3xl font-bold text-white'>
                 Create Account
               </Text>
-              <Text className='text-base text-dark-300'>
+              <Text className='text-dark-300 text-base'>
                 Join thousands of users on their fitness journey
               </Text>
             </View>
@@ -275,7 +270,7 @@ export default function SignUpScreen() {
                         )}
                       </View>
                       <View className='flex-1'>
-                        <Text className='text-sm leading-5 text-dark-300'>
+                        <Text className='text-dark-300 text-sm leading-5'>
                           I agree to the{' '}
                           <Text className='font-medium text-primary-400'>
                             Terms of Service
@@ -317,7 +312,7 @@ export default function SignUpScreen() {
 
                   {/* Sign In Link */}
                   <View className='mb-8 mt-6 flex-row items-center justify-center'>
-                    <Text className='mr-2 text-base text-dark-400'>
+                    <Text className='text-dark-400 mr-2 text-base'>
                       Already have an account?
                     </Text>
                     <TouchableOpacity

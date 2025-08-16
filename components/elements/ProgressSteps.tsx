@@ -101,7 +101,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
             'h-10 w-10 items-center justify-center rounded-full',
             isCompleted && 'bg-primary-500',
             isActive && 'border-2 border-primary-300 bg-primary-500',
-            !isCompleted && !isActive && 'border-2 border-dark-600 bg-dark-700',
+            !isCompleted && !isActive && 'border-dark-600 bg-dark-700 border-2',
             isDisabled && 'opacity-50',
           )}
         >
@@ -139,7 +139,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
     if (orientation === 'vertical') {
       return (
         <View className='w-10 items-center py-1'>
-          <View className='h-12 w-0.5 overflow-hidden bg-dark-700'>
+          <View className='bg-dark-700 h-12 w-0.5 overflow-hidden'>
             <Animated.View
               className='w-full bg-primary-500'
               style={{
@@ -153,7 +153,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
 
     return (
       <View className='mx-2 flex-1'>
-        <View className='h-0.5 overflow-hidden bg-dark-700'>
+        <View className='bg-dark-700 h-0.5 overflow-hidden'>
           <Animated.View
             className='h-full bg-primary-500'
             style={{

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
@@ -13,14 +13,12 @@ import {
   ThemeProvider,
 } from '@react-navigation/native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Provider } from 'react-redux'
 import 'react-native-reanimated'
 import '../global.css'
-import { PersistGate } from 'redux-persist/integration/react'
 
 import { AuthProvider } from '../components/navigation/AuthProvider'
+import { GluestackUIProvider } from '../components/ui/gluestack-ui-provider'
 import { useColorScheme } from '../components/useColorScheme'
-import { store, persistor } from '../state/store'
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -56,46 +54,30 @@ export default function RootLayout() {
     return null
   }
 
-  return (
-    <Provider store={store}>
-      <PersistGate
-        loading={
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#111827',
-            }}
-          >
-            <Text style={{ color: 'white', fontSize: 16 }}>Loading...</Text>
-          </View>
-        }
-        persistor={persistor}
-      >
-        <RootLayoutNav />
-      </PersistGate>
-    </Provider>
-  )
+  return <RootLayoutNav />
 }
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme()
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <AuthProvider>
-          <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen name='(tabs)' />
-            <Stack.Screen name='(auth)' />
-            <Stack.Screen
-              name='modal'
-              options={{ presentation: 'modal', headerShown: true }}
-            />
-          </Stack>
-        </AuthProvider>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <GluestackUIProvider mode={colorScheme === 'dark' ? 'dark' : 'light'}>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider
+          value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+          <AuthProvider>
+            <Stack screenOptions={{ headerShown: false }}>
+              <Stack.Screen name='(tabs)' />
+              <Stack.Screen name='(auth)' />
+              <Stack.Screen
+                name='modal'
+                options={{ presentation: 'modal', headerShown: true }}
+              />
+            </Stack>
+          </AuthProvider>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    </GluestackUIProvider>
   )
 }

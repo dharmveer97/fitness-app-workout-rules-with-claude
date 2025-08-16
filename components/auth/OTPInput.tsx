@@ -254,7 +254,7 @@ export function OTPWithTimer({
       <OTPInput {...otpProps} />
 
       <View className='mt-6 items-center'>
-        <Text className='mb-2 text-sm text-dark-400'>{resendText}</Text>
+        <Text className='text-dark-400 mb-2 text-sm'>{resendText}</Text>
         {canResend ? (
           <Text
             className='text-sm font-semibold text-primary-500'
@@ -263,7 +263,7 @@ export function OTPWithTimer({
             Resend Code
           </Text>
         ) : (
-          <Text className='text-sm text-dark-400'>
+          <Text className='text-dark-400 text-sm'>
             Resend in {formatTime(timer)}
           </Text>
         )}

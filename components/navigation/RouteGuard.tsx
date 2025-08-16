@@ -2,9 +2,7 @@ import React from 'react'
 
 import { Redirect } from 'expo-router'
 
-import { useSelector } from 'react-redux'
-
-import type { RootState } from '@/state/store'
+import { useOnboardingStore } from '@/stores'
 
 export interface RouteGuardProps {
   children: React.ReactNode
@@ -16,7 +14,7 @@ export interface RouteGuardProps {
 }
 
 export const RouteGuard: React.FC<RouteGuardProps> = ({ children, guards }) => {
-  const { _hasHydrated } = useSelector((state: RootState) => state.onboarding)
+  const _hasHydrated = useOnboardingStore((state) => state._hasHydrated)
 
   // Wait for store to hydrate before applying guards
   if (!_hasHydrated) {

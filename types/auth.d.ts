@@ -65,3 +65,27 @@ type PasswordStrength = 'weak' | 'fair' | 'good' | 'strong'
 
 // Social login types
 type SocialProvider = 'google' | 'apple' | 'facebook'
+
+// Zustand Auth Store Types
+interface AuthStoreState {
+  accessToken: string | null
+  refreshToken: string | null
+  user: UserProfile | null
+  isOnboarded: boolean
+  _hasHydrated: boolean
+}
+
+interface AuthStoreActions {
+  completeOnboarding: () => void
+  signIn: (data: {
+    accessToken: string
+    refreshToken?: string
+    user: UserProfile
+  }) => void
+  signOut: () => void
+  updateProfile: (profile: Partial<UserProfile>) => void
+  setHasHydrated: (hydrated: boolean) => void
+  reset: () => void
+}
+
+interface AuthStore extends AuthStoreState, AuthStoreActions {}

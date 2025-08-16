@@ -95,7 +95,7 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
           <Animated.View
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200)}
-            className='mb-2 rounded-lg border border-dark-600 bg-dark-700 p-3'
+            className='border-dark-600 bg-dark-700 mb-2 rounded-lg border p-3'
           >
             <Text variant='caption' color='gray'>
               {tooltip}

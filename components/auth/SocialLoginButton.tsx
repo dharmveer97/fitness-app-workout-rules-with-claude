@@ -186,9 +186,9 @@ export function SocialLoginGroup({
   return (
     <View className='w-full'>
       <View className='mb-6 flex-row items-center'>
-        <View className='h-px flex-1 bg-dark-600' />
-        <Text className='mx-4 text-sm text-dark-400'>Or continue with</Text>
-        <View className='h-px flex-1 bg-dark-600' />
+        <View className='bg-dark-600 h-px flex-1' />
+        <Text className='text-dark-400 mx-4 text-sm'>Or continue with</Text>
+        <View className='bg-dark-600 h-px flex-1' />
       </View>
 
       {onGooglePress && (

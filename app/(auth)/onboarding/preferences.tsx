@@ -15,29 +15,31 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
-import { useAppDispatch, useAppSelector } from '@/state/hooks'
 
 import AuthButton from '@/components/auth/AuthButton'
 import { StorageDebugger } from '@/components/dev/StorageDebugger'
-import {
-  updatePreferences,
-  previousSlide,
-  completeOnboardingWithSignIn,
-} from '@/state/slices/onboardingSlice'
+import { useOnboardingStore } from '@/stores'
 
 export default function PreferencesScreen() {
   console.log('🔵 PreferencesScreen: Component mounted')
 
-  const dispatch = useAppDispatch()
-  const { preferences, personalInfo } = useAppSelector(
-    (state) => state.onboarding,
-  )
-
-  console.log('🔵 PreferencesScreen: Current Redux state:', {
+  const {
     preferences,
     personalInfo,
-    onboardingState: useAppSelector((state) => state.onboarding),
-    authState: useAppSelector((state) => state.auth),
+    updatePreferences,
+    previousSlide,
+    completeOnboardingWithSignIn,
+  } = useOnboardingStore((state) => ({
+    preferences: state.preferences,
+    personalInfo: state.personalInfo,
+    updatePreferences: state.updatePreferences,
+    previousSlide: state.previousSlide,
+    completeOnboardingWithSignIn: state.completeOnboardingWithSignIn,
+  }))
+
+  console.log('🔵 PreferencesScreen: Current Zustand state:', {
+    preferences,
+    personalInfo,
   })
 
   const [workoutTime, setWorkoutTime] = useState<
@@ -85,13 +87,11 @@ export default function PreferencesScreen() {
       )
 
       // Update preferences in state
-      dispatch(
-        updatePreferences({
-          workoutTime,
-          notifications,
-          reminders,
-        }),
-      )
+      updatePreferences({
+        workoutTime,
+        notifications,
+        reminders,
+      })
 
       console.log(
         '🟡 PreferencesScreen: Step 2 - updatePreferences dispatched successfully',
@@ -100,14 +100,11 @@ export default function PreferencesScreen() {
         '🟡 PreferencesScreen: Step 3 - About to dispatch completeOnboardingWithSignIn',
       )
 
-      // Use the combined thunk that handles everything
-      const result = await dispatch(
-        completeOnboardingWithSignIn() as any,
-      ).unwrap()
+      // Use the combined action that handles everything
+      await completeOnboardingWithSignIn()
 
       console.log(
-        '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully:',
-        result,
+        '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully',
       )
 
       console.log('🟢 PreferencesScreen: Step 5 - About to navigate to tabs')
@@ -118,11 +115,12 @@ export default function PreferencesScreen() {
       console.log('🟢 PreferencesScreen: Step 6 - Navigation to tabs initiated')
     } catch (error) {
       console.error('🔴 PreferencesScreen: ERROR in handleComplete:', error)
+      const err = error as Error
       console.error('🔴 PreferencesScreen: Error details:', {
-        message: error?.message,
-        stack: error?.stack,
-        name: error?.name,
-        cause: error?.cause,
+        message: err?.message,
+        stack: err?.stack,
+        name: err?.name,
+        cause: (err as any)?.cause,
       })
 
       console.log('🔴 PreferencesScreen: Fallback - navigating to sign-in')
@@ -135,7 +133,7 @@ export default function PreferencesScreen() {
   }
 
   const handleBack = () => {
-    dispatch(previousSlide())
+    previousSlide()
     router.push('/(auth)/onboarding/goals')
   }
 

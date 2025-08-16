@@ -29,7 +29,7 @@ export const useAuth = (): UseAuthReturn => {
         },
         fitnessLevel: 'beginner',
         unitSystem: 'metric',
-        joinDate: new Date().toISOString(),
+        joinDate: new Date(),
         preferences: {
           notifications: {
             workoutReminders: true,
@@ -47,8 +47,8 @@ export const useAuth = (): UseAuthReturn => {
           caloriesBurned: 0,
           averageIntensity: 0,
         },
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       }
 
       // Store tokens securely
@@ -138,7 +138,7 @@ export const useAuth = (): UseAuthReturn => {
       // Update user data
       const updatedUser = {
         ...user,
-        updatedAt: new Date().toISOString(),
+        updatedAt: new Date(),
       }
 
       // Store updated user profile

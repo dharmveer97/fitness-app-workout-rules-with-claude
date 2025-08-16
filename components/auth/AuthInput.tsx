@@ -77,7 +77,7 @@ export default function AuthInput({
 
       <Animated.View
         style={animatedBorderStyle}
-        className='flex-row items-center rounded-xl bg-dark-700 px-4 py-4'
+        className='bg-dark-700 flex-row items-center rounded-xl px-4 py-4'
       >
         {leftIcon && (
           <Ionicons

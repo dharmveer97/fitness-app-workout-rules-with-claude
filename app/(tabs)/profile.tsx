@@ -2,21 +2,20 @@ import React, { useState, useCallback } from 'react'
 
 import { View, Text, ScrollView, Alert, RefreshControl } from 'react-native'
 
-import { useSelector, useDispatch } from 'react-redux'
-
 import GoalInput from '@/components/profile/GoalInput'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import SettingsItem from '@/components/profile/SettingsItem'
-import { signOut } from '@/state/slices/authSlice'
-import type { RootState } from '@/state/store'
+import { useAuthStore } from '@/stores'
 
 // Import our components
 
 // Types are now globally available from .d.ts files
 
 export default function ProfileScreen() {
-  const user = useSelector((s: RootState) => s.auth.user)
-  const dispatch = useDispatch()
+  const { user, signOut } = useAuthStore((state) => ({
+    user: state.user,
+    signOut: state.signOut,
+  }))
 
   const [refreshing, setRefreshing] = useState(false)
   const [showGoalsSection, setShowGoalsSection] = useState(false)
@@ -34,9 +33,9 @@ export default function ProfileScreen() {
     gender: 'male',
     fitnessLevel: 'intermediate',
     unitSystem: 'metric',
-    joinDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year ago
-    createdAt: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year ago
-    updatedAt: new Date().toISOString(),
+    joinDate: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 1 year ago
+    createdAt: new Date(Date.now() - 365 * 24 * 60 * 60 * 1000), // 1 year ago
+    updatedAt: new Date(),
     stats: {
       totalWorkouts: 156,
       totalDuration: 7800, // minutes
@@ -148,7 +147,7 @@ export default function ProfileScreen() {
       {
         text: 'Sign Out',
         style: 'destructive',
-        onPress: () => dispatch(signOut()),
+        onPress: () => signOut(),
       },
     ])
   }

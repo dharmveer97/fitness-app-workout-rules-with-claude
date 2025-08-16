@@ -4,10 +4,8 @@ import { View, ActivityIndicator } from 'react-native'
 
 import { Redirect } from 'expo-router'
 
-import { useSelector } from 'react-redux'
-
 import { Text } from '@/components/atoms'
-import type { RootState } from '@/state/store'
+import { useAuthStore, useOnboardingStore } from '@/stores'
 
 export interface ProtectedRouteProps {
   children: ReactNode
@@ -31,11 +29,13 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   fallback,
   loadingComponent,
 }) => {
-  const { isOnboarded, accessToken, user } = useSelector(
-    (state: RootState) => state.auth,
-  )
-  const { isOnboardingCompleted } = useSelector(
-    (state: RootState) => state.onboarding,
+  const { isOnboarded, accessToken, user } = useAuthStore((state) => ({
+    isOnboarded: state.isOnboarded,
+    accessToken: state.accessToken,
+    user: state.user,
+  }))
+  const isOnboardingCompleted = useOnboardingStore(
+    (state) => state.isOnboardingCompleted,
   )
   const [isInitialized, setIsInitialized] = useState(false)
 
@@ -51,9 +51,9 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   if (!isInitialized) {
     return (
       loadingComponent ?? (
-        <View className='flex-1 items-center justify-center bg-dark-900'>
+        <View className='bg-dark-900 flex-1 items-center justify-center'>
           <ActivityIndicator size='large' color='#3B82F6' />
-          <Text className='mt-4 text-dark-300'>Loading...</Text>
+          <Text className='text-dark-300 mt-4'>Loading...</Text>
         </View>
       )
     )
@@ -75,7 +75,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }
 
   // Check email verification requirement
-  if (requireVerification && user && !user.emailVerified) {
+  if (requireVerification && user && !user.email) {
     console.log('Protected route redirecting to verify-email')
     return <Redirect href={fallback ?? '/(auth)/verify-otp'} />
   }
@@ -100,16 +100,18 @@ export const useRouteProtection = ({
     'requireAuth' | 'requireOnboarding' | 'requireVerification'
   >
 > = {}) => {
-  const { isOnboarded, accessToken, user } = useSelector(
-    (state: RootState) => state.auth,
-  )
-  const { isOnboardingCompleted } = useSelector(
-    (state: RootState) => state.onboarding,
+  const { isOnboarded, accessToken, user } = useAuthStore((state) => ({
+    isOnboarded: state.isOnboarded,
+    accessToken: state.accessToken,
+    user: state.user,
+  }))
+  const isOnboardingCompleted = useOnboardingStore(
+    (state) => state.isOnboardingCompleted,
   )
 
   const hasCompletedOnboarding = isOnboarded ?? isOnboardingCompleted
   const isAuthenticated = Boolean(accessToken)
-  const isEmailVerified = user?.emailVerified ?? false
+  const isEmailVerified = user?.email ? true : false
 
   // Determine protection status and redirect
   let isProtected = true
@@ -124,7 +126,7 @@ export const useRouteProtection = ({
     isProtected = false
     redirectTo = '/(auth)/sign-in'
     reason = 'authentication_required'
-  } else if (requireVerification && user && !isEmailVerified) {
+  } else if (requireVerification && user && !user.email) {
     isProtected = false
     redirectTo = '/(auth)/verify-otp'
     reason = 'verification_required'

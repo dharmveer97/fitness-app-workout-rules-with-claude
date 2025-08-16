@@ -15,19 +15,19 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
-import { useAppDispatch, useAppSelector } from '@/state/hooks'
 
 import AuthButton from '@/components/auth/AuthButton'
-import {
-  updateGoals,
-  nextSlide,
-  previousSlide,
-  markSlideCompleted,
-} from '@/state/slices/onboardingSlice'
+import { useOnboardingStore } from '@/stores'
 
 export default function GoalsScreen() {
-  const dispatch = useAppDispatch()
-  const { goals } = useAppSelector((state) => state.onboarding)
+  const { goals, updateGoals, markSlideCompleted, nextSlide, previousSlide } =
+    useOnboardingStore((state) => ({
+      goals: state.goals,
+      updateGoals: state.updateGoals,
+      markSlideCompleted: state.markSlideCompleted,
+      nextSlide: state.nextSlide,
+      previousSlide: state.previousSlide,
+    }))
 
   const [primaryGoal, setPrimaryGoal] = useState<
     'weight-loss' | 'muscle-gain' | 'endurance' | 'general-fitness'
@@ -41,15 +41,13 @@ export default function GoalsScreen() {
 
   const handleNext = () => {
     try {
-      dispatch(
-        updateGoals({
-          primaryGoal,
-          targetWeight: targetWeight ? parseInt(targetWeight, 10) : undefined,
-          workoutFrequency: parseInt(workoutFrequency, 10) ?? 3,
-        }),
-      )
-      dispatch(markSlideCompleted('goals'))
-      dispatch(nextSlide())
+      updateGoals({
+        primaryGoal,
+        targetWeight: targetWeight ? parseInt(targetWeight, 10) : undefined,
+        workoutFrequency: parseInt(workoutFrequency, 10) ?? 3,
+      })
+      markSlideCompleted('goals')
+      nextSlide()
       router.push('/(auth)/onboarding/preferences')
     } catch (error) {
       console.error('Error navigating to preferences:', error)
@@ -58,7 +56,7 @@ export default function GoalsScreen() {
 
   const handleBack = () => {
     try {
-      dispatch(previousSlide())
+      previousSlide()
       router.push('/(auth)/onboarding')
     } catch (error) {
       console.error('Error navigating back:', error)

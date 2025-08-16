@@ -75,6 +75,7 @@ export default function WorkoutsScreen() {
       exercises: [],
       targetMuscleGroups: ['Chest', 'Shoulders', 'Arms'],
       equipment: ['Dumbbells', 'Bench'],
+      isCompleted: false,
     },
     {
       id: '2',
@@ -87,6 +88,7 @@ export default function WorkoutsScreen() {
       exercises: [],
       targetMuscleGroups: ['Full Body'],
       equipment: ['None'],
+      isCompleted: false,
     },
     {
       id: '3',
@@ -99,6 +101,7 @@ export default function WorkoutsScreen() {
       exercises: [],
       targetMuscleGroups: ['Full Body'],
       equipment: ['None'],
+      isCompleted: false,
     },
   ]
 

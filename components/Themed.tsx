@@ -9,13 +9,7 @@ import { Colors } from '@/constants/colors'
 
 import { useColorScheme } from './useColorScheme'
 
-type ThemeProps = {
-  lightColor?: string
-  darkColor?: string
-}
-
-export type TextProps = ThemeProps & DefaultText['props']
-export type ViewProps = ThemeProps & DefaultView['props']
+// Types are now globally available from /types/basic.d.ts
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
@@ -30,14 +24,14 @@ export function useThemeColor(
   return Colors[theme][colorName]
 }
 
-export function Text(props: TextProps) {
+export function Text(props: ThemedTextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text')
 
   return <DefaultText style={[{ color }, style]} {...otherProps} />
 }
 
-export function View(props: ViewProps) {
+export function View(props: ThemedViewProps) {
   const { style, lightColor, darkColor, ...otherProps } = props
   const backgroundColor = useThemeColor(
     { light: lightColor, dark: darkColor },

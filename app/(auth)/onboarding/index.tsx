@@ -13,7 +13,6 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
-import { useAppDispatch, useAppSelector } from '@/state/hooks'
 
 import { Text, Button } from '@/components/atoms'
 import {
@@ -23,15 +22,16 @@ import {
   type RadioOption,
   type Step,
 } from '@/components/elements'
-import {
-  updatePersonalInfo,
-  nextSlide,
-  markSlideCompleted,
-} from '@/state/slices/onboardingSlice'
+import { useOnboardingStore } from '@/stores'
 
 export default function PersonalInfoScreen() {
-  const dispatch = useAppDispatch()
-  const { personalInfo } = useAppSelector((state) => state.onboarding)
+  const { personalInfo, updatePersonalInfo, markSlideCompleted, nextSlide } =
+    useOnboardingStore((state) => ({
+      personalInfo: state.personalInfo,
+      updatePersonalInfo: state.updatePersonalInfo,
+      markSlideCompleted: state.markSlideCompleted,
+      nextSlide: state.nextSlide,
+    }))
 
   const [name, setName] = useState(personalInfo.name ?? '')
   const [age, setAge] = useState(personalInfo.age?.toString() ?? '')
@@ -44,16 +44,14 @@ export default function PersonalInfoScreen() {
 
   const handleNext = () => {
     if (name.trim() && age) {
-      dispatch(
-        updatePersonalInfo({
-          name: name.trim(),
-          age: parseInt(age),
-          gender,
-          fitnessLevel,
-        }),
-      )
-      dispatch(markSlideCompleted('personal-info'))
-      dispatch(nextSlide())
+      updatePersonalInfo({
+        name: name.trim(),
+        age: parseInt(age),
+        gender,
+        fitnessLevel,
+      })
+      markSlideCompleted('personal-info')
+      nextSlide()
       router.push('/(auth)/onboarding/goals')
     }
   }
@@ -67,7 +65,7 @@ export default function PersonalInfoScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      className='flex-1 bg-dark-900'
+      className='bg-dark-900 flex-1'
     >
       <StatusBar style='light' />
 
@@ -75,9 +73,9 @@ export default function PersonalInfoScreen() {
       <View className='flex-row items-center justify-end px-6 pb-6 pt-14'>
         <TouchableOpacity
           onPress={handleSkip}
-          className='rounded-full bg-dark-700 px-4 py-2'
+          className='bg-dark-700 rounded-full px-4 py-2'
         >
-          <Text className='text-sm font-medium text-dark-300'>Skip</Text>
+          <Text className='text-dark-300 text-sm font-medium'>Skip</Text>
         </TouchableOpacity>
       </View>
 
@@ -218,7 +216,7 @@ export default function PersonalInfoScreen() {
       </ScrollView>
 
       {/* Bottom Action Button */}
-      <View className='absolute bottom-0 left-0 right-0 border-t border-dark-700 bg-dark-900 px-6 pb-10 pt-6'>
+      <View className='border-dark-700 bg-dark-900 absolute bottom-0 left-0 right-0 border-t px-6 pb-10 pt-6'>
         <Button
           variant='primary'
           size='lg'

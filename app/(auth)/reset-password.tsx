@@ -75,7 +75,7 @@ export default function ResetPasswordScreen() {
 
   if (resetComplete) {
     return (
-      <View className='flex-1 bg-dark-900'>
+      <View className='bg-dark-900 flex-1'>
         <StatusBar style='light' />
 
         <ScrollView
@@ -96,7 +96,7 @@ export default function ResetPasswordScreen() {
                 Password Reset Successfully!
               </Text>
 
-              <Text className='text-center text-base leading-6 text-dark-300'>
+              <Text className='text-dark-300 text-center text-base leading-6'>
                 Your password has been updated successfully. You can now sign in
                 with your new password.
               </Text>
@@ -130,26 +130,26 @@ export default function ResetPasswordScreen() {
             />
 
             {/* Security Tips */}
-            <View className='mt-8 rounded-xl bg-dark-700 p-4'>
+            <View className='bg-dark-700 mt-8 rounded-xl p-4'>
               <Text className='mb-3 font-semibold text-white'>
                 Security Tips:
               </Text>
               <View className='space-y-2'>
                 <View className='flex-row items-start'>
                   <Text className='mr-2 text-primary-400'>•</Text>
-                  <Text className='flex-1 text-sm text-dark-300'>
+                  <Text className='text-dark-300 flex-1 text-sm'>
                     Don't share your password with anyone
                   </Text>
                 </View>
                 <View className='flex-row items-start'>
                   <Text className='mr-2 text-primary-400'>•</Text>
-                  <Text className='flex-1 text-sm text-dark-300'>
+                  <Text className='text-dark-300 flex-1 text-sm'>
                     Use a unique password for this account
                   </Text>
                 </View>
                 <View className='flex-row items-start'>
                   <Text className='mr-2 text-primary-400'>•</Text>
-                  <Text className='flex-1 text-sm text-dark-300'>
+                  <Text className='text-dark-300 flex-1 text-sm'>
                     Consider enabling two-factor authentication
                   </Text>
                 </View>
@@ -162,7 +162,7 @@ export default function ResetPasswordScreen() {
   }
 
   return (
-    <View className='flex-1 bg-dark-900'>
+    <View className='bg-dark-900 flex-1'>
       <StatusBar style='light' />
 
       <KeyboardAvoidingView
@@ -178,7 +178,7 @@ export default function ResetPasswordScreen() {
           <View className='px-6 pb-8 pt-16'>
             <TouchableOpacity
               onPress={() => router.push('/(auth)/verify-otp')}
-              className='mb-8 h-10 w-10 items-center justify-center rounded-xl bg-dark-700'
+              className='bg-dark-700 mb-8 h-10 w-10 items-center justify-center rounded-xl'
             >
               <Ionicons name='arrow-back' size={20} color='#A1A1AA' />
             </TouchableOpacity>
@@ -187,7 +187,7 @@ export default function ResetPasswordScreen() {
               <Text className='mb-2 text-3xl font-bold text-white'>
                 Create New Password
               </Text>
-              <Text className='text-base text-dark-300'>
+              <Text className='text-dark-300 text-base'>
                 Choose a strong password to secure your account
               </Text>
             </View>
@@ -219,7 +219,7 @@ export default function ResetPasswordScreen() {
                 <View className='gap-6'>
                   {/* Security Illustration */}
                   <View className='mb-4 items-center'>
-                    <View className='mb-4 h-24 w-24 items-center justify-center rounded-2xl bg-dark-700'>
+                    <View className='bg-dark-700 mb-4 h-24 w-24 items-center justify-center rounded-2xl'>
                       <Ionicons
                         name='shield-checkmark'
                         size={32}
@@ -263,7 +263,7 @@ export default function ResetPasswordScreen() {
                   />
 
                   {/* Security Requirements */}
-                  <View className='rounded-xl bg-dark-700 p-4'>
+                  <View className='bg-dark-700 rounded-xl p-4'>
                     <View className='flex-row items-start'>
                       <Ionicons
                         name='shield'
@@ -275,7 +275,7 @@ export default function ResetPasswordScreen() {
                         <Text className='mb-1 font-semibold text-white'>
                           Password Security
                         </Text>
-                        <Text className='text-sm leading-5 text-dark-300'>
+                        <Text className='text-dark-300 text-sm leading-5'>
                           Your new password will be encrypted and stored
                           securely. Make sure it's different from your previous
                           password.
@@ -295,7 +295,7 @@ export default function ResetPasswordScreen() {
 
                   {/* Back to Sign In */}
                   <View className='mb-8 mt-6 flex-row items-center justify-center'>
-                    <Text className='mr-2 text-base text-dark-400'>
+                    <Text className='text-dark-400 mr-2 text-base'>
                       Remember your password?
                     </Text>
                     <TouchableOpacity

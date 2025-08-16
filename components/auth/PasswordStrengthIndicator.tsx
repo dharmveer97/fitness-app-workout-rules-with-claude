@@ -128,7 +128,7 @@ export default function PasswordStrengthIndicator({
       {/* Progress Bar */}
       <View className='mb-3'>
         <View className='mb-2 flex-row items-center justify-between'>
-          <Text className='text-sm text-dark-300'>Password Strength</Text>
+          <Text className='text-dark-300 text-sm'>Password Strength</Text>
           <Animated.Text
             style={animatedLabelStyle}
             className='text-sm font-medium'
@@ -137,7 +137,7 @@ export default function PasswordStrengthIndicator({
           </Animated.Text>
         </View>
 
-        <View className='h-2 overflow-hidden rounded-full bg-dark-700'>
+        <View className='bg-dark-700 h-2 overflow-hidden rounded-full'>
           <Animated.View
             style={animatedProgressStyle}
             className='h-full rounded-full transition-all duration-300'
@@ -148,7 +148,7 @@ export default function PasswordStrengthIndicator({
       {/* Requirements List */}
       {showRequirements && (
         <View className='space-y-2'>
-          <Text className='mb-2 text-sm text-dark-300'>
+          <Text className='text-dark-300 mb-2 text-sm'>
             Password must contain:
           </Text>
           {passwordRequirements.map((requirement) => {
@@ -247,7 +247,7 @@ export function SimplePasswordStrength({ password }: { password: string }) {
 
   return (
     <View className='mt-2'>
-      <View className='h-1 overflow-hidden rounded-full bg-dark-700'>
+      <View className='bg-dark-700 h-1 overflow-hidden rounded-full'>
         <Animated.View style={animatedStyle} className='h-full rounded-full' />
       </View>
     </View>

@@ -14,17 +14,16 @@ import { StatusBar } from 'expo-status-bar'
 
 import { Ionicons } from '@expo/vector-icons'
 import { useFormik } from 'formik'
-import { useDispatch } from 'react-redux'
 import { toFormikValidationSchema } from 'zod-formik-adapter'
 
 import AuthButton from '@/components/auth/AuthButton'
 import AuthInput from '@/components/auth/AuthInput'
 import { SocialLoginGroup } from '@/components/auth/SocialLoginButton'
 import { loginSchema } from '@/schemas/auth'
-import { signIn } from '@/state/slices/authSlice'
+import { useAuthStore } from '@/stores'
 
 export default function SignInScreen() {
-  const dispatch = useDispatch()
+  const signIn = useAuthStore((state) => state.signIn)
   const [loading, setLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
   const [socialLoading, setSocialLoading] = useState({
@@ -46,68 +45,14 @@ export default function SignInScreen() {
         await new Promise((resolve) => setTimeout(resolve, 1500))
 
         const currentDate = new Date().toISOString()
-        dispatch(
-          signIn({
-            accessToken: 'demo-token',
-            user: {
-              id: '1',
-              name: 'Fitness Enthusiast',
-              email: values.email,
-              avatar:
-                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150',
-              fitnessLevel: 'beginner',
-              unitSystem: 'metric',
-              joinDate: currentDate,
-              createdAt: currentDate,
-              updatedAt: currentDate,
-              goals: {
-                dailySteps: 10000,
-                dailyWater: 2500,
-                dailyCalories: 2000,
-                weeklyWorkouts: 3,
-                sleepHours: 8,
-              },
-              preferences: {
-                notifications: {
-                  workoutReminders: true,
-                  waterReminders: true,
-                  sleepReminders: false,
-                },
-                privacy: {
-                  shareStats: false,
-                  shareWorkouts: true,
-                },
-              },
-            } as any,
-          }),
-        )
-        router.replace('/(tabs)')
-      } catch (error) {
-        console.error('Sign in error:', error)
-        formik.setFieldError('password', 'Invalid email or password')
-      } finally {
-        setLoading(false)
-      }
-    },
-  })
-
-  const handleSocialLogin = async (provider: string) => {
-    setSocialLoading((prev) => ({ ...prev, [provider]: true }))
-
-    try {
-      // Simulate social login
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      const currentDate = new Date().toISOString()
-      dispatch(
         signIn({
-          accessToken: 'demo-social-token',
+          accessToken: 'demo-token',
           user: {
-            id: '2',
-            name: `${provider} User`,
-            email: `user@${provider}.com`,
+            id: '1',
+            name: 'Fitness Enthusiast',
+            email: values.email,
             avatar:
-              'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
+              'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150',
             fitnessLevel: 'beginner',
             unitSystem: 'metric',
             joinDate: currentDate,
@@ -132,8 +77,58 @@ export default function SignInScreen() {
               },
             },
           } as any,
-        }),
-      )
+        })
+        router.replace('/(tabs)')
+      } catch (error) {
+        console.error('Sign in error:', error)
+        formik.setFieldError('password', 'Invalid email or password')
+      } finally {
+        setLoading(false)
+      }
+    },
+  })
+
+  const handleSocialLogin = async (provider: string) => {
+    setSocialLoading((prev) => ({ ...prev, [provider]: true }))
+
+    try {
+      // Simulate social login
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      const currentDate = new Date().toISOString()
+      signIn({
+        accessToken: 'demo-social-token',
+        user: {
+          id: '2',
+          name: `${provider} User`,
+          email: `user@${provider}.com`,
+          avatar:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
+          fitnessLevel: 'beginner',
+          unitSystem: 'metric',
+          joinDate: currentDate,
+          createdAt: currentDate,
+          updatedAt: currentDate,
+          goals: {
+            dailySteps: 10000,
+            dailyWater: 2500,
+            dailyCalories: 2000,
+            weeklyWorkouts: 3,
+            sleepHours: 8,
+          },
+          preferences: {
+            notifications: {
+              workoutReminders: true,
+              waterReminders: true,
+              sleepReminders: false,
+            },
+            privacy: {
+              shareStats: false,
+              shareWorkouts: true,
+            },
+          },
+        } as any,
+      })
       router.replace('/(tabs)')
     } catch (error) {
       console.error(`${provider} login error:`, error)
@@ -143,7 +138,7 @@ export default function SignInScreen() {
   }
 
   return (
-    <View className='flex-1 bg-dark-900'>
+    <View className='bg-dark-900 flex-1'>
       <StatusBar style='light' />
 
       <KeyboardAvoidingView
@@ -159,7 +154,7 @@ export default function SignInScreen() {
           <View className='px-6 pb-8 pt-16'>
             <TouchableOpacity
               onPress={() => router.push('/(auth)/onboarding')}
-              className='mb-8 h-10 w-10 items-center justify-center rounded-xl bg-dark-700'
+              className='bg-dark-700 mb-8 h-10 w-10 items-center justify-center rounded-xl'
             >
               <Ionicons name='arrow-back' size={20} color='#A1A1AA' />
             </TouchableOpacity>
@@ -168,7 +163,7 @@ export default function SignInScreen() {
               <Text className='mb-2 text-3xl font-bold text-white'>
                 Welcome back
               </Text>
-              <Text className='text-base text-dark-300'>
+              <Text className='text-dark-300 text-base'>
                 Sign in to your account to continue your fitness journey
               </Text>
             </View>
@@ -220,7 +215,7 @@ export default function SignInScreen() {
                       <Ionicons name='checkmark' size={12} color='white' />
                     )}
                   </View>
-                  <Text className='text-sm text-dark-300'>Remember me</Text>
+                  <Text className='text-dark-300 text-sm'>Remember me</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
@@ -254,7 +249,7 @@ export default function SignInScreen() {
 
               {/* Sign Up Link */}
               <View className='mb-8 mt-6 flex-row items-center justify-center'>
-                <Text className='mr-2 text-base text-dark-400'>
+                <Text className='text-dark-400 mr-2 text-base'>
                   Don't have an account?
                 </Text>
                 <TouchableOpacity

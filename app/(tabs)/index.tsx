@@ -19,15 +19,17 @@ import ProgressRing from '@/components/home/ProgressRing'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
 import WeeklyChart from '@/components/home/WeeklyChart'
-import { useAppSelector } from '@/state/hooks'
+import { useAuthStore } from '@/stores'
 
 // Types are now globally available from .d.ts files
 
 export default function HomeScreen() {
-  const user = useAppSelector((state) => state.auth.user)
-  const isAuthenticated = useAppSelector((state) =>
-    Boolean(state.auth.accessToken),
-  )
+  const { user, accessToken } = useAuthStore((state) => ({
+    user: state.user,
+    accessToken: state.accessToken,
+  }))
+
+  const isAuthenticated = Boolean(accessToken)
   const [refreshing, setRefreshing] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -126,7 +128,7 @@ export default function HomeScreen() {
     },
   ]
 
-  const dailyGoals: ProgressRingData[] = [
+  const dailyGoals: ProgressRingDataWithIcon[] = [
     {
       value: 8432,
       maxValue: 10000,

@@ -60,3 +60,59 @@ interface StepValidation {
   isValid: boolean
   errors: Record<string, string>
 }
+
+// Zustand Onboarding Store Types
+interface OnboardingSlideProgress {
+  id: string
+  completed: boolean
+  skipped?: boolean
+  timestamp?: string
+}
+
+interface OnboardingStoreState {
+  isOnboardingCompleted: boolean
+  currentSlideIndex: number
+  slidesProgress: OnboardingSlideProgress[]
+  personalInfo: Partial<PersonalInfoStepType>
+  goals: Partial<GoalsStepType>
+  preferences: Partial<PreferencesStepType>
+  analytics: {
+    startTime?: string
+    completionTime?: string
+    skippedSteps?: string[]
+    interactionCount?: number
+  }
+  _hasHydrated: boolean
+  isLoading: boolean
+  error: string | null
+}
+
+interface OnboardingStoreActions {
+  setCurrentSlideIndex: (index: number) => void
+  markSlideCompleted: (slideId: string) => void
+  markSlideSkipped: (slideId: string) => void
+  updatePersonalInfo: (
+    info: Partial<OnboardingStoreState['personalInfo']>,
+  ) => void
+  updateGoals: (goals: Partial<OnboardingStoreState['goals']>) => void
+  updatePreferences: (
+    preferences: Partial<OnboardingStoreState['preferences']>,
+  ) => void
+  completeOnboarding: () => void
+  resetOnboarding: () => void
+  nextSlide: () => void
+  previousSlide: () => void
+  setHasHydrated: (hydrated: boolean) => void
+  setError: (error: string | null) => void
+  clearError: () => void
+  setLoading: (loading: boolean) => void
+  initializeOnboarding: () => void
+  saveOnboardingProgress: () => Promise<void>
+  completeOnboardingAsync: () => Promise<void>
+  completeOnboardingWithSignIn: () => Promise<void>
+  reset: () => void
+}
+
+interface OnboardingStore
+  extends OnboardingStoreState,
+    OnboardingStoreActions {}

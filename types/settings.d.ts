@@ -119,3 +119,19 @@ interface SettingsGroup {
   items: SettingsItem[]
   description?: string
 }
+
+// Zustand Preferences Store Types
+interface PreferencesState {
+  theme: 'light' | 'dark' | 'system'
+  metricUnits: boolean
+  _hasHydrated: boolean
+}
+
+interface PreferencesActions {
+  setTheme: (theme: PreferencesState['theme']) => void
+  setMetricUnits: (metricUnits: boolean) => void
+  setHasHydrated: (hydrated: boolean) => void
+  reset: () => void
+}
+
+interface PreferencesStore extends PreferencesState, PreferencesActions {}
