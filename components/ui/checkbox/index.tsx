@@ -22,14 +22,9 @@ const LabelWrapper = React.forwardRef<
   RNTextProps
 >(({ ...props }, ref) => <Text {...props} ref={ref} />)
 
-const IconWrapper = React.forwardRef<
-  any,
-  any
->(({ ...props }, ref) => <UIIcon {...props} ref={ref} />)
-
-IndicatorWrapper.displayName = 'IndicatorWrapper'
-LabelWrapper.displayName = 'LabelWrapper'
-IconWrapper.displayName = 'IconWrapper'
+const IconWrapper = React.forwardRef<any, any>(({ ...props }, ref) => (
+  <UIIcon {...props} ref={ref} />
+))
 
 const SCOPE = 'CHECKBOX'
 const UICheckbox = createCheckbox({
@@ -175,15 +170,12 @@ const CheckboxLabel = React.forwardRef<
 type ICheckboxIconProps = React.ComponentPropsWithoutRef<
   typeof UICheckbox.Icon
 > &
-  VariantProps<typeof checkboxIconStyle> & {
-    height?: number
-    width?: number
-  }
+  VariantProps<typeof checkboxIconStyle>
 
 const CheckboxIcon = React.forwardRef<
   React.ComponentRef<typeof UICheckbox.Icon>,
   ICheckboxIconProps
->(({ className, size, height, width, ...props }, ref) => {
+>(({ className, size, ...props }, ref) => {
   const { size: parentSize } = useStyleContext(SCOPE)
 
   if (typeof size === 'number') {
@@ -196,7 +188,7 @@ const CheckboxIcon = React.forwardRef<
       />
     )
   } else if (
-    (height !== undefined || width !== undefined) &&
+    (props.height !== undefined || props.width !== undefined) &&
     size === undefined
   ) {
     return (
@@ -212,10 +204,10 @@ const CheckboxIcon = React.forwardRef<
     <UICheckbox.Icon
       className={checkboxIconStyle({
         parentVariants: {
-          size: parentSize,
+          size: parentSize as 'sm' | 'md' | 'lg',
         },
-        size: size as any,
         class: className,
+        size: size as 'sm' | 'md' | 'lg' | undefined,
       })}
       {...props}
       ref={ref}
