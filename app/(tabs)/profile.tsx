@@ -1,16 +1,15 @@
 import React, { useState, useCallback } from 'react'
 
-import { View, ScrollView, Alert, RefreshControl } from 'react-native'
-
-import { Text } from '@/components/ui/text'
+import { Alert, RefreshControl } from 'react-native'
 
 import GoalInput from '@/components/profile/GoalInput'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import SettingsItem from '@/components/profile/SettingsItem'
 import { SettingsThemeToggle } from '@/components/theme/ThemeToggle'
+import { Box } from '@/components/ui/box'
+import { ScrollView } from '@/components/ui/scroll-view'
+import { Text } from '@/components/ui/text'
 import { useAuthStore } from '@/stores'
-
-// Import our components
 
 // Types are now globally available from .d.ts files
 
@@ -158,7 +157,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View className='flex-1 bg-surface-primary'>
+    <Box className='flex-1'>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -170,19 +169,19 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
         className='flex-1'
       >
-        <View className='px-6 py-4'>
+        <Box className='px-6 py-4'>
           {/* Profile Header */}
-          <View className='mb-8 mt-4'>
+          <Box className='mb-8 mt-4'>
             <ProfileHeader
               profile={userProfile}
               onEditPress={handleEditProfile}
               onAvatarPress={handleChangeAvatar}
             />
-          </View>
+          </Box>
 
           {/* Goals Section */}
-          <View className='mb-8'>
-            <View className='border-primary rounded-2xl border bg-surface-secondary p-1'>
+          <Box className='mb-8'>
+            <Box className='border-primary rounded-2xl border p-1'>
               <SettingsItem
                 icon='bullseye'
                 title='Daily Goals'
@@ -191,10 +190,10 @@ export default function ProfileScreen() {
                 color='#10B981'
                 onPress={() => setShowGoalsSection(!showGoalsSection)}
               />
-            </View>
+            </Box>
 
             {showGoalsSection && (
-              <View className='mt-4'>
+              <Box className='mt-4'>
                 <GoalInput
                   icon='footprint-o'
                   label='Daily Steps'
@@ -258,16 +257,16 @@ export default function ProfileScreen() {
                   delay={400}
                   suggestions={[3, 4, 5, 6, 7]}
                 />
-              </View>
+              </Box>
             )}
-          </View>
+          </Box>
 
           {/* Notifications Section */}
-          <View className='mb-8'>
+          <Box className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>
               Notifications
             </Text>
-            <View className='space-y-1'>
+            <Box className='space-y-1'>
               <SettingsItem
                 icon='bell'
                 title='Workout Reminders'
@@ -306,13 +305,13 @@ export default function ProfileScreen() {
                 }
                 delay={200}
               />
-            </View>
-          </View>
+            </Box>
+          </Box>
 
           {/* Privacy Section */}
-          <View className='mb-8'>
+          <Box className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>Privacy</Text>
-            <View className='space-y-1'>
+            <Box className='space-y-1'>
               <SettingsItem
                 icon='share'
                 title='Share Stats'
@@ -336,16 +335,16 @@ export default function ProfileScreen() {
                 }
                 delay={150}
               />
-            </View>
-          </View>
+            </Box>
+          </Box>
 
           {/* Appearance Section */}
-          <View className='mb-8'>
+          <Box className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>
               Appearance
             </Text>
-            <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
-              <View className='mb-4'>
+            <Box className='border-primary rounded-2xl border p-4'>
+              <Box className='mb-4'>
                 <Text className='text-primary mb-2 text-lg font-semibold'>
                   Theme
                 </Text>
@@ -353,14 +352,14 @@ export default function ProfileScreen() {
                   Choose your preferred theme
                 </Text>
                 <SettingsThemeToggle />
-              </View>
-            </View>
-          </View>
+              </Box>
+            </Box>
+          </Box>
 
           {/* General Settings */}
-          <View className='mb-8'>
+          <Box className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>General</Text>
-            <View className='space-y-1'>
+            <Box className='space-y-1'>
               <SettingsItem
                 icon='user'
                 title='Account Settings'
@@ -405,11 +404,11 @@ export default function ProfileScreen() {
                 onPress={handleAbout}
                 delay={250}
               />
-            </View>
-          </View>
+            </Box>
+          </Box>
 
           {/* Sign Out */}
-          <View className='mb-8'>
+          <Box className='mb-8'>
             <SettingsItem
               icon='sign-out'
               title='Sign Out'
@@ -419,12 +418,12 @@ export default function ProfileScreen() {
               onPress={handleSignOut}
               destructive
             />
-          </View>
+          </Box>
 
           {/* Footer spacing */}
-          <View className='h-8' />
-        </View>
+          <Box className='h-8' />
+        </Box>
       </ScrollView>
-    </View>
+    </Box>
   )
 }

@@ -1,40 +1,57 @@
 import React, { useEffect } from 'react'
 
-import { View, type ViewProps } from 'react-native'
+import {
+  useColorScheme,
+  View,
+  type ColorSchemeName,
+  type ViewProps,
+} from 'react-native'
 
 import { OverlayProvider } from '@gluestack-ui/core/overlay/creator'
 import { ToastProvider } from '@gluestack-ui/core/toast/creator'
-import { useColorScheme } from 'nativewind'
+import { colorScheme as colorSchemeNW } from 'nativewind'
 
-import { Colors } from '@/constants/colors'
+import { config } from './config'
 
-export type ModeType = 'light' | 'dark' | 'system'
+type ModeType = 'light' | 'dark' | 'system'
+
+const getColorSchemeName = (
+  colorScheme: ColorSchemeName,
+  mode: ModeType,
+): 'light' | 'dark' => {
+  if (mode === 'system') {
+    return colorScheme ?? 'light'
+  }
+  return mode
+}
 
 export function GluestackUIProvider({
   mode = 'light',
   ...props
 }: {
-  mode?: ModeType
+  mode?: 'light' | 'dark' | 'system'
   children?: React.ReactNode
   style?: ViewProps['style']
-}) {
-  const { setColorScheme } = useColorScheme()
+}): React.JSX.Element {
+  const colorScheme: ColorSchemeName = useColorScheme()
 
-  const resolvedMode = mode === 'system' ? 'light' : mode
+  const colorSchemeName: 'light' | 'dark' = getColorSchemeName(
+    colorScheme,
+    mode,
+  )
 
   useEffect(() => {
-    setColorScheme(resolvedMode)
-  }, [resolvedMode, setColorScheme])
+    if (mode === 'system') {
+      colorSchemeNW.set(mode)
+    }
+  }, [colorScheme, mode])
 
   return (
     <View
       style={[
-        {
-          flex: 1,
-          height: '100%',
-          width: '100%',
-          backgroundColor: Colors[resolvedMode]?.background || '#FFFFFF',
-        },
+        config[colorSchemeName],
+
+        { flex: 1, height: '100%', width: '100%' },
         props.style,
       ]}
     >

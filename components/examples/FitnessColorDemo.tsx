@@ -64,7 +64,7 @@ export function FitnessColorDemo() {
 
         {/* Accent Button */}
         <Pressable
-          className='mb-3 rounded-lg bg-interactive-accent-default p-4 active:bg-interactive-accent-active'
+          className='bg-interactive-accent-default active:bg-interactive-accent-active mb-3 rounded-lg p-4'
           style={{ backgroundColor: theme.interactive.accent.default }}
         >
           <Text className='text-center font-semibold text-white'>

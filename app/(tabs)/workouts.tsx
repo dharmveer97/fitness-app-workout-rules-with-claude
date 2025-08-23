@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 
 import {
-  View,
   ScrollView,
   TouchableOpacity,
   Alert,
@@ -10,13 +9,20 @@ import {
 
 import { FontAwesome } from '@expo/vector-icons'
 
-import { Text } from '@/components/ui/text'
+// Import themed components for proper dark/light mode
+import { View, Text, useThemeColor } from '@/components/Themed'
 
 // Types are now globally available from .d.ts files
 
 export default function WorkoutsScreen() {
   const [refreshing, setRefreshing] = useState(false)
   const [_selectedCategory, setSelectedCategory] = useState<string>('all')
+
+  // Get theme-aware border color
+  const borderColor = useThemeColor(
+    { light: '#E8ECF0', dark: '#30363D' },
+    'text',
+  )
 
   // Mock data - in a real app, this would come from your API/state
   const workoutCategories: WorkoutCategory[] = [
@@ -209,7 +215,7 @@ export default function WorkoutsScreen() {
     })
 
   return (
-    <View className='flex-1 bg-[#0A0A0B]'>
+    <View className='flex-1'>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -241,7 +247,7 @@ export default function WorkoutsScreen() {
             <Text className='mb-4 text-xl font-bold text-white'>This Week</Text>
             <View className='flex-row items-center space-x-6'>
               <View className='items-center'>
-                <View className='relative h-16 w-16 items-center justify-center rounded-full bg-gray-800'>
+                <View className='relative mr-3 h-16 w-16 items-center justify-center rounded-full bg-gray-800'>
                   <View
                     className='absolute inset-0 rounded-full border-4 border-gray-700'
                     style={{
@@ -305,48 +311,71 @@ export default function WorkoutsScreen() {
 
           {/* Workout Categories */}
           <View className='mb-8'>
-            <Text className='mb-4 text-xl font-bold text-white'>
-              Categories
-            </Text>
+            <Text className='mb-4 text-xl font-bold'>Categories</Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-              <View className='flex-row space-x-4'>
-                {workoutCategories.map((category) => (
-                  <TouchableOpacity
+              <View className='flex-row'>
+                {workoutCategories.map((category, index) => (
+                  <View
                     key={category.id}
-                    onPress={() => handleCategoryPress(category)}
-                    className='min-w-[140px] rounded-2xl border border-gray-800/50 bg-[#18181B] p-4'
+                    lightColor='transparent'
+                    darkColor='transparent'
+                    className={
+                      index !== workoutCategories.length - 1 ? 'mr-4' : ''
+                    }
                   >
                     <View
-                      className='mb-3 h-12 w-12 items-center justify-center rounded-xl'
-                      style={{ backgroundColor: `${category.color}20` }}
+                      lightColor='#FAFBFC'
+                      darkColor='#161B22'
+                      className='min-w-[140px] rounded-2xl border p-4'
+                      style={{
+                        borderColor,
+                      }}
                     >
-                      <FontAwesome
-                        name={
-                          category.type === 'strength'
-                            ? 'male'
-                            : category.type === 'cardio'
-                              ? 'heart'
-                              : category.type === 'hiit'
-                                ? 'fire'
-                                : 'leaf'
-                        }
-                        size={20}
-                        color={category.color}
-                      />
+                      <TouchableOpacity
+                        onPress={() => handleCategoryPress(category)}
+                        className='w-full'
+                      >
+                        <View
+                          lightColor='transparent'
+                          darkColor='transparent'
+                          className='mb-3 h-12 w-12 items-center justify-center rounded-xl'
+                          style={{ backgroundColor: `${category.color}20` }}
+                        >
+                          <FontAwesome
+                            name={
+                              category.type === 'strength'
+                                ? 'male'
+                                : category.type === 'cardio'
+                                  ? 'heart'
+                                  : category.type === 'hiit'
+                                    ? 'fire'
+                                    : 'leaf'
+                            }
+                            size={20}
+                            color={category.color}
+                          />
+                        </View>
+                        <Text className='mb-1 text-base font-semibold'>
+                          {category.name}
+                        </Text>
+                        <Text
+                          className='mb-2 text-xs'
+                          numberOfLines={2}
+                          lightColor='#677788'
+                          darkColor='#8B949E'
+                        >
+                          {category.description}
+                        </Text>
+                        <Text
+                          className='text-xs'
+                          lightColor='#9AA5B1'
+                          darkColor='#6E7681'
+                        >
+                          {category.workoutCount} workouts
+                        </Text>
+                      </TouchableOpacity>
                     </View>
-                    <Text className='mb-1 text-base font-semibold text-white'>
-                      {category.name}
-                    </Text>
-                    <Text
-                      className='mb-2 text-xs text-gray-400'
-                      numberOfLines={2}
-                    >
-                      {category.description}
-                    </Text>
-                    <Text className='text-xs text-gray-500'>
-                      {category.workoutCount} workouts
-                    </Text>
-                  </TouchableOpacity>
+                  </View>
                 ))}
               </View>
             </ScrollView>

@@ -3,7 +3,6 @@ export {
   useTheme,
   useThemeColors,
   useThemeToken,
-  getThemeVariable,
 } from './ThemeProvider'
 export {
   ThemeToggle,

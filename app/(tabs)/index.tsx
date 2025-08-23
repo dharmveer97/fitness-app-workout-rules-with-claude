@@ -1,29 +1,24 @@
 import React, { useCallback, useState } from 'react'
 
 import {
-  View,
   TouchableOpacity,
   ScrollView,
   RefreshControl,
   Alert,
 } from 'react-native'
 
-import { Text } from '@/components/ui/text'
-
 import { router } from 'expo-router'
 
 import { FontAwesome } from '@expo/vector-icons'
 
-// Import our new components
+// Import themed components for proper dark/light mode
 import ActivityItem from '@/components/home/ActivityItem'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
 import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
+import { View, Text } from '@/components/Themed'
 import { useAuthStore } from '@/stores'
 
-// Types are now globally available from .d.ts files
-
-// Stable selectors to prevent infinite re-renders
 const selectUser = (state: any) => state.user
 const selectAccessToken = (state: any) => state.accessToken
 
@@ -131,9 +126,29 @@ export default function HomeScreen() {
   ]
 
   const dailyGoals = [
-    { label: 'Steps', value: 8432, maxValue: 10000, color: '#10B981', icon: 'footprint-o' },
-    { label: 'Calories', value: 642, maxValue: 800, color: '#F97316', icon: 'fire', unit: 'cal' },
-    { label: 'Water', value: 1.8, maxValue: 2.5, color: '#06B6D4', icon: 'tint', unit: 'L' },
+    {
+      label: 'Steps',
+      value: 8432,
+      maxValue: 10000,
+      color: '#10B981',
+      icon: 'footprint-o',
+    },
+    {
+      label: 'Calories',
+      value: 642,
+      maxValue: 800,
+      color: '#F97316',
+      icon: 'fire',
+      unit: 'cal',
+    },
+    {
+      label: 'Water',
+      value: 1.8,
+      maxValue: 2.5,
+      color: '#06B6D4',
+      icon: 'tint',
+      unit: 'L',
+    },
   ]
 
   // Weekly data temporarily removed
@@ -169,7 +184,7 @@ export default function HomeScreen() {
   ]
 
   return (
-    <View className='flex-1 bg-surface-primary'>
+    <View className='flex-1'>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -230,26 +245,45 @@ export default function HomeScreen() {
             </Text>
             <View className='border-primary rounded-2xl border bg-surface-secondary p-6'>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View className='flex-row space-x-8'>
-                  {dailyGoals.map((goal) => (
-                    <View key={goal.label} className='items-center'>
+                <View className='flex-row'>
+                  {dailyGoals.map((goal, index) => (
+                    <View
+                      key={goal.label}
+                      className={`items-center ${index !== dailyGoals.length - 1 ? 'mr-8' : ''}`}
+                    >
                       <View className='relative h-20 w-20 items-center justify-center rounded-full bg-gray-800'>
-                        <View 
+                        <View
                           className='absolute inset-1 rounded-full border-4'
                           style={{
                             borderColor: goal.color,
-                            borderTopColor: goal.value >= goal.maxValue ? goal.color : '#374151',
-                            borderRightColor: goal.value >= goal.maxValue * 0.75 ? goal.color : '#374151',
-                            borderBottomColor: goal.value >= goal.maxValue * 0.5 ? goal.color : '#374151',
-                            borderLeftColor: goal.value >= goal.maxValue * 0.25 ? goal.color : '#374151',
-                            transform: [{ rotate: '-90deg' }]
+                            borderTopColor:
+                              goal.value >= goal.maxValue
+                                ? goal.color
+                                : '#374151',
+                            borderRightColor:
+                              goal.value >= goal.maxValue * 0.75
+                                ? goal.color
+                                : '#374151',
+                            borderBottomColor:
+                              goal.value >= goal.maxValue * 0.5
+                                ? goal.color
+                                : '#374151',
+                            borderLeftColor:
+                              goal.value >= goal.maxValue * 0.25
+                                ? goal.color
+                                : '#374151',
+                            transform: [{ rotate: '-90deg' }],
                           }}
                         />
                         <Text className='text-sm font-bold text-white'>
-                          {typeof goal.value === 'number' && goal.value < 10 ? goal.value.toFixed(1) : Math.round(goal.value)}
+                          {typeof goal.value === 'number' && goal.value < 10
+                            ? goal.value.toFixed(1)
+                            : Math.round(goal.value)}
                         </Text>
                       </View>
-                      <Text className='mt-2 text-xs text-gray-400'>{goal.label}</Text>
+                      <Text className='mt-2 text-xs text-gray-400'>
+                        {goal.label}
+                      </Text>
                     </View>
                   ))}
                 </View>
@@ -260,10 +294,16 @@ export default function HomeScreen() {
           {/* Weekly Progress Chart - Temporarily Disabled */}
           <View className='mb-8'>
             <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
-              <Text className='text-primary mb-4 text-xl font-bold'>Weekly Steps</Text>
+              <Text className='text-primary mb-4 text-xl font-bold'>
+                Weekly Steps
+              </Text>
               <View className='h-48 items-center justify-center'>
-                <Text className='text-secondary text-center'>Chart temporarily unavailable</Text>
-                <Text className='text-tertiary text-center text-sm'>Will be restored soon</Text>
+                <Text className='text-secondary text-center'>
+                  Chart temporarily unavailable
+                </Text>
+                <Text className='text-tertiary text-center text-sm'>
+                  Will be restored soon
+                </Text>
               </View>
             </View>
           </View>

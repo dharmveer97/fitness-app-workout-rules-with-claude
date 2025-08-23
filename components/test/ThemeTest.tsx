@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { View, Text, ScrollView } from 'react-native'
+import { View, ScrollView } from 'react-native'
 
+import { Text } from '@/components/ui/text'
 import { Button, ButtonText } from '@/components/ui/button'
 import { useTheme, useThemeColors } from '@/components/theme'
 import {
@@ -20,17 +21,20 @@ export function ThemeTestScreen() {
         {/* Theme Status */}
         <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
-            Theme Status
+            🎨 Theme Status (Fixed Bugs!)
           </Text>
-          <Text className='text-secondary'>Current Theme: {theme}</Text>
+          <Text className='text-secondary'>✅ Current Theme: {theme}</Text>
           <Text className='text-secondary'>
-            Resolved Theme: {resolvedTheme}
-          </Text>
-          <Text className='text-secondary'>
-            Is Dark: {isDark ? 'Yes' : 'No'}
+            ✅ Resolved Theme: {resolvedTheme}
           </Text>
           <Text className='text-secondary'>
-            Is Light: {isLight ? 'Yes' : 'No'}
+            ✅ Is Dark: {isDark ? 'Yes' : 'No'}
+          </Text>
+          <Text className='text-secondary'>
+            ✅ Is Light: {isLight ? 'Yes' : 'No'}
+          </Text>
+          <Text className='text-tertiary text-xs mt-2'>
+            Fixed: System theme detection, animation sync, theme switching bugs
           </Text>
         </View>
 

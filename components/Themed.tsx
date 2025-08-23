@@ -3,9 +3,11 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
-import { Text as DefaultText, View as DefaultView } from 'react-native'
-
-import { useColorScheme } from 'nativewind'
+import {
+  Text as DefaultText,
+  View as DefaultView,
+  useColorScheme,
+} from 'react-native'
 
 import { Colors } from '@/constants/colors'
 
@@ -15,7 +17,7 @@ export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof Colors.light & keyof typeof Colors.dark,
 ) {
-  const { colorScheme } = useColorScheme()
+  const colorScheme = useColorScheme()
   const theme = colorScheme ?? 'light'
   const colorFromProps = props[theme]
 

@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 
+import type { ColorSchemeName } from 'react-native'
+
 import { useFonts } from 'expo-font'
 import { Stack } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { StatusBar } from 'expo-status-bar'
-import * as SystemUI from 'expo-system-ui'
 
 import FontAwesome from '@expo/vector-icons/FontAwesome'
 import {
@@ -16,8 +17,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import 'react-native-reanimated'
 import '../global.css'
 
+import { useColorScheme } from '@/components/useColorScheme'
+
 import { AuthProvider } from '../components/navigation/AuthProvider'
-import { ThemeProvider, useTheme } from '../components/theme/ThemeProvider'
 import { GluestackUIProvider } from '../components/ui/gluestack-ui-provider'
 
 export {
@@ -39,6 +41,8 @@ export default function RootLayout() {
     ...FontAwesome.font,
   })
 
+  const colorScheme: ColorSchemeName = useColorScheme()
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error
@@ -54,42 +58,19 @@ export default function RootLayout() {
     return null
   }
 
-  return <RootLayoutNav />
-}
-
-function ThemedApp() {
-  const { resolvedTheme, isDark, colors } = useTheme()
-
-  // Set system UI colors based on theme
-  useEffect(() => {
-    SystemUI.setBackgroundColorAsync(colors.surface.primary)
-  }, [colors.surface.primary])
-
-  // Create custom navigation theme based on our design tokens
-  const navigationTheme = {
-    ...(isDark ? DarkTheme : DefaultTheme),
-    colors: {
-      ...(isDark ? DarkTheme.colors : DefaultTheme.colors),
-      primary: colors.interactive.primary.default,
-      background: colors.surface.primary,
-      card: colors.surface.secondary,
-      text: colors.text.primary,
-      border: colors.border.primary,
-      notification: colors.semantic.info.default,
-    },
-  }
-
   return (
     <>
       {/* Native status bar theming */}
       <StatusBar
-        style={isDark ? 'light' : 'dark'}
-        backgroundColor={colors.surface.primary}
+        style={colorScheme === 'dark' ? 'dark' : 'light'}
+        // backgroundColor={colors.surface.primary}
       />
 
-      <GluestackUIProvider mode={resolvedTheme}>
+      <GluestackUIProvider mode={colorScheme || 'light'}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <NavigationThemeProvider value={navigationTheme}>
+          <NavigationThemeProvider
+            value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+          >
             <AuthProvider>
               <Stack screenOptions={{ headerShown: false }}>
                 <Stack.Screen name='(tabs)' />
@@ -104,13 +85,5 @@ function ThemedApp() {
         </GestureHandlerRootView>
       </GluestackUIProvider>
     </>
-  )
-}
-
-function RootLayoutNav() {
-  return (
-    <ThemeProvider defaultTheme='system'>
-      <ThemedApp />
-    </ThemeProvider>
   )
 }
