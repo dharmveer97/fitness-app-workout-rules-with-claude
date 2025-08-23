@@ -232,22 +232,22 @@ This project implements a sophisticated TypeScript architecture with global type
 
 ```typescript
 // global.d.ts - Cross-cutting types
-type ReactNode = import('react').ReactNode;
-type ComponentProps<T> = import('react').ComponentProps<T>;
-type SharedValue<T> = import('react-native-reanimated').SharedValue<T>;
+type ReactNode = import('react').ReactNode
+type ComponentProps<T> = import('react').ComponentProps<T>
+type SharedValue<T> = import('react-native-reanimated').SharedValue<T>
 
 // basic.d.ts - UI element types
-type ButtonVariant = 'primary' | 'secondary' | 'outline';
+type ButtonVariant = 'primary' | 'secondary' | 'outline'
 interface ButtonProps extends InteractiveComponentProps {
-  variant?: ButtonVariant;
-  onPress: () => void;
+  variant?: ButtonVariant
+  onPress: () => void
 }
 
 // components.d.ts - Component interfaces
 interface AuthInputProps {
-  label: string;
-  error?: string;
-  isPassword?: boolean;
+  label: string
+  error?: string
+  isPassword?: boolean
 }
 ```
 
@@ -257,17 +257,17 @@ interface AuthInputProps {
 // In schemas/auth.ts
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8)
-});
-export type LoginFormInfer = z.infer<typeof loginSchema>;
+  password: z.string().min(8),
+})
+export type LoginFormInfer = z.infer<typeof loginSchema>
 
 // In types/auth.d.ts
-type LoginFormType = import('../schemas/auth').LoginFormInfer;
+type LoginFormType = import('../schemas/auth').LoginFormInfer
 
 // In components (no imports needed!)
 const handleSubmit = (values: LoginFormType) => {
   // Fully typed from Zod schema
-};
+}
 ```
 
 ## 🎨 Design System
@@ -466,8 +466,8 @@ const themes = {
     '--color-background': '#111827',
     '--color-text': '#f9fafb',
     '--color-primary': '#34d399',
-  }
-};
+  },
+}
 ```
 
 ## 🎭 Animation System
@@ -476,21 +476,21 @@ const themes = {
 
 ```typescript
 // High-performance animations
-const scale = useSharedValue(1);
-const opacity = useSharedValue(1);
+const scale = useSharedValue(1)
+const opacity = useSharedValue(1)
 
 const animatedStyle = useAnimatedStyle(() => {
   return {
     transform: [{ scale: scale.value }],
     opacity: opacity.value,
-  };
-});
+  }
+})
 
 // Trigger animation
 const animate = () => {
-  scale.value = withSpring(1.2);
-  opacity.value = withSpring(0.8);
-};
+  scale.value = withSpring(1.2)
+  opacity.value = withSpring(0.8)
+}
 ```
 
 ### 🎨 Animation Presets
@@ -813,3 +813,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Made with ❤️ for the fitness community
 
 </div>
+
+  <!-- chmod +x /Users/dharamveerbangar/Projects/daily-deposits-app/scripts/custom-name-build.sh &&
+  /Users/dharamveerbangar/Projects/daily-deposits-app/scripts/custom-name-build.sh -->
