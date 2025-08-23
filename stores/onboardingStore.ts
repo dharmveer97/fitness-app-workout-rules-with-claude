@@ -5,53 +5,59 @@ import { persist, createJSONStorage } from 'zustand/middleware'
 
 import { useAuthStore } from './authStore'
 
-// Secure storage implementation for Zustand
+// Secure storage implementation for Zustand with improved error handling
 const secureStorage = {
   getItem: async (name: string) => {
     try {
-      const sanitizedKey = name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      // Sanitize key to ensure compatibility
+      const sanitizedKey = `onboarding_${name}`.replace(/[^a-zA-Z0-9._-]/g, '_')
       if (!sanitizedKey || sanitizedKey.length === 0) {
         console.error('Invalid key for SecureStore:', name)
         return null
       }
 
-      const value = await SecureStore.getItemAsync(sanitizedKey, {
-        keychainService: 'fitness-app-keychain',
-      })
+      const value = await SecureStore.getItemAsync(sanitizedKey)
       return value ?? null
     } catch (error) {
-      console.error('SecureStore getItem error:', error)
+      // Silently handle errors to prevent crashes
+      if (__DEV__) {
+        console.warn('SecureStore getItem error:', error)
+      }
       return null
     }
   },
   setItem: async (name: string, value: string) => {
     try {
-      const sanitizedKey = name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      // Sanitize key to ensure compatibility
+      const sanitizedKey = `onboarding_${name}`.replace(/[^a-zA-Z0-9._-]/g, '_')
       if (!sanitizedKey || sanitizedKey.length === 0) {
         console.error('Invalid key for SecureStore:', name)
         return
       }
 
-      await SecureStore.setItemAsync(sanitizedKey, value, {
-        keychainService: 'fitness-app-keychain',
-      })
+      await SecureStore.setItemAsync(sanitizedKey, value)
     } catch (error) {
-      console.error('SecureStore setItem error for key:', name, error)
+      // Silently handle errors to prevent crashes
+      if (__DEV__) {
+        console.warn('SecureStore setItem error for key:', name, error)
+      }
     }
   },
   removeItem: async (name: string) => {
     try {
-      const sanitizedKey = name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      // Sanitize key to ensure compatibility
+      const sanitizedKey = `onboarding_${name}`.replace(/[^a-zA-Z0-9._-]/g, '_')
       if (!sanitizedKey || sanitizedKey.length === 0) {
         console.error('Invalid key for SecureStore:', name)
         return
       }
 
-      await SecureStore.deleteItemAsync(sanitizedKey, {
-        keychainService: 'fitness-app-keychain',
-      })
+      await SecureStore.deleteItemAsync(sanitizedKey)
     } catch (error) {
-      console.error('SecureStore removeItem error:', error)
+      // Silently handle errors to prevent crashes
+      if (__DEV__) {
+        console.warn('SecureStore removeItem error:', error)
+      }
     }
   },
 }
@@ -256,36 +262,42 @@ export const useOnboardingStore = create<OnboardingStore>()(
 
       completeOnboardingWithSignIn: async () => {
         try {
-          console.log('🔵 Zustand: completeOnboardingWithSignIn started')
+          if (__DEV__) {
+            console.log('🔵 Zustand: completeOnboardingWithSignIn started')
+          }
           set({ isLoading: true, error: null })
 
           const state = get()
           const { personalInfo, preferences } = state
 
-          console.log('🔵 Zustand: Current state extracted:', {
-            personalInfo,
-            preferences,
-          })
+          if (__DEV__) {
+            console.log('🔵 Zustand: Current state extracted:', {
+              personalInfo,
+              preferences,
+            })
+          }
 
           // Mark preferences slide as completed
-          console.log(
-            '🔵 Zustand: Step 1 - Marking preferences slide as completed',
-          )
+          if (__DEV__) {
+            console.log(
+              '🔵 Zustand: Step 1 - Marking preferences slide as completed',
+            )
+          }
           get().markSlideCompleted('preferences')
 
           // Complete onboarding
-          console.log('🔵 Zustand: Step 2 - Completing onboarding')
+          if (__DEV__) console.log('🔵 Zustand: Step 2 - Completing onboarding')
           get().completeOnboarding()
 
           // Create demo user
-          console.log('🔵 Zustand: Step 3 - Creating demo user')
+          if (__DEV__) console.log('🔵 Zustand: Step 3 - Creating demo user')
           const currentDate = new Date().toISOString()
           const demoUser: UserProfile = {
             id: '1',
-            name: personalInfo.name ?? 'Fitness User',
+            name: personalInfo?.name ?? 'Fitness User',
             email: 'demo@fitness.app',
             avatar: 'https://i.pravatar.cc/150',
-            fitnessLevel: personalInfo.fitnessLevel ?? 'beginner',
+            fitnessLevel: (personalInfo?.fitnessLevel as any) ?? 'beginner',
             unitSystem: 'metric' as UnitSystem,
             joinDate: new Date(currentDate),
             createdAt: new Date(currentDate),
@@ -316,12 +328,16 @@ export const useOnboardingStore = create<OnboardingStore>()(
             },
           }
 
-          console.log('🔵 Zustand: Step 4 - Demo user created:', demoUser)
+          if (__DEV__) {
+            console.log('🔵 Zustand: Step 4 - Demo user created:', demoUser)
+          }
 
           // Complete auth onboarding and sign in
-          console.log(
-            '🔵 Zustand: Step 5 - Completing auth onboarding and signing in',
-          )
+          if (__DEV__) {
+            console.log(
+              '🔵 Zustand: Step 5 - Completing auth onboarding and signing in',
+            )
+          }
           const authStore = useAuthStore.getState()
           authStore.completeOnboarding()
           authStore.signIn({
@@ -331,11 +347,15 @@ export const useOnboardingStore = create<OnboardingStore>()(
           })
 
           // Save completion status to SecureStore
-          console.log('🔵 Zustand: Step 6 - Saving to SecureStore')
+          if (__DEV__) console.log('🔵 Zustand: Step 6 - Saving to SecureStore')
           await SecureStore.setItemAsync('onboarding_completed', 'true')
 
           set({ isLoading: false })
-          console.log('🟢 Zustand: SUCCESS - Onboarding completed with sign in')
+          if (__DEV__) {
+            console.log(
+              '🟢 Zustand: SUCCESS - Onboarding completed with sign in',
+            )
+          }
         } catch (error) {
           console.error(
             '🔴 Zustand: ERROR in completeOnboardingWithSignIn:',

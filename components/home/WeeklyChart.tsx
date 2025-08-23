@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { View, Text, Dimensions } from 'react-native'
+import { View, Dimensions } from 'react-native'
+
+import { Text } from '@/components/ui/text'
 
 import Animated, {
   useAnimatedStyle,

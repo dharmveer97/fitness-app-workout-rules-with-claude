@@ -3,53 +3,59 @@ import * as SecureStore from 'expo-secure-store'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-// Secure storage implementation for Zustand
+// Secure storage implementation for Zustand with improved error handling
 const secureStorage = {
   getItem: async (name: string) => {
     try {
-      const sanitizedKey = name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      // Sanitize key to ensure compatibility
+      const sanitizedKey = `auth_${name}`.replace(/[^a-zA-Z0-9._-]/g, '_')
       if (!sanitizedKey || sanitizedKey.length === 0) {
         console.error('Invalid key for SecureStore:', name)
         return null
       }
 
-      const value = await SecureStore.getItemAsync(sanitizedKey, {
-        keychainService: 'fitness-app-keychain',
-      })
+      const value = await SecureStore.getItemAsync(sanitizedKey)
       return value ?? null
     } catch (error) {
-      console.error('SecureStore getItem error:', error)
+      // Silently handle errors to prevent crashes
+      if (__DEV__) {
+        console.warn('SecureStore getItem error:', error)
+      }
       return null
     }
   },
   setItem: async (name: string, value: string) => {
     try {
-      const sanitizedKey = name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      // Sanitize key to ensure compatibility
+      const sanitizedKey = `auth_${name}`.replace(/[^a-zA-Z0-9._-]/g, '_')
       if (!sanitizedKey || sanitizedKey.length === 0) {
         console.error('Invalid key for SecureStore:', name)
         return
       }
 
-      await SecureStore.setItemAsync(sanitizedKey, value, {
-        keychainService: 'fitness-app-keychain',
-      })
+      await SecureStore.setItemAsync(sanitizedKey, value)
     } catch (error) {
-      console.error('SecureStore setItem error for key:', name, error)
+      // Silently handle errors to prevent crashes
+      if (__DEV__) {
+        console.warn('SecureStore setItem error for key:', name, error)
+      }
     }
   },
   removeItem: async (name: string) => {
     try {
-      const sanitizedKey = name.replace(/[^a-zA-Z0-9._-]/g, '_')
+      // Sanitize key to ensure compatibility
+      const sanitizedKey = `auth_${name}`.replace(/[^a-zA-Z0-9._-]/g, '_')
       if (!sanitizedKey || sanitizedKey.length === 0) {
         console.error('Invalid key for SecureStore:', name)
         return
       }
 
-      await SecureStore.deleteItemAsync(sanitizedKey, {
-        keychainService: 'fitness-app-keychain',
-      })
+      await SecureStore.deleteItemAsync(sanitizedKey)
     } catch (error) {
-      console.error('SecureStore removeItem error:', error)
+      // Silently handle errors to prevent crashes
+      if (__DEV__) {
+        console.warn('SecureStore removeItem error:', error)
+      }
     }
   },
 }

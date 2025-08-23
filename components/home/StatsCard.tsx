@@ -90,7 +90,7 @@ export default function StatsCard({
         onPressOut={handlePressOut}
         activeOpacity={0.9}
         disabled={!onPress}
-        className='border-primary bg-surface-secondary rounded-2xl border p-4'
+        className='border-primary rounded-2xl border bg-surface-secondary p-4'
       >
         <View className='mb-3 flex-row items-center justify-between'>
           <View

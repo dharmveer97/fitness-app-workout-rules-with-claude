@@ -2,12 +2,13 @@ import React, { useCallback, useState } from 'react'
 
 import {
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
   RefreshControl,
   Alert,
 } from 'react-native'
+
+import { Text } from '@/components/ui/text'
 
 import { router } from 'expo-router'
 
@@ -15,10 +16,8 @@ import { FontAwesome } from '@expo/vector-icons'
 
 // Import our new components
 import ActivityItem from '@/components/home/ActivityItem'
-import ProgressRing from '@/components/home/ProgressRing'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
-import WeeklyChart from '@/components/home/WeeklyChart'
 import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
 import { useAuthStore } from '@/stores'
 
@@ -131,41 +130,13 @@ export default function HomeScreen() {
     },
   ]
 
-  const dailyGoals: ProgressRingDataWithIcon[] = [
-    {
-      value: 8432,
-      maxValue: 10000,
-      color: '#10B981',
-      label: 'Steps',
-      icon: 'footprint-o',
-    },
-    {
-      value: 642,
-      maxValue: 800,
-      color: '#F97316',
-      label: 'Calories',
-      unit: 'cal',
-      icon: 'fire',
-    },
-    {
-      value: 1.8,
-      maxValue: 2.5,
-      color: '#06B6D4',
-      label: 'Water',
-      unit: 'L',
-      icon: 'tint',
-    },
+  const dailyGoals = [
+    { label: 'Steps', value: 8432, maxValue: 10000, color: '#10B981', icon: 'footprint-o' },
+    { label: 'Calories', value: 642, maxValue: 800, color: '#F97316', icon: 'fire', unit: 'cal' },
+    { label: 'Water', value: 1.8, maxValue: 2.5, color: '#06B6D4', icon: 'tint', unit: 'L' },
   ]
 
-  const weeklyData: ChartDataPoint[] = [
-    { label: 'Monday', value: 7832 },
-    { label: 'Tuesday', value: 9124 },
-    { label: 'Wednesday', value: 6543 },
-    { label: 'Thursday', value: 8901 },
-    { label: 'Friday', value: 10234 },
-    { label: 'Saturday', value: 11567 },
-    { label: 'Sunday', value: 8432 },
-  ]
+  // Weekly data temporarily removed
 
   const recentActivities: Activity[] = [
     {
@@ -260,26 +231,41 @@ export default function HomeScreen() {
             <View className='border-primary rounded-2xl border bg-surface-secondary p-6'>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View className='flex-row space-x-8'>
-                  {dailyGoals.map((goal, index) => (
-                    <ProgressRing
-                      key={goal.label}
-                      {...goal}
-                      delay={200 + index * 150}
-                    />
+                  {dailyGoals.map((goal) => (
+                    <View key={goal.label} className='items-center'>
+                      <View className='relative h-20 w-20 items-center justify-center rounded-full bg-gray-800'>
+                        <View 
+                          className='absolute inset-1 rounded-full border-4'
+                          style={{
+                            borderColor: goal.color,
+                            borderTopColor: goal.value >= goal.maxValue ? goal.color : '#374151',
+                            borderRightColor: goal.value >= goal.maxValue * 0.75 ? goal.color : '#374151',
+                            borderBottomColor: goal.value >= goal.maxValue * 0.5 ? goal.color : '#374151',
+                            borderLeftColor: goal.value >= goal.maxValue * 0.25 ? goal.color : '#374151',
+                            transform: [{ rotate: '-90deg' }]
+                          }}
+                        />
+                        <Text className='text-sm font-bold text-white'>
+                          {typeof goal.value === 'number' && goal.value < 10 ? goal.value.toFixed(1) : Math.round(goal.value)}
+                        </Text>
+                      </View>
+                      <Text className='mt-2 text-xs text-gray-400'>{goal.label}</Text>
+                    </View>
                   ))}
                 </View>
               </ScrollView>
             </View>
           </View>
 
-          {/* Weekly Progress Chart */}
+          {/* Weekly Progress Chart - Temporarily Disabled */}
           <View className='mb-8'>
-            <WeeklyChart
-              data={weeklyData}
-              title='Weekly Steps'
-              color='rgb(var(--text-brand))'
-              delay={400}
-            />
+            <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
+              <Text className='text-primary mb-4 text-xl font-bold'>Weekly Steps</Text>
+              <View className='h-48 items-center justify-center'>
+                <Text className='text-secondary text-center'>Chart temporarily unavailable</Text>
+                <Text className='text-tertiary text-center text-sm'>Will be restored soon</Text>
+              </View>
+            </View>
           </View>
 
           {/* Quick Actions */}

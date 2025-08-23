@@ -1,24 +1,13 @@
 import React from 'react'
 
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native'
-
 import { Ionicons } from '@expo/vector-icons'
+
 import {
-  TapGestureHandler,
-  type TapGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  useAnimatedGestureHandler,
-  runOnJS,
-} from 'react-native-reanimated'
-
-const AnimatedTouchableOpacity =
-  Animated.createAnimatedComponent(TouchableOpacity)
-
-// AuthButtonProps is globally available from /types/components.d.ts
+  Button,
+  ButtonText,
+  ButtonIcon,
+  ButtonSpinner,
+} from '@/components/ui/button'
 
 export default function AuthButton({
   title,
@@ -32,159 +21,69 @@ export default function AuthButton({
   onPress,
   ...touchableOpacityProps
 }: AuthButtonProps) {
-  const scale = useSharedValue(1)
-  const opacity = useSharedValue(1)
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value,
-  }))
-
-  const tapHandler = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
-    onStart: () => {
-      scale.value = withSpring(0.95)
-      opacity.value = withSpring(0.8)
-    },
-    onEnd: () => {
-      scale.value = withSpring(1)
-      opacity.value = withSpring(1)
-      if (onPress && !loading && !disabled) {
-        runOnJS((event: any) => onPress(event))({})
-      }
-    },
-    onFail: () => {
-      scale.value = withSpring(1)
-      opacity.value = withSpring(1)
-    },
-  })
-
-  const getButtonStyles = () => {
-    const baseStyles = 'flex-row items-center justify-center rounded-xl'
-    const sizeStyles = {
-      small: 'px-4 py-2',
-      medium: 'px-6 py-3',
-      large: 'px-6 py-4',
-    }
-    const widthStyles = fullWidth ? 'w-full' : ''
-
-    let variantStyles = ''
+  // Map AuthButton variants to GlueStack Button props
+  const getGluestackVariant = () => {
     switch (variant) {
       case 'primary':
-        variantStyles = disabled || loading ? 'bg-dark-600' : 'bg-primary-500'
-        break
+        return 'solid'
       case 'secondary':
-        variantStyles =
-          disabled || loading
-            ? 'bg-dark-600'
-            : 'bg-dark-700 border border-dark-500'
-        break
+        return 'outline'
       case 'outline':
-        variantStyles =
-          disabled || loading
-            ? 'border border-dark-600'
-            : 'border-2 border-primary-500 bg-transparent'
-        break
-    }
-
-    return `${baseStyles} ${sizeStyles[size]} ${widthStyles} ${variantStyles}`
-  }
-
-  const getTextStyles = () => {
-    const baseStyles = 'font-semibold'
-    const sizeStyles = {
-      small: 'text-sm',
-      medium: 'text-base',
-      large: 'text-lg',
-    }
-
-    let colorStyles = ''
-    if (disabled || loading) {
-      colorStyles = 'text-dark-400'
-    } else {
-      switch (variant) {
-        case 'primary':
-          colorStyles = 'text-white'
-          break
-        case 'secondary':
-          colorStyles = 'text-white'
-          break
-        case 'outline':
-          colorStyles = 'text-primary-500'
-          break
-      }
-    }
-
-    return `${baseStyles} ${sizeStyles[size]} ${colorStyles}`
-  }
-
-  const getIconColor = () => {
-    if (disabled || loading) return '#52525B' // dark-400
-
-    switch (variant) {
-      case 'primary':
-      case 'secondary':
-        return '#FFFFFF'
-      case 'outline':
-        return '#10B981' // primary-500
+        return 'outline'
       default:
-        return '#FFFFFF'
+        return 'solid'
     }
   }
 
-  const getIconSize = () => {
+  const getGluestackAction = () => {
+    switch (variant) {
+      case 'primary':
+        return 'primary'
+      case 'secondary':
+        return 'secondary'
+      default:
+        return 'primary'
+    }
+  }
+
+  const getGluestackSize = () => {
     switch (size) {
       case 'small':
-        return 16
+        return 'sm'
       case 'medium':
-        return 18
+        return 'md'
       case 'large':
-        return 20
+        return 'lg'
+      default:
+        return 'lg'
     }
   }
 
   return (
-    <TapGestureHandler
-      onGestureEvent={tapHandler}
-      enabled={!disabled && !loading}
+    <Button
+      variant={getGluestackVariant()}
+      action={getGluestackAction()}
+      size={getGluestackSize()}
+      onPress={onPress}
+      isDisabled={disabled || loading}
+      className={fullWidth ? 'w-full' : ''}
+      {...touchableOpacityProps}
     >
-      <AnimatedTouchableOpacity
-        {...touchableOpacityProps}
-        style={animatedStyle}
-        className={getButtonStyles()}
-        activeOpacity={1}
-        disabled={disabled ?? loading}
-      >
-        {loading ? (
-          <>
-            <ActivityIndicator
-              size='small'
-              color={getIconColor()}
-              style={{ marginRight: 8 }}
-            />
-            <Text className={getTextStyles()}>Loading...</Text>
-          </>
-        ) : (
-          <>
-            {leftIcon && (
-              <Ionicons
-                name={leftIcon}
-                size={getIconSize()}
-                color={getIconColor()}
-                style={{ marginRight: 8 }}
-              />
-            )}
-            <Text className={getTextStyles()}>{title}</Text>
-            {rightIcon && (
-              <Ionicons
-                name={rightIcon}
-                size={getIconSize()}
-                color={getIconColor()}
-                style={{ marginLeft: 8 }}
-              />
-            )}
-          </>
-        )}
-      </AnimatedTouchableOpacity>
-    </TapGestureHandler>
+      {loading && <ButtonSpinner />}
+
+      {leftIcon && !loading && (
+        <ButtonIcon className='mr-2'>
+          <Ionicons name={leftIcon} />
+        </ButtonIcon>
+      )}
+
+      <ButtonText>{loading ? 'Loading...' : title}</ButtonText>
+
+      {rightIcon && !loading && (
+        <ButtonIcon className='ml-2'>
+          <Ionicons name={rightIcon} />
+        </ButtonIcon>
+      )}
+    </Button>
   )
 }

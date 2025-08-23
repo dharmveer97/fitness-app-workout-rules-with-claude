@@ -14,8 +14,9 @@ import { StatusBar } from 'expo-status-bar'
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
-import { Text, Button } from '@/components/atoms'
 import { FormField, RadioGroup, ProgressSteps } from '@/components/elements'
+import { Button, ButtonText } from '@/components/ui/button'
+import { Text } from '@/components/ui/text'
 import { useOnboardingStore } from '@/stores'
 
 // Stable selectors to prevent infinite re-renders
@@ -72,7 +73,7 @@ export default function PersonalInfoScreen() {
           onPress={handleSkip}
           className='bg-dark-700 rounded-full px-4 py-2'
         >
-          <Text className='text-dark-300 text-sm font-medium'>Skip</Text>
+          <Text className='text-sm font-medium text-text-tertiary'>Skip</Text>
         </TouchableOpacity>
       </View>
 
@@ -99,21 +100,13 @@ export default function PersonalInfoScreen() {
       >
         {/* Title Section */}
         <Animated.View entering={FadeIn.delay(200)} className='mb-10'>
-          <Text
-            variant='label'
-            color='primary'
-            className='mb-3 text-sm font-semibold'
-          >
+          <Text className='mb-3 text-sm font-semibold text-brand-primary'>
             STEP 1 OF 3
           </Text>
-          <Text variant='h2' color='white' className='mb-3 text-3xl font-bold'>
+          <Text className='mb-3 text-3xl font-bold text-text-primary'>
             Let's get to know you
           </Text>
-          <Text
-            variant='body'
-            color='gray'
-            className='text-base leading-relaxed'
-          >
+          <Text className='text-base leading-relaxed text-text-secondary'>
             This helps us personalize your fitness journey
           </Text>
         </Animated.View>
@@ -215,14 +208,14 @@ export default function PersonalInfoScreen() {
       {/* Bottom Action Button */}
       <View className='border-dark-700 bg-dark-900 absolute bottom-0 left-0 right-0 border-t px-6 pb-10 pt-6'>
         <Button
-          variant='primary'
+          variant='solid'
+          action='primary'
           size='lg'
-          fullWidth
           onPress={handleNext}
-          disabled={!isValid}
-          rightIcon='arrow-forward'
+          isDisabled={!isValid}
+          className='w-full'
         >
-          Continue
+          <ButtonText>Continue</ButtonText>
         </Button>
       </View>
     </KeyboardAvoidingView>

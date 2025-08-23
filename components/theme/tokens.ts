@@ -8,49 +8,59 @@ export type ColorModeType = 'light' | 'dark'
 
 // Base color palette using hex values (React Native compatible)
 export const baseColors = {
-  // Brand colors
+  // Brand colors - Professional fitness app palette
   brand: {
-    primary: '#10B981', // emerald-500
-    primaryLight: '#34D399', // emerald-400
-    primaryDark: '#059669', // emerald-600
-    accent: '#F97316', // orange-500
-    accentLight: '#FB923C', // orange-400
-    accentDark: '#EA580C', // orange-600
+    primary: '#0070F0', // Electric blue - energetic and professional
+    primaryLight: '#3B8EF3', // Lighter blue for interactive states
+    primaryDark: '#0056CC', // Darker blue for pressed states
+    accent: '#FF5722', // Energetic coral-red accent
+    accentLight: '#FF7043', // Lighter coral for hover states
+    accentDark: '#D84315', // Darker coral for pressed states
+    secondary: '#6366F1', // Indigo for secondary actions
+    tertiary: '#06D6A0', // Mint green for positive actions
   },
 
-  // Fitness activity colors
+  // Enhanced fitness activity colors - Professional and vibrant
   fitness: {
-    strength: '#EF4444', // red-500
-    cardio: '#3B82F6', // blue-500
-    yoga: '#8B5CF6', // violet-500
-    hiit: '#F97316', // orange-500
-    running: '#10B981', // emerald-500
-    cycling: '#06B6D4', // cyan-500
-    swimming: '#0EA5E9', // sky-500
-    recovery: '#6B7280', // gray-500
+    strength: '#E53935', // Strong red for strength training
+    cardio: '#FF5722', // Energetic coral-red for cardio
+    yoga: '#9C27B0', // Rich purple for yoga/mindfulness
+    hiit: '#FF9800', // Bold orange for high-intensity
+    running: '#4CAF50', // Fresh green for running
+    cycling: '#00BCD4', // Cyan for cycling
+    swimming: '#2196F3', // Ocean blue for swimming
+    recovery: '#795548', // Warm brown for recovery
+    calories: '#FF6B35', // Energetic orange for calories
+    heartRate: '#E91E63', // Pink-red for heart rate
+    steps: '#8BC34A', // Light green for steps
+    distance: '#3F51B5', // Indigo for distance
+    time: '#607D8B', // Blue-gray for time
+    achievement: '#FFD700', // Gold for achievements
   },
 
-  // Semantic colors
+  // Enhanced semantic colors with better contrast
   semantic: {
-    success: '#10B981', // emerald-500
-    warning: '#F59E0B', // amber-500
-    error: '#EF4444', // red-500
-    info: '#3B82F6', // blue-500
+    success: '#06D6A0', // Bright mint green - more energetic than standard green
+    warning: '#FF9500', // Vibrant orange - better visibility
+    error: '#FF3B30', // iOS-style red - more attention-grabbing
+    info: '#007AFF', // iOS-style blue - professional and clear
+    positive: '#00C896', // For gains/improvements
+    negative: '#FF453A', // For losses/decreases
   },
 
-  // Neutral grayscale
+  // Professional neutral grayscale with better contrast
   neutral: {
-    50: '#F8FAFC',
-    100: '#F1F5F9',
-    200: '#E2E8F0',
-    300: '#CBD5E1',
-    400: '#94A3B8',
-    500: '#64748B',
-    600: '#475569',
-    700: '#334155',
-    800: '#1E293B',
-    900: '#0F172A',
-    950: '#020617',
+    50: '#FAFBFC', // Slightly warmer white
+    100: '#F4F6F8', // Light gray with better contrast
+    200: '#E8ECF0', // Medium light gray
+    300: '#D1D9E0', // Visible but subtle
+    400: '#9AA5B1', // Better contrast for placeholders
+    500: '#677788', // Readable secondary text
+    600: '#4A5568', // Strong secondary text
+    700: '#2D3748', // Dark text with good contrast
+    800: '#1A202C', // Very dark for emphasis
+    900: '#171923', // Near black
+    950: '#0D1117', // True black alternative
   },
 
   // Pure colors
@@ -59,88 +69,154 @@ export const baseColors = {
   transparent: 'transparent',
 }
 
-// Light theme token definitions
+// Light theme token definitions - Professional fitness app
 export const lightTheme = {
-  // Surface colors
+  // Surface colors with better hierarchy
   surface: {
     primary: baseColors.white,
-    secondary: baseColors.neutral[50],
-    tertiary: baseColors.neutral[100],
-    quaternary: baseColors.neutral[200],
-    overlay: 'rgba(0, 0, 0, 0.5)',
-    glass: 'rgba(255, 255, 255, 0.1)',
-    elevated: baseColors.white,
+    secondary: baseColors.neutral[50], // Subtle background
+    tertiary: baseColors.neutral[100], // Card backgrounds
+    quaternary: baseColors.neutral[200], // Elevated surfaces
+    overlay: 'rgba(0, 0, 0, 0.6)', // Stronger overlay for modals
+    glass: 'rgba(255, 255, 255, 0.15)', // Better glass effect
+    elevated: baseColors.white, // Cards and floating elements
+    accent: 'rgba(0, 112, 240, 0.08)', // Subtle brand tint
+    success: 'rgba(6, 214, 160, 0.08)', // Success background tint
+    warning: 'rgba(255, 149, 0, 0.08)', // Warning background tint
+    error: 'rgba(255, 59, 48, 0.08)', // Error background tint
   },
 
-  // Text colors
+  // Text colors with improved contrast
   text: {
-    primary: baseColors.neutral[900],
-    secondary: baseColors.neutral[600],
-    tertiary: baseColors.neutral[400],
-    inverse: baseColors.white,
-    brand: baseColors.brand.primary,
-    muted: baseColors.neutral[500],
-    disabled: baseColors.neutral[300],
+    primary: baseColors.neutral[900], // High contrast for primary text
+    secondary: baseColors.neutral[600], // Good contrast for secondary text
+    tertiary: baseColors.neutral[500], // Readable tertiary text
+    quaternary: baseColors.neutral[400], // Subtle text (was disabled, now more visible)
+    inverse: baseColors.white, // White text on dark backgrounds
+    brand: baseColors.brand.primary, // Brand color text
+    accent: baseColors.brand.accent, // Accent color text
+    muted: baseColors.neutral[500], // Muted but still readable
+    disabled: baseColors.neutral[400], // Disabled state with better visibility
+    placeholder: baseColors.neutral[400], // Visible placeholder text
+    link: baseColors.brand.primary, // Link text
+    success: baseColors.semantic.success, // Success text
+    warning: baseColors.semantic.warning, // Warning text
+    error: baseColors.semantic.error, // Error text
   },
 
-  // Border colors
+  // Border colors with better definition
   border: {
-    primary: baseColors.neutral[200],
-    secondary: baseColors.neutral[100],
-    tertiary: baseColors.neutral[50],
-    focus: baseColors.brand.primary,
-    error: baseColors.semantic.error,
-    disabled: baseColors.neutral[100],
+    primary: baseColors.neutral[200], // Standard borders
+    secondary: baseColors.neutral[100], // Subtle borders
+    tertiary: baseColors.neutral[50], // Very subtle dividers
+    strong: baseColors.neutral[300], // Stronger borders for emphasis
+    focus: baseColors.brand.primary, // Focus ring
+    error: baseColors.semantic.error, // Error state borders
+    success: baseColors.semantic.success, // Success state borders
+    warning: baseColors.semantic.warning, // Warning state borders
+    disabled: baseColors.neutral[200], // More visible disabled borders
+    interactive: baseColors.neutral[300], // Borders that invite interaction
+    accent: baseColors.brand.accent, // Accent borders for highlights
   },
 
-  // Interactive colors
+  // Interactive colors with professional feel
   interactive: {
     primary: {
-      default: baseColors.brand.primary,
-      hover: baseColors.brand.primaryDark,
-      active: '#047857', // emerald-700
-      disabled: baseColors.neutral[300],
+      default: baseColors.brand.primary, // Electric blue
+      hover: baseColors.brand.primaryLight, // Lighter blue on hover
+      active: baseColors.brand.primaryDark, // Darker blue when pressed
+      disabled: baseColors.neutral[300], // Better visibility for disabled
+      loading: baseColors.brand.primaryLight, // Loading state
     },
     secondary: {
-      default: baseColors.neutral[100],
-      hover: baseColors.neutral[200],
-      active: baseColors.neutral[300],
-      disabled: baseColors.neutral[50],
+      default: baseColors.neutral[100], // Light gray background
+      hover: baseColors.neutral[200], // Darker on hover
+      active: baseColors.neutral[300], // Even darker when pressed
+      disabled: baseColors.neutral[50], // Very light when disabled
+      text: baseColors.neutral[700], // Dark text on light background
     },
     tertiary: {
-      default: baseColors.transparent,
-      hover: baseColors.neutral[50],
-      active: baseColors.neutral[100],
-      disabled: baseColors.transparent,
+      default: baseColors.transparent, // Ghost button
+      hover: baseColors.neutral[50], // Subtle background on hover
+      active: baseColors.neutral[100], // Light background when pressed
+      disabled: baseColors.transparent, // Invisible when disabled
+      text: baseColors.brand.primary, // Brand colored text
+    },
+    accent: {
+      default: baseColors.brand.accent, // Coral accent
+      hover: baseColors.brand.accentLight, // Lighter coral on hover
+      active: baseColors.brand.accentDark, // Darker coral when pressed
+      disabled: baseColors.neutral[300], // Disabled state
+    },
+    destructive: {
+      default: baseColors.semantic.error, // Red for destructive actions
+      hover: '#FF1F0F', // Darker red on hover
+      active: '#E60012', // Even darker when pressed
+      disabled: baseColors.neutral[300], // Disabled state
     },
   },
 
-  // Semantic state colors
+  // Enhanced semantic state colors
   semantic: {
     success: {
-      default: baseColors.semantic.success,
-      light: '#ECFDF5', // emerald-50
-      dark: '#047857', // emerald-700
+      default: baseColors.semantic.success, // Mint green
+      light: '#F0FDF9', // Very light mint background
+      dark: '#00A67D', // Darker mint for emphasis
+      contrast: baseColors.white, // White text on success background
     },
     warning: {
-      default: baseColors.semantic.warning,
-      light: '#FFFBEB', // amber-50
-      dark: '#D97706', // amber-600
+      default: baseColors.semantic.warning, // Vibrant orange
+      light: '#FFF8F0', // Light orange background
+      dark: '#E6820E', // Darker orange for emphasis
+      contrast: baseColors.white, // White text on warning background
     },
     error: {
-      default: baseColors.semantic.error,
-      light: '#FEF2F2', // red-50
-      dark: '#DC2626', // red-600
+      default: baseColors.semantic.error, // iOS-style red
+      light: '#FFF5F5', // Light red background
+      dark: '#D70015', // Darker red for emphasis
+      contrast: baseColors.white, // White text on error background
     },
     info: {
-      default: baseColors.semantic.info,
-      light: '#EFF6FF', // blue-50
-      dark: '#2563EB', // blue-600
+      default: baseColors.semantic.info, // iOS-style blue
+      light: '#F0F8FF', // Light blue background
+      dark: '#0056CC', // Darker blue for emphasis
+      contrast: baseColors.white, // White text on info background
+    },
+    positive: {
+      default: baseColors.semantic.positive, // For gains/improvements
+      light: '#F0FDF4', // Light green background
+      dark: '#00A86B', // Darker green
+      contrast: baseColors.white, // White text
+    },
+    negative: {
+      default: baseColors.semantic.negative, // For losses/decreases
+      light: '#FFF5F5', // Light red background
+      dark: '#E6002E', // Darker red
+      contrast: baseColors.white, // White text
     },
   },
 
-  // Fitness activity colors (same in both themes)
-  fitness: baseColors.fitness,
+  // Enhanced fitness activity colors with backgrounds
+  fitness: {
+    ...baseColors.fitness,
+    // Add background variants for light theme
+    backgrounds: {
+      strength: 'rgba(229, 57, 53, 0.1)', // Light red background
+      cardio: 'rgba(255, 87, 34, 0.1)', // Light coral background
+      yoga: 'rgba(156, 39, 176, 0.1)', // Light purple background
+      hiit: 'rgba(255, 152, 0, 0.1)', // Light orange background
+      running: 'rgba(76, 175, 80, 0.1)', // Light green background
+      cycling: 'rgba(0, 188, 212, 0.1)', // Light cyan background
+      swimming: 'rgba(33, 150, 243, 0.1)', // Light blue background
+      recovery: 'rgba(121, 85, 72, 0.1)', // Light brown background
+      calories: 'rgba(255, 107, 53, 0.1)', // Light orange background
+      heartRate: 'rgba(233, 30, 99, 0.1)', // Light pink background
+      steps: 'rgba(139, 195, 74, 0.1)', // Light green background
+      distance: 'rgba(63, 81, 181, 0.1)', // Light indigo background
+      time: 'rgba(96, 125, 139, 0.1)', // Light blue-gray background
+      achievement: 'rgba(255, 215, 0, 0.1)', // Light gold background
+    },
+  },
 
   // Shadow colors
   shadow: {
@@ -150,96 +226,166 @@ export const lightTheme = {
   },
 }
 
-// Dark theme token definitions
+// Dark theme token definitions - Professional fitness app
 export const darkTheme = {
-  // Surface colors
+  // Surface colors with proper dark mode hierarchy
   surface: {
-    primary: '#0A0A0B', // zinc-950
-    secondary: '#18181B', // zinc-900
-    tertiary: '#27272A', // zinc-800
-    quaternary: '#3F3F46', // zinc-700
-    overlay: 'rgba(0, 0, 0, 0.8)',
-    glass: 'rgba(255, 255, 255, 0.05)',
-    elevated: '#18181B', // zinc-900
+    primary: '#0D1117', // GitHub dark - professional
+    secondary: '#161B22', // Slightly lighter for cards
+    tertiary: '#21262D', // Even lighter for elevated content
+    quaternary: '#30363D', // Light surfaces, strong contrast
+    overlay: 'rgba(0, 0, 0, 0.85)', // Strong overlay for modals
+    glass: 'rgba(255, 255, 255, 0.08)', // Better glass effect in dark
+    elevated: '#161B22', // Cards and floating elements
+    accent: 'rgba(59, 142, 243, 0.15)', // Subtle brand tint for dark mode
+    success: 'rgba(6, 214, 160, 0.15)', // Success background tint
+    warning: 'rgba(255, 149, 0, 0.15)', // Warning background tint
+    error: 'rgba(255, 59, 48, 0.15)', // Error background tint
   },
 
-  // Text colors
+  // Text colors optimized for dark backgrounds
   text: {
-    primary: baseColors.neutral[50],
-    secondary: baseColors.neutral[300],
-    tertiary: baseColors.neutral[500],
-    inverse: baseColors.neutral[900],
-    brand: baseColors.brand.primaryLight,
-    muted: baseColors.neutral[400],
-    disabled: baseColors.neutral[600],
+    primary: '#F0F6FC', // High contrast white for primary text
+    secondary: '#C9D1D9', // Good contrast for secondary text
+    tertiary: '#8B949E', // Readable tertiary text
+    quaternary: '#6E7681', // Subtle text (improved from disabled)
+    inverse: baseColors.neutral[900], // Dark text on light backgrounds
+    brand: '#3B8EF3', // Lighter brand color for dark mode
+    accent: '#FF7043', // Lighter accent color for dark mode
+    muted: '#8B949E', // Muted but readable
+    disabled: '#6E7681', // Better visibility for disabled state
+    placeholder: '#6E7681', // Visible placeholder text
+    link: '#58A6FF', // GitHub blue for links
+    success: '#7CE38B', // Bright success color
+    warning: '#F2CC60', // Bright warning color
+    error: '#FF7B72', // Bright error color
   },
 
-  // Border colors
+  // Border colors optimized for dark mode
   border: {
-    primary: '#374151', // gray-700
-    secondary: '#27272A', // zinc-800
-    tertiary: '#18181B', // zinc-900
-    focus: baseColors.brand.primaryLight,
-    error: '#F87171', // red-400
-    disabled: '#27272A', // zinc-800
+    primary: '#30363D', // Visible borders in dark mode
+    secondary: '#21262D', // Subtle borders
+    tertiary: '#161B22', // Very subtle dividers
+    strong: '#484F58', // Stronger borders for emphasis
+    focus: '#58A6FF', // Bright blue focus ring
+    error: '#FF7B72', // Bright red error borders
+    success: '#7CE38B', // Bright green success borders
+    warning: '#F2CC60', // Bright yellow warning borders
+    disabled: '#30363D', // More visible disabled borders
+    interactive: '#484F58', // Borders for interactive elements
+    accent: '#FF7043', // Bright accent borders
   },
 
-  // Interactive colors
+  // Interactive colors optimized for dark mode
   interactive: {
     primary: {
-      default: baseColors.brand.primary,
-      hover: baseColors.brand.primaryLight,
-      active: '#6EE7B7', // emerald-300
-      disabled: '#374151', // gray-700
+      default: '#1F6FEB', // Darker blue that works on dark backgrounds
+      hover: '#58A6FF', // Brighter blue on hover
+      active: '#388BFD', // Even brighter when pressed
+      disabled: '#484F58', // More visible disabled state
+      loading: '#58A6FF', // Loading state
     },
     secondary: {
-      default: '#27272A', // zinc-800
-      hover: '#3F3F46', // zinc-700
-      active: '#52525B', // zinc-600
-      disabled: '#18181B', // zinc-900
+      default: '#21262D', // Dark background
+      hover: '#30363D', // Lighter on hover
+      active: '#484F58', // Even lighter when pressed
+      disabled: '#161B22', // Very dark when disabled
+      text: '#F0F6FC', // Light text on dark background
     },
     tertiary: {
-      default: baseColors.transparent,
-      hover: '#18181B', // zinc-900
-      active: '#27272A', // zinc-800
-      disabled: baseColors.transparent,
+      default: baseColors.transparent, // Ghost button
+      hover: '#161B22', // Subtle dark background on hover
+      active: '#21262D', // Darker background when pressed
+      disabled: baseColors.transparent, // Invisible when disabled
+      text: '#58A6FF', // Bright brand color text
+    },
+    accent: {
+      default: '#FD7E14', // Bright coral accent for dark mode
+      hover: '#FF7043', // Even brighter on hover
+      active: '#FF5722', // Brightest when pressed
+      disabled: '#484F58', // Disabled state
+    },
+    destructive: {
+      default: '#DA3633', // Red for destructive actions
+      hover: '#FF7B72', // Brighter red on hover
+      active: '#FF6B6B', // Even brighter when pressed
+      disabled: '#484F58', // Disabled state
     },
   },
 
-  // Semantic state colors
+  // Enhanced semantic state colors for dark mode
   semantic: {
     success: {
-      default: baseColors.brand.primaryLight,
-      light: '#064E3B', // emerald-900
-      dark: '#6EE7B7', // emerald-300
+      default: '#7CE38B', // Bright mint green for dark mode
+      light: '#0D1A14', // Very dark green background
+      dark: '#A2F2B4', // Even brighter mint
+      contrast: '#0D1117', // Dark text on success background
     },
     warning: {
-      default: '#FBBF24', // amber-400
-      light: '#78350F', // amber-900
-      dark: '#FCD34D', // amber-300
+      default: '#F2CC60', // Bright orange for dark mode
+      light: '#1A1206', // Very dark orange background
+      dark: '#F9DC8C', // Even brighter orange
+      contrast: '#0D1117', // Dark text on warning background
     },
     error: {
-      default: '#F87171', // red-400
-      light: '#7F1D1D', // red-900
-      dark: '#FCA5A5', // red-300
+      default: '#FF7B72', // Bright red for dark mode
+      light: '#1A0E0D', // Very dark red background
+      dark: '#FFA198', // Even brighter red
+      contrast: '#0D1117', // Dark text on error background
     },
     info: {
-      default: '#60A5FA', // blue-400
-      light: '#1E3A8A', // blue-900
-      dark: '#93C5FD', // blue-300
+      default: '#58A6FF', // Bright blue for dark mode
+      light: '#0C1829', // Very dark blue background
+      dark: '#79C0FF', // Even brighter blue
+      contrast: '#0D1117', // Dark text on info background
+    },
+    positive: {
+      default: '#7CE38B', // Bright green for gains
+      light: '#0D1A14', // Dark background
+      dark: '#A2F2B4', // Brighter green
+      contrast: '#0D1117', // Dark text
+    },
+    negative: {
+      default: '#FF7B72', // Bright red for losses
+      light: '#1A0E0D', // Dark background
+      dark: '#FFA198', // Brighter red
+      contrast: '#0D1117', // Dark text
     },
   },
 
-  // Fitness activity colors (brighter variants for dark mode)
+  // Enhanced fitness activity colors for dark mode
   fitness: {
-    strength: '#F87171', // red-400
-    cardio: '#60A5FA', // blue-400
-    yoga: '#A78BFA', // violet-400
-    hiit: '#FB923C', // orange-400
-    running: '#34D399', // emerald-400
-    cycling: '#22D3EE', // cyan-400
-    swimming: '#38BDF8', // sky-400
-    recovery: '#9CA3AF', // gray-400
+    strength: '#FF8A80', // Bright red for strength
+    cardio: '#FF8A65', // Bright coral for cardio
+    yoga: '#CE93D8', // Bright purple for yoga
+    hiit: '#FFB74D', // Bright orange for HIIT
+    running: '#81C784', // Bright green for running
+    cycling: '#4FC3F7', // Bright cyan for cycling
+    swimming: '#64B5F6', // Bright blue for swimming
+    recovery: '#BCAAA4', // Warm brown for recovery
+    calories: '#FFAB91', // Bright orange for calories
+    heartRate: '#F48FB1', // Bright pink for heart rate
+    steps: '#C5E1A5', // Bright green for steps
+    distance: '#9FA8DA', // Bright indigo for distance
+    time: '#B0BEC5', // Blue-gray for time
+    achievement: '#FFE082', // Bright gold for achievements
+    // Background variants for dark theme
+    backgrounds: {
+      strength: 'rgba(255, 138, 128, 0.2)', // Dark red background
+      cardio: 'rgba(255, 138, 101, 0.2)', // Dark coral background
+      yoga: 'rgba(206, 147, 216, 0.2)', // Dark purple background
+      hiit: 'rgba(255, 183, 77, 0.2)', // Dark orange background
+      running: 'rgba(129, 199, 132, 0.2)', // Dark green background
+      cycling: 'rgba(79, 195, 247, 0.2)', // Dark cyan background
+      swimming: 'rgba(100, 181, 246, 0.2)', // Dark blue background
+      recovery: 'rgba(188, 170, 164, 0.2)', // Dark brown background
+      calories: 'rgba(255, 171, 145, 0.2)', // Dark orange background
+      heartRate: 'rgba(244, 143, 177, 0.2)', // Dark pink background
+      steps: 'rgba(197, 225, 165, 0.2)', // Dark green background
+      distance: 'rgba(159, 168, 218, 0.2)', // Dark indigo background
+      time: 'rgba(176, 190, 197, 0.2)', // Dark blue-gray background
+      achievement: 'rgba(255, 224, 130, 0.2)', // Dark gold background
+    },
   },
 
   // Shadow colors

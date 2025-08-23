@@ -55,15 +55,15 @@ const MyForm = () => {
 
 ```typescript
 // /schemas/auth.ts
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const loginSchema = z.object({
   email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Password must be at least 8 characters')
-});
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+})
 
 // REQUIRED: Export inferred type for global usage
-export type LoginFormInfer = z.infer<typeof loginSchema>;
+export type LoginFormInfer = z.infer<typeof loginSchema>
 ```
 
 ### 3. Form Error Handling Standards
@@ -92,16 +92,16 @@ export type LoginFormInfer = z.infer<typeof loginSchema>;
 ```typescript
 const handleSubmit = async (values: FormType) => {
   try {
-    setSubmitting(true);
-    await submitFunction(values);
+    setSubmitting(true)
+    await submitFunction(values)
     // Handle success (navigation, state update, etc.)
   } catch (error) {
     // Handle error (show toast, set form error, etc.)
-    formik.setFieldError('general', error.message);
+    formik.setFieldError('general', error.message)
   } finally {
-    setSubmitting(false);
+    setSubmitting(false)
   }
-};
+}
 ```
 
 ### 5. Common Form Types to Handle
@@ -147,15 +147,18 @@ email: z.string().email('Please enter a valid email')
 // Password with complexity
 password: z.string()
   .min(8, 'Password must be at least 8 characters')
-  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password must contain uppercase, lowercase, and number')
+  .regex(
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+    'Password must contain uppercase, lowercase, and number',
+  )
 
 // Confirm password
 confirmPassword: z.string()
-// With refine for matching
-.refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match',
-  path: ['confirmPassword']
-})
+  // With refine for matching
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
 // Required fields
 name: z.string().min(1, 'Name is required')
@@ -165,7 +168,7 @@ phoneNumber: z.string().optional()
 
 // Boolean with required true
 terms: z.boolean().refine((val) => val === true, {
-  message: 'You must accept terms and conditions'
+  message: 'You must accept terms and conditions',
 })
 ```
 

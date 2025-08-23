@@ -5,11 +5,12 @@ import { View, TouchableOpacity, type TextInput } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
+import { Badge } from '@/components/ui/badge'
+import { Input, InputField } from '@/components/ui/input'
+import { Text } from '@/components/ui/text'
+import { VStack } from '@/components/ui/vstack'
+import { HStack } from '@/components/ui/hstack'
 import { cn } from '@/utils/cn'
-
-import { Badge } from '../atoms/Badge'
-import { Input } from '../atoms/Input'
-import { Text } from '../atoms/Text'
 
 export const FormField = forwardRef<TextInput, FormFieldProps>(
   (
@@ -47,17 +48,15 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
         {...animationProps}
       >
         {(label ?? badge ?? tooltip) && (
-          <View className='mb-2 flex-row items-center justify-between'>
-            <View className='flex-1 flex-row items-center'>
+          <HStack className='mb-2 items-center justify-between'>
+            <HStack className='flex-1 items-center'>
               {label && (
-                <Text variant='label' color='gray'>
+                <Text size='sm' className='font-medium text-text-secondary'>
                   {label}
                 </Text>
               )}
               {required && (
-                <Text color='error' className='ml-1'>
-                  *
-                </Text>
+                <Text className='ml-1 text-semantic-error-default'>*</Text>
               )}
               {tooltip && (
                 <TouchableOpacity onPress={handleTooltipPress} className='ml-2'>
@@ -68,51 +67,62 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
                   />
                 </TouchableOpacity>
               )}
-            </View>
+            </HStack>
             {badge && (
-              <Badge variant='primary' size='sm'>
-                {badge}
+              <Badge variant='solid' size='sm'>
+                <Text size='xs' className='text-white'>
+                  {badge}
+                </Text>
               </Badge>
             )}
-          </View>
+          </HStack>
         )}
 
         {isTooltipVisible && tooltip && (
           <Animated.View
             entering={FadeIn.duration(200)}
             exiting={FadeOut.duration(200)}
-            className='border-dark-600 bg-dark-700 mb-2 rounded-lg border p-3'
+            className='mb-2 rounded-lg border border-border-primary bg-surface-secondary p-3'
           >
-            <Text variant='caption' color='gray'>
+            <Text size='sm' className='text-text-tertiary'>
               {tooltip}
             </Text>
           </Animated.View>
         )}
 
-        <Input ref={ref} error={error} {...inputProps} />
+        <Input variant='outline' isInvalid={!!error}>
+          <InputField 
+            {...(({ type, leftIcon, rightIcon, ...props }) => props)(inputProps)}
+            keyboardType={
+              inputProps.type === 'number' ? 'numeric' :
+              inputProps.type === 'email' ? 'email-address' :
+              inputProps.type === 'phone' ? 'phone-pad' : 'default'
+            }
+          />
+        </Input>
 
         {success && !error && (
-          <View className='mt-2 flex-row items-center'>
+          <HStack className='mt-2 items-center'>
             <Ionicons name='checkmark-circle' size={14} color='#10B981' />
-            <Text variant='caption' color='success' className='ml-1'>
+            <Text size='sm' className='ml-1 text-semantic-success-default'>
               {success}
             </Text>
-          </View>
+          </HStack>
         )}
 
         {hint && !error && !success && (
-          <Text variant='caption' color='gray' className='mt-2'>
+          <Text size='sm' className='mt-2 text-text-tertiary'>
             {hint}
           </Text>
         )}
 
         {error && (
-          <View className='mt-2 flex-row items-center'>
+          <HStack className='mt-2 items-center'>
             <Ionicons name='alert-circle' size={14} color='#EF4444' />
-            <Text variant='caption' color='error' className='ml-1'>
+            <Text size='sm' className='ml-1 text-semantic-error-default'>
               {error}
             </Text>
-          </View>
+          </HStack>
         )}
       </FieldWrapper>
     )

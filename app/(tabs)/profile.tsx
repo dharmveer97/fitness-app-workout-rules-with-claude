@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react'
 
-import { View, Text, ScrollView, Alert, RefreshControl } from 'react-native'
+import { View, ScrollView, Alert, RefreshControl } from 'react-native'
+
+import { Text } from '@/components/ui/text'
 
 import GoalInput from '@/components/profile/GoalInput'
 import ProfileHeader from '@/components/profile/ProfileHeader'
@@ -12,11 +14,13 @@ import { useAuthStore } from '@/stores'
 
 // Types are now globally available from .d.ts files
 
+// Stable selectors to prevent infinite re-renders
+const selectUser = (state: any) => state.user
+const selectSignOut = (state: any) => state.signOut
+
 export default function ProfileScreen() {
-  const { user, signOut } = useAuthStore((state) => ({
-    user: state.user,
-    signOut: state.signOut,
-  }))
+  const user = useAuthStore(selectUser)
+  const signOut = useAuthStore(selectSignOut)
 
   const [refreshing, setRefreshing] = useState(false)
   const [showGoalsSection, setShowGoalsSection] = useState(false)
@@ -180,7 +184,7 @@ export default function ProfileScreen() {
           <View className='mb-8'>
             <View className='border-primary rounded-2xl border bg-surface-secondary p-1'>
               <SettingsItem
-                icon='target'
+                icon='bullseye'
                 title='Daily Goals'
                 subtitle='Set your daily fitness targets'
                 type='navigation'

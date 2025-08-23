@@ -1,106 +1,166 @@
 // Native React Native color system for Daily Deposits Fitness App
 // Compatible with Expo + Gluestack UI + NativeWind
 
-// Primary brand colors for fitness app
+// Professional fitness app brand colors - Electric blue theme
 const brandColors = {
-  primary: '#10B981', // Emerald green - main brand color
-  primaryLight: '#34D399', // Lighter shade for hover states
-  primaryDark: '#059669', // Darker shade for pressed states
-  accent: '#F97316', // Orange accent for CTAs and highlights
+  primary: '#0070F0', // Electric blue - energetic and professional
+  primaryLight: '#3B8EF3', // Lighter blue for interactive states
+  primaryDark: '#0056CC', // Darker blue for pressed states
+  accent: '#FF5722', // Energetic coral-red accent for CTAs
+  secondary: '#6366F1', // Indigo for secondary actions
+  tertiary: '#06D6A0', // Mint green for positive actions
 }
 
-// Fitness activity colors
+// Professional fitness activity colors with metrics
 export const fitnessColors = {
-  strength: '#EF4444', // Red for strength training
-  cardio: '#3B82F6', // Blue for cardio
-  yoga: '#8B5CF6', // Purple for yoga/flexibility
-  hiit: '#F97316', // Orange for HIIT
-  running: '#10B981', // Green for running
-  cycling: '#06B6D4', // Cyan for cycling
-  swimming: '#0EA5E9', // Light blue for swimming
-  recovery: '#6B7280', // Gray for recovery
+  strength: '#E53935', // Strong red for strength training
+  cardio: '#FF5722', // Energetic coral-red for cardio
+  yoga: '#9C27B0', // Rich purple for yoga/mindfulness
+  hiit: '#FF9800', // Bold orange for high-intensity
+  running: '#4CAF50', // Fresh green for running
+  cycling: '#00BCD4', // Cyan for cycling
+  swimming: '#2196F3', // Ocean blue for swimming
+  recovery: '#795548', // Warm brown for recovery
+  // Fitness metrics colors
+  calories: '#FF6B35', // Energetic orange for calories
+  heartRate: '#E91E63', // Pink-red for heart rate
+  steps: '#8BC34A', // Light green for steps
+  distance: '#3F51B5', // Indigo for distance
+  time: '#607D8B', // Blue-gray for time
+  achievement: '#FFD700', // Gold for achievements
 }
 
-// Main color export used by legacy components
+// Main color export for legacy components - Professional fitness theme
 export const Colors = {
   light: {
-    text: '#0F172A',
-    background: '#FFFFFF',
-    tint: brandColors.primary,
-    icon: '#475569',
-    tabIconDefault: '#94A3B8',
-    tabIconSelected: brandColors.primary,
+    text: '#171923', // High contrast dark text
+    background: '#FFFFFF', // Clean white background
+    tint: brandColors.primary, // Electric blue tint
+    icon: '#4A5568', // Darker icons for better visibility
+    tabIconDefault: '#9AA5B1', // More visible inactive tabs
+    tabIconSelected: brandColors.primary, // Electric blue for selected tabs
+    surface: '#FAFBFC', // Slightly warm white for surfaces
+    border: '#E8ECF0', // Subtle borders
+    accent: brandColors.accent, // Coral accent
   },
   dark: {
-    text: '#F8FAFC',
-    background: '#0A0A0B',
-    tint: brandColors.primaryLight,
-    icon: '#CBD5E1',
-    tabIconDefault: '#64748B',
-    tabIconSelected: brandColors.primaryLight,
+    text: '#F0F6FC', // High contrast light text
+    background: '#0D1117', // Professional dark background (GitHub style)
+    tint: '#58A6FF', // Brighter blue for dark mode
+    icon: '#C9D1D9', // Light gray icons
+    tabIconDefault: '#8B949E', // Subtle inactive tabs
+    tabIconSelected: '#58A6FF', // Bright blue for selected tabs
+    surface: '#161B22', // Dark surface color
+    border: '#30363D', // Visible dark borders
+    accent: '#FF7043', // Bright coral accent for dark mode
   },
 }
 
-// Extended semantic color palette
+// Professional semantic color palette for fitness app
 export const semanticColors = {
   brand: brandColors,
   fitness: fitnessColors,
 
-  // Surface colors
+  // Professional surface colors
   surface: {
     light: {
-      primary: '#FFFFFF',
-      secondary: '#F8FAFC',
-      tertiary: '#F1F5F9',
+      primary: '#FFFFFF', // Clean white
+      secondary: '#FAFBFC', // Slightly warm white
+      tertiary: '#F4F6F8', // Light gray surfaces
+      elevated: '#FFFFFF', // Elevated white surfaces
+      accent: 'rgba(0, 112, 240, 0.08)', // Subtle brand tint
     },
     dark: {
-      primary: '#0A0A0B',
-      secondary: '#18181B',
-      tertiary: '#27272A',
+      primary: '#0D1117', // Professional dark (GitHub style)
+      secondary: '#161B22', // Card backgrounds
+      tertiary: '#21262D', // Elevated surfaces
+      elevated: '#161B22', // Floating elements
+      accent: 'rgba(88, 166, 255, 0.15)', // Subtle brand tint for dark
     },
   },
 
-  // Text colors
+  // Professional text colors with better contrast
   text: {
     light: {
-      primary: '#0F172A',
-      secondary: '#475569',
-      tertiary: '#94A3B8',
+      primary: '#171923', // High contrast black
+      secondary: '#4A5568', // Readable secondary text
+      tertiary: '#677788', // Subtle but visible
+      muted: '#9AA5B1', // Muted text
+      placeholder: '#9AA5B1', // Visible placeholders
+      brand: brandColors.primary, // Brand color text
+      accent: brandColors.accent, // Accent text
     },
     dark: {
-      primary: '#F8FAFC',
-      secondary: '#CBD5E1',
-      tertiary: '#64748B',
+      primary: '#F0F6FC', // High contrast white
+      secondary: '#C9D1D9', // Readable secondary text
+      tertiary: '#8B949E', // Subtle but visible
+      muted: '#6E7681', // Muted text
+      placeholder: '#6E7681', // Visible placeholders
+      brand: '#58A6FF', // Bright brand color for dark
+      accent: '#FF7043', // Bright accent for dark
     },
   },
 
-  // Border colors
+  // Professional border colors
   border: {
     light: {
-      primary: '#E2E8F0',
-      secondary: '#F1F5F9',
+      primary: '#E8ECF0', // Standard borders
+      secondary: '#F4F6F8', // Subtle borders
+      strong: '#D1D9E0', // Emphasized borders
+      interactive: '#D1D9E0', // Interactive element borders
+      focus: brandColors.primary, // Focus ring
+      accent: brandColors.accent, // Accent borders
     },
     dark: {
-      primary: '#374151',
-      secondary: '#27272A',
+      primary: '#30363D', // Visible dark borders
+      secondary: '#21262D', // Subtle dark borders
+      strong: '#484F58', // Emphasized borders
+      interactive: '#484F58', // Interactive element borders
+      focus: '#58A6FF', // Bright focus ring
+      accent: '#FF7043', // Bright accent borders
     },
   },
 
-  // Semantic state colors
+  // Enhanced semantic state colors
   success: {
-    light: '#10B981',
-    dark: '#34D399',
+    light: '#06D6A0', // Bright mint green
+    dark: '#7CE38B', // Bright success for dark mode
+    background: {
+      light: '#F0FDF9', // Light success background
+      dark: '#0D1A14', // Dark success background
+    },
   },
   warning: {
-    light: '#F59E0B',
-    dark: '#FBBF24',
+    light: '#FF9500', // Vibrant orange
+    dark: '#F2CC60', // Bright warning for dark mode
+    background: {
+      light: '#FFF8F0', // Light warning background
+      dark: '#1A1206', // Dark warning background
+    },
   },
   error: {
-    light: '#EF4444',
-    dark: '#F87171',
+    light: '#FF3B30', // iOS-style red
+    dark: '#FF7B72', // Bright error for dark mode
+    background: {
+      light: '#FFF5F5', // Light error background
+      dark: '#1A0E0D', // Dark error background
+    },
   },
   info: {
-    light: '#3B82F6',
-    dark: '#60A5FA',
+    light: '#007AFF', // iOS-style blue
+    dark: '#58A6FF', // Bright info for dark mode
+    background: {
+      light: '#F0F8FF', // Light info background
+      dark: '#0C1829', // Dark info background
+    },
+  },
+  // Additional semantic colors for fitness metrics
+  positive: {
+    light: '#00C896', // For gains/improvements
+    dark: '#7CE38B', // Bright positive for dark
+  },
+  negative: {
+    light: '#FF453A', // For losses/decreases
+    dark: '#FF7B72', // Bright negative for dark
   },
 }

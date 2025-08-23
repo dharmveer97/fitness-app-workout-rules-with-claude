@@ -38,10 +38,10 @@ export default function AuthInput({
   const animatedBorderStyle = useAnimatedStyle(() => {
     const borderColor =
       errorAnimation.value > 0
-        ? '#EF4444' // red-500
+        ? '#FF3B30' // semantic-error
         : focusAnimation.value > 0
-          ? '#10B981' // primary-500
-          : '#27272A' // dark-600
+          ? '#0070F0' // brand-primary
+          : '#E8ECF0' // border-primary
 
     return {
       borderColor,
@@ -52,10 +52,10 @@ export default function AuthInput({
   const animatedLabelStyle = useAnimatedStyle(() => {
     const color =
       errorAnimation.value > 0
-        ? '#EF4444'
+        ? '#FF3B30' // semantic-error
         : focusAnimation.value > 0
-          ? '#10B981'
-          : '#A1A1AA'
+          ? '#0070F0' // brand-primary
+          : '#4A5568' // text-secondary
 
     return {
       color,
@@ -77,13 +77,13 @@ export default function AuthInput({
 
       <Animated.View
         style={animatedBorderStyle}
-        className='bg-dark-700 flex-row items-center rounded-xl px-4 py-4'
+        className='flex-row items-center rounded-xl bg-surface-elevated px-4 py-4'
       >
         {leftIcon && (
           <Ionicons
             name={leftIcon}
             size={20}
-            color={isFocused ? '#10B981' : '#71717A'}
+            color={isFocused ? '#0070F0' : '#677788'}
             style={{ marginRight: 12 }}
           />
         )}
@@ -99,9 +99,10 @@ export default function AuthInput({
             setIsFocused(false)
             textInputProps.onBlur?.(e)
           }}
-          className='flex-1 text-base text-white'
-          placeholderTextColor='#71717A'
-          selectionColor='#10B981'
+          className='flex-1 text-base'
+          style={{ color: '#171923' }} // Ensure high contrast text
+          placeholderTextColor='#9AA5B1'
+          selectionColor='#0070F0'
         />
 
         {isPassword && (
@@ -113,7 +114,7 @@ export default function AuthInput({
             <Ionicons
               name={showPassword ? 'eye-off' : 'eye'}
               size={20}
-              color='#71717A'
+              color='#677788'
             />
           </TouchableOpacity>
         )}
@@ -124,7 +125,7 @@ export default function AuthInput({
             className='ml-3'
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
-            <Ionicons name={rightIcon} size={20} color='#71717A' />
+            <Ionicons name={rightIcon} size={20} color='#677788' />
           </TouchableOpacity>
         )}
       </Animated.View>
@@ -137,8 +138,10 @@ export default function AuthInput({
           }}
         >
           <View className='mt-2 flex-row items-center'>
-            <Ionicons name='alert-circle' size={16} color='#EF4444' />
-            <Text className='ml-1 flex-1 text-sm text-red-500'>{error}</Text>
+            <Ionicons name='alert-circle' size={16} color='#FF3B30' />
+            <Text className='ml-1 flex-1 text-sm text-semantic-error-default'>
+              {error}
+            </Text>
           </View>
         </Animated.View>
       )}

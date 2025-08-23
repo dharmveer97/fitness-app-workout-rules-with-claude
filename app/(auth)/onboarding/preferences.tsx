@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import {
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
   Switch,
@@ -16,31 +15,36 @@ import { StatusBar } from 'expo-status-bar'
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn, ZoomIn } from 'react-native-reanimated'
 
-import AuthButton from '@/components/auth/AuthButton'
 import { StorageDebugger } from '@/components/dev/StorageDebugger'
+import { Button, ButtonText } from '@/components/ui/button'
+import { Text } from '@/components/ui/text'
 import { useOnboardingStore } from '@/stores'
 
+// Stable selectors to prevent infinite re-renders
+const selectPreferences = (state: any) => state.preferences
+const selectPersonalInfo = (state: any) => state.personalInfo
+const selectUpdatePreferences = (state: any) => state.updatePreferences
+const selectPreviousSlide = (state: any) => state.previousSlide
+const selectCompleteOnboardingWithSignIn = (state: any) =>
+  state.completeOnboardingWithSignIn
+
 export default function PreferencesScreen() {
-  console.log('🔵 PreferencesScreen: Component mounted')
+  if (__DEV__) console.log('🔵 PreferencesScreen: Component mounted')
 
-  const {
-    preferences,
-    personalInfo,
-    updatePreferences,
-    previousSlide,
-    completeOnboardingWithSignIn,
-  } = useOnboardingStore((state) => ({
-    preferences: state.preferences,
-    personalInfo: state.personalInfo,
-    updatePreferences: state.updatePreferences,
-    previousSlide: state.previousSlide,
-    completeOnboardingWithSignIn: state.completeOnboardingWithSignIn,
-  }))
+  const preferences = useOnboardingStore(selectPreferences)
+  const personalInfo = useOnboardingStore(selectPersonalInfo)
+  const updatePreferences = useOnboardingStore(selectUpdatePreferences)
+  const previousSlide = useOnboardingStore(selectPreviousSlide)
+  const completeOnboardingWithSignIn = useOnboardingStore(
+    selectCompleteOnboardingWithSignIn,
+  )
 
-  console.log('🔵 PreferencesScreen: Current Zustand state:', {
-    preferences,
-    personalInfo,
-  })
+  if (__DEV__) {
+    console.log('🔵 PreferencesScreen: Current Zustand state:', {
+      preferences,
+      personalInfo,
+    })
+  }
 
   const [workoutTime, setWorkoutTime] = useState<
     'morning' | 'afternoon' | 'evening'
@@ -50,41 +54,51 @@ export default function PreferencesScreen() {
   )
   const [reminders, setReminders] = useState(preferences.reminders ?? true)
 
-  console.log('🔵 PreferencesScreen: Local state initialized:', {
-    workoutTime,
-    notifications,
-    reminders,
-  })
+  if (__DEV__) {
+    console.log('🔵 PreferencesScreen: Local state initialized:', {
+      workoutTime,
+      notifications,
+      reminders,
+    })
+  }
 
   // Add useEffect to track component lifecycle
   React.useEffect(() => {
-    console.log('🔵 PreferencesScreen: Component mounted/updated')
+    if (__DEV__) console.log('🔵 PreferencesScreen: Component mounted/updated')
 
     return () => {
-      console.log('🔵 PreferencesScreen: Component unmounting or updating')
+      if (__DEV__) {
+        console.log('🔵 PreferencesScreen: Component unmounting or updating')
+      }
     }
   })
 
   // Track Redux state changes
   React.useEffect(() => {
-    console.log('🔵 PreferencesScreen: Redux state changed:', {
-      preferences,
-      personalInfo,
-    })
+    if (__DEV__) {
+      console.log('🔵 PreferencesScreen: Redux state changed:', {
+        preferences,
+        personalInfo,
+      })
+    }
   }, [preferences, personalInfo])
 
   const handleComplete = async () => {
-    console.log('🟡 PreferencesScreen: handleComplete started')
-    console.log('🟡 PreferencesScreen: Current form values:', {
-      workoutTime,
-      notifications,
-      reminders,
-    })
+    if (__DEV__) {
+      console.log('🟡 PreferencesScreen: handleComplete started')
+      console.log('🟡 PreferencesScreen: Current form values:', {
+        workoutTime,
+        notifications,
+        reminders,
+      })
+    }
 
     try {
-      console.log(
-        '🟡 PreferencesScreen: Step 1 - Dispatching updatePreferences',
-      )
+      if (__DEV__) {
+        console.log(
+          '🟡 PreferencesScreen: Step 1 - Dispatching updatePreferences',
+        )
+      }
 
       // Update preferences in state
       updatePreferences({
@@ -93,42 +107,52 @@ export default function PreferencesScreen() {
         reminders,
       })
 
-      console.log(
-        '🟡 PreferencesScreen: Step 2 - updatePreferences dispatched successfully',
-      )
-      console.log(
-        '🟡 PreferencesScreen: Step 3 - About to dispatch completeOnboardingWithSignIn',
-      )
+      if (__DEV__) {
+        console.log(
+          '🟡 PreferencesScreen: Step 2 - updatePreferences dispatched successfully',
+        )
+        console.log(
+          '🟡 PreferencesScreen: Step 3 - About to dispatch completeOnboardingWithSignIn',
+        )
+      }
 
       // Use the combined action that handles everything
       await completeOnboardingWithSignIn()
 
-      console.log(
-        '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully',
-      )
-
-      console.log('🟢 PreferencesScreen: Step 5 - About to navigate to tabs')
+      if (__DEV__) {
+        console.log(
+          '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully',
+        )
+        console.log('🟢 PreferencesScreen: Step 5 - About to navigate to tabs')
+      }
 
       // Navigate to tabs after successful completion
       router.replace('/(tabs)')
 
-      console.log('🟢 PreferencesScreen: Step 6 - Navigation to tabs initiated')
+      if (__DEV__) {
+        console.log(
+          '🟢 PreferencesScreen: Step 6 - Navigation to tabs initiated',
+        )
+      }
     } catch (error) {
       console.error('🔴 PreferencesScreen: ERROR in handleComplete:', error)
       const err = error as Error
-      console.error('🔴 PreferencesScreen: Error details:', {
-        message: err?.message,
-        stack: err?.stack,
-        name: err?.name,
-        cause: (err as any)?.cause,
-      })
-
-      console.log('🔴 PreferencesScreen: Fallback - navigating to sign-in')
+      if (__DEV__) {
+        console.error('🔴 PreferencesScreen: Error details:', {
+          message: err?.message,
+          stack: err?.stack,
+          name: err?.name,
+          cause: (err as any)?.cause,
+        })
+        console.log('🔴 PreferencesScreen: Fallback - navigating to sign-in')
+      }
 
       // Fallback to sign-in on error
       router.replace('/(auth)/sign-in')
 
-      console.log('🔴 PreferencesScreen: Fallback navigation initiated')
+      if (__DEV__) {
+        console.log('🔴 PreferencesScreen: Fallback navigation initiated')
+      }
     }
   }
 
@@ -188,7 +212,7 @@ export default function PreferencesScreen() {
             className='h-full w-full rounded-full bg-primary-500'
           />
         </View>
-        <Text className='text-dark-400 mt-2 text-xs'>Step 3 of 3</Text>
+        <Text className='mt-2 text-xs text-text-tertiary'>Step 3 of 3</Text>
       </View>
 
       <ScrollView
@@ -199,13 +223,13 @@ export default function PreferencesScreen() {
       >
         {/* Title Section */}
         <Animated.View entering={FadeIn.delay(200)} className='mb-10'>
-          <Text className='mb-3 text-sm font-semibold uppercase text-primary-400'>
+          <Text className='mb-3 text-sm font-semibold uppercase text-brand-primary'>
             STEP 3 OF 3
           </Text>
-          <Text className='mb-3 text-3xl font-bold text-white'>
-            Almost there, {personalInfo.name}!
+          <Text className='mb-3 text-3xl font-bold text-text-primary'>
+            Almost there, {personalInfo?.name ?? 'there'}!
           </Text>
-          <Text className='text-dark-300 text-base leading-relaxed'>
+          <Text className='text-base leading-relaxed text-text-secondary'>
             Let's set up your workout preferences
           </Text>
         </Animated.View>
@@ -214,7 +238,7 @@ export default function PreferencesScreen() {
         <Animated.View entering={FadeIn.delay(400)} className='space-y-8'>
           {/* Preferred Workout Time */}
           <View className='space-y-4'>
-            <Text className='text-dark-200 mb-4 text-sm font-semibold uppercase tracking-wide'>
+            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-text-secondary'>
               Preferred Workout Time
             </Text>
             <View className='space-y-4'>
@@ -250,13 +274,13 @@ export default function PreferencesScreen() {
                       <Text
                         className={`font-semibold ${
                           workoutTime === option.value
-                            ? 'text-white'
-                            : 'text-dark-200'
+                            ? 'text-text-primary'
+                            : 'text-text-secondary'
                         }`}
                       >
                         {option.label}
                       </Text>
-                      <Text className='text-dark-400 text-sm'>
+                      <Text className='text-sm text-text-tertiary'>
                         {option.time}
                       </Text>
                     </View>
@@ -275,22 +299,22 @@ export default function PreferencesScreen() {
 
           {/* Notification Settings */}
           <View className='space-y-5'>
-            <Text className='text-dark-200 mb-2 text-sm font-semibold uppercase tracking-wide'>
+            <Text className='mb-2 text-sm font-semibold uppercase tracking-wide text-text-secondary'>
               Notification Settings
             </Text>
 
             {/* Push Notifications */}
-            <View className='border-dark-700 bg-dark-800 rounded-xl border p-4'>
+            <View className='rounded-xl border border-border-primary bg-surface-secondary p-4'>
               <View className='flex-row items-center justify-between'>
                 <View className='flex-1 flex-row items-center'>
-                  <View className='bg-dark-700 mr-3 h-10 w-10 items-center justify-center rounded-lg'>
+                  <View className='mr-3 h-10 w-10 items-center justify-center rounded-lg bg-surface-tertiary'>
                     <Ionicons name='notifications' size={20} color='#10B981' />
                   </View>
                   <View className='flex-1'>
-                    <Text className='font-medium text-white'>
+                    <Text className='font-medium text-text-primary'>
                       Push Notifications
                     </Text>
-                    <Text className='text-dark-400 text-sm'>
+                    <Text className='text-sm text-text-tertiary'>
                       Get updates about your workouts
                     </Text>
                   </View>
@@ -305,17 +329,17 @@ export default function PreferencesScreen() {
             </View>
 
             {/* Workout Reminders */}
-            <View className='border-dark-700 bg-dark-800 rounded-xl border p-4'>
+            <View className='rounded-xl border border-border-primary bg-surface-secondary p-4'>
               <View className='flex-row items-center justify-between'>
                 <View className='flex-1 flex-row items-center'>
-                  <View className='bg-dark-700 mr-3 h-10 w-10 items-center justify-center rounded-lg'>
+                  <View className='mr-3 h-10 w-10 items-center justify-center rounded-lg bg-surface-tertiary'>
                     <Ionicons name='alarm' size={20} color='#F97316' />
                   </View>
                   <View className='flex-1'>
-                    <Text className='font-medium text-white'>
+                    <Text className='font-medium text-text-primary'>
                       Workout Reminders
                     </Text>
-                    <Text className='text-dark-400 text-sm'>
+                    <Text className='text-sm text-text-tertiary'>
                       Daily reminders to stay on track
                     </Text>
                   </View>
@@ -339,10 +363,10 @@ export default function PreferencesScreen() {
               <View className='mb-4 h-16 w-16 items-center justify-center rounded-full bg-primary-500'>
                 <Ionicons name='trophy' size={32} color='white' />
               </View>
-              <Text className='mb-2 text-lg font-bold text-white'>
+              <Text className='mb-2 text-lg font-bold text-text-primary'>
                 You're All Set!
               </Text>
-              <Text className='text-dark-200 text-center text-sm'>
+              <Text className='text-center text-sm text-text-secondary'>
                 Your personalized fitness journey is ready. Let's make those
                 gains together!
               </Text>
@@ -355,11 +379,14 @@ export default function PreferencesScreen() {
 
       {/* Bottom Action Button */}
       <View className='border-dark-700 bg-dark-900 absolute bottom-0 left-0 right-0 border-t px-6 pb-10 pt-6'>
-        <AuthButton
-          title='Start Your Journey'
+        <Button
+          variant='solid'
+          action='primary'
           onPress={handleComplete}
-          rightIcon='rocket'
-        />
+          className='w-full'
+        >
+          <ButtonText>Start Your Journey</ButtonText>
+        </Button>
       </View>
     </KeyboardAvoidingView>
   )

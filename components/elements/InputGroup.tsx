@@ -2,11 +2,12 @@ import React, { forwardRef } from 'react'
 
 import { View } from 'react-native'
 
+import { Badge } from '@/components/ui/badge'
+import { Input, InputField } from '@/components/ui/input'
+import { Text } from '@/components/ui/text'
+import { VStack } from '@/components/ui/vstack'
+import { HStack } from '@/components/ui/hstack'
 import { cn } from '@/utils/cn'
-
-import { Badge } from '../atoms/Badge'
-import { Input } from '../atoms/Input'
-import { Text } from '../atoms/Text'
 
 const gapStyles = {
   sm: 'gap-2',
@@ -14,7 +15,7 @@ const gapStyles = {
   lg: 'gap-6',
 }
 
-export const InputGroup = forwardRef<TextInput, CustomInputGroupProps>(
+export const InputGroup = forwardRef<any, CustomInputGroupProps>(
   (
     {
       label,
@@ -31,38 +32,33 @@ export const InputGroup = forwardRef<TextInput, CustomInputGroupProps>(
     },
     ref,
   ) => {
-    const containerClass = cn(
-      'w-full',
-      orientation === 'horizontal' ? 'flex-row' : 'flex-col',
-      gapStyles[gap],
-      containerClassName,
-    )
+    const ContainerComponent = orientation === 'horizontal' ? HStack : VStack
 
     return (
-      <View className='w-full' {...props}>
-        {(label ?? badge) && (
-          <View className='mb-2 flex-row items-center justify-between'>
+      <VStack className='w-full' {...props}>
+        {(label || badge) && (
+          <HStack className='mb-2 items-center justify-between'>
             {label && (
-              <View className='flex-row items-center'>
-                <Text variant='label' color='gray'>
+              <HStack className='items-center'>
+                <Text size='sm' className='font-medium text-text-secondary'>
                   {label}
                 </Text>
                 {required && (
-                  <Text color='error' className='ml-1'>
-                    *
-                  </Text>
+                  <Text className='ml-1 text-semantic-error-default'>*</Text>
                 )}
-              </View>
+              </HStack>
             )}
             {badge && (
-              <Badge variant='primary' size='sm'>
-                {badge}
+              <Badge variant='solid' size='sm'>
+                <Text size='xs' className='text-white'>
+                  {badge}
+                </Text>
               </Badge>
             )}
-          </View>
+          </HStack>
         )}
 
-        <View className={containerClass}>
+        <ContainerComponent className={cn(gapStyles[gap], containerClassName)}>
           {inputs
             ? inputs.map((inputProps, index) => (
                 <View
@@ -70,27 +66,35 @@ export const InputGroup = forwardRef<TextInput, CustomInputGroupProps>(
                   className={orientation === 'horizontal' ? 'flex-1' : 'w-full'}
                 >
                   <Input
-                    ref={index === 0 ? ref : undefined}
-                    {...inputProps}
-                    error={index === 0 ? error : inputProps.error}
-                  />
+                    variant='outline'
+                    isInvalid={!!(index === 0 ? error : inputProps.error)}
+                  >
+                    <InputField
+                      {...(({ type, leftIcon, rightIcon, ...props }) => props)(inputProps)}
+                      keyboardType={
+                        inputProps.type === 'number' ? 'numeric' :
+                        inputProps.type === 'email' ? 'email-address' :
+                        inputProps.type === 'phone' ? 'phone-pad' : 'default'
+                      }
+                    />
+                  </Input>
                 </View>
               ))
             : children}
-        </View>
+        </ContainerComponent>
 
         {hint && !error && (
-          <Text variant='caption' color='gray' className='mt-2'>
+          <Text size='sm' className='mt-2 text-text-tertiary'>
             {hint}
           </Text>
         )}
 
         {error && (
-          <Text variant='caption' color='error' className='mt-2'>
+          <Text size='sm' className='mt-2 text-semantic-error-default'>
             {error}
           </Text>
         )}
-      </View>
+      </VStack>
     )
   },
 )

@@ -4,7 +4,7 @@ import { View, ActivityIndicator } from 'react-native'
 
 import { Redirect } from 'expo-router'
 
-import { Text } from '@/components/atoms'
+import { Text } from '@/components/ui/text'
 import { useAuthStore, useOnboardingStore } from '@/stores'
 
 /**

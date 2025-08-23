@@ -10,10 +10,6 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated'
 
-// PasswordStrengthIndicatorProps is globally available from /types/components.d.ts
-
-// PasswordRequirement is globally available from /types/components.d.ts
-
 const passwordRequirements: PasswordRequirement[] = [
   {
     id: 'length',

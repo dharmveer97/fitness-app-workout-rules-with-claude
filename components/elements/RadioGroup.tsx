@@ -4,10 +4,10 @@ import { View, TouchableOpacity } from 'react-native'
 
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
 
+import { Card } from '@/components/ui/card'
+import { Text } from '@/components/ui/text'
+import { VStack } from '@/components/ui/vstack'
 import { cn } from '@/utils/cn'
-
-import { Card } from '../atoms/Card'
-import { Text } from '../atoms/Text'
 
 export function RadioGroup<T = string>({
   label,
@@ -164,21 +164,24 @@ export function RadioGroup<T = string>({
           >
             <View className='flex-row items-start'>
               {renderRadioButton(option, isSelected, index)}
-              <View className='ml-3 flex-1'>
+              <VStack className='ml-3 flex-1'>
                 {option.icon && <View className='mb-2'>{option.icon}</View>}
                 <Text
-                  variant='body'
-                  weight={isSelected ? 'semibold' : 'regular'}
-                  color={isSelected ? 'white' : 'gray'}
+                  size='base'
+                  className={cn(
+                    isSelected
+                      ? 'font-semibold text-white'
+                      : 'font-normal text-text-secondary',
+                  )}
                 >
                   {option.label}
                 </Text>
                 {option.description && (
-                  <Text variant='caption' color='gray' className='mt-1'>
+                  <Text size='sm' className='mt-1 text-text-tertiary'>
                     {option.description}
                   </Text>
                 )}
-              </View>
+              </VStack>
             </View>
           </Card>
         </TouchableOpacity>
@@ -195,16 +198,17 @@ export function RadioGroup<T = string>({
             'rounded-xl border px-4 py-3',
             orientation === 'horizontal' ? 'mx-1 flex-1' : 'w-full',
             isSelected
-              ? 'border-primary-500 bg-primary-500'
-              : 'border-dark-700 bg-dark-800',
+              ? 'border-brand-primary bg-brand-primary'
+              : 'border-border-primary bg-surface-secondary',
             isDisabled && 'opacity-50',
           )}
         >
           <Text
-            variant='body'
-            weight='medium'
-            color={isSelected ? 'white' : 'gray'}
-            align='center'
+            size='base'
+            className={cn(
+              'text-center font-medium',
+              isSelected ? 'text-white' : 'text-text-secondary',
+            )}
           >
             {option.label}
           </Text>
@@ -225,16 +229,19 @@ export function RadioGroup<T = string>({
         )}
       >
         {renderRadioButton(option, isSelected, index)}
-        <View className='ml-3'>
-          <Text variant='body' color={isSelected ? 'white' : 'gray'}>
+        <VStack className='ml-3'>
+          <Text
+            size='base'
+            className={isSelected ? 'text-text-primary' : 'text-text-secondary'}
+          >
             {option.label}
           </Text>
           {option.description && (
-            <Text variant='caption' color='gray'>
+            <Text size='sm' className='text-text-tertiary'>
               {option.description}
             </Text>
           )}
-        </View>
+        </VStack>
       </TouchableOpacity>
     )
   }
@@ -242,7 +249,7 @@ export function RadioGroup<T = string>({
   return (
     <View className='w-full' {...props}>
       {label && (
-        <Text variant='label' color='gray' className='mb-3'>
+        <Text size='sm' className='mb-3 font-medium text-text-secondary'>
           {label}
         </Text>
       )}
@@ -252,7 +259,7 @@ export function RadioGroup<T = string>({
       </View>
 
       {error && (
-        <Text variant='caption' color='error' className='mt-2'>
+        <Text size='sm' className='mt-2 text-semantic-error-default'>
           {error}
         </Text>
       )}

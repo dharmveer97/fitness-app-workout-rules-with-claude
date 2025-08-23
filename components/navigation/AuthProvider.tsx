@@ -57,13 +57,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return
     }
 
-    console.log('AuthProvider navigation check:', {
-      currentPath,
-      isAuthenticated: authState.isAuthenticated,
-      hasCompletedOnboarding: authState.hasCompletedOnboarding,
-      inAuthGroup,
-      inTabsGroup,
-    })
+    if (__DEV__) {
+      console.log('AuthProvider navigation check:', {
+        currentPath,
+        isAuthenticated: authState.isAuthenticated,
+        hasCompletedOnboarding: authState.hasCompletedOnboarding,
+        inAuthGroup,
+        inTabsGroup,
+      })
+    }
 
     // Throttle navigation to prevent loops
     const timeoutId = setTimeout(() => {
@@ -76,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         !inTabsGroup &&
         currentPath !== ''
       ) {
-        console.log('Redirecting to onboarding')
+        if (__DEV__) console.log('Redirecting to onboarding')
         isNavigatingRef.current = true
         router.replace('/(auth)/onboarding')
         setTimeout(() => {
@@ -89,7 +91,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         !currentPath.includes('onboarding')
       ) {
         // User is authenticated and trying to access auth screens
-        console.log('Redirecting authenticated user to main app')
+        if (__DEV__) console.log('Redirecting authenticated user to main app')
         isNavigatingRef.current = true
         router.replace('/(tabs)/index')
         setTimeout(() => {
@@ -102,7 +104,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         !inTabsGroup
       ) {
         // User is not authenticated and trying to access protected screens
-        console.log('Redirecting unauthenticated user to sign-in')
+        if (__DEV__) console.log('Redirecting unauthenticated user to sign-in')
         isNavigatingRef.current = true
         router.replace('/(auth)/sign-in')
         setTimeout(() => {

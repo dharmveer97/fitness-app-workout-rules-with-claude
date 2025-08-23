@@ -2,7 +2,7 @@ import React from 'react'
 
 import { View, Text, ScrollView } from 'react-native'
 
-import { Button } from '@/components/atoms'
+import { Button, ButtonText } from '@/components/ui/button'
 import { useTheme, useThemeColors } from '@/components/theme'
 import {
   SettingsThemeToggle,
@@ -15,10 +15,10 @@ export function ThemeTestScreen() {
   const colors = useThemeColors()
 
   return (
-    <ScrollView className='bg-surface-primary flex-1 p-6'>
+    <ScrollView className='flex-1 bg-surface-primary p-6'>
       <View className='space-y-6'>
         {/* Theme Status */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Theme Status
           </Text>
@@ -35,7 +35,7 @@ export function ThemeTestScreen() {
         </View>
 
         {/* Theme Toggles */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Theme Controls
           </Text>
@@ -59,13 +59,13 @@ export function ThemeTestScreen() {
         </View>
 
         {/* Color Showcase */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Semantic Colors
           </Text>
 
           <View className='space-y-3'>
-            <View className='bg-surface-tertiary flex-row items-center justify-between rounded-lg p-3'>
+            <View className='flex-row items-center justify-between rounded-lg bg-surface-tertiary p-3'>
               <Text className='text-primary'>Primary Text</Text>
               <View
                 className='h-6 w-6 rounded'
@@ -73,7 +73,7 @@ export function ThemeTestScreen() {
               />
             </View>
 
-            <View className='bg-surface-tertiary flex-row items-center justify-between rounded-lg p-3'>
+            <View className='flex-row items-center justify-between rounded-lg bg-surface-tertiary p-3'>
               <Text className='text-secondary'>Secondary Text</Text>
               <View
                 className='h-6 w-6 rounded'
@@ -81,7 +81,7 @@ export function ThemeTestScreen() {
               />
             </View>
 
-            <View className='bg-surface-tertiary flex-row items-center justify-between rounded-lg p-3'>
+            <View className='flex-row items-center justify-between rounded-lg bg-surface-tertiary p-3'>
               <Text className='text-brand'>Brand Text</Text>
               <View
                 className='h-6 w-6 rounded'
@@ -92,43 +92,53 @@ export function ThemeTestScreen() {
         </View>
 
         {/* Interactive Elements */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Interactive Elements
           </Text>
 
           <View className='space-y-3'>
-            <Button variant='primary'>Primary Button</Button>
-            <Button variant='secondary'>Secondary Button</Button>
-            <Button variant='outline'>Outline Button</Button>
-            <Button variant='ghost'>Ghost Button</Button>
-            <Button variant='danger'>Danger Button</Button>
+            <Button variant='solid' action='primary'>
+              <ButtonText>Primary Button</ButtonText>
+            </Button>
+            <Button variant='solid' action='secondary'>
+              <ButtonText>Secondary Button</ButtonText>
+            </Button>
+            <Button variant='outline'>
+              <ButtonText>Outline Button</ButtonText>
+            </Button>
+            <Button variant='link'>
+              <ButtonText>Ghost Button</ButtonText>
+            </Button>
+            <Button variant='solid' action='negative'>
+              <ButtonText>Danger Button</ButtonText>
+            </Button>
           </View>
         </View>
 
         {/* Surface Colors */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Surface Colors
           </Text>
 
           <View className='space-y-3'>
-            <View className='border-secondary bg-surface-primary rounded-lg border p-4'>
+            <View className='border-secondary rounded-lg border bg-surface-primary p-4'>
               <Text className='text-primary'>Surface Primary</Text>
             </View>
 
-            <View className='border-secondary bg-surface-secondary rounded-lg border p-4'>
+            <View className='border-secondary rounded-lg border bg-surface-secondary p-4'>
               <Text className='text-primary'>Surface Secondary</Text>
             </View>
 
-            <View className='border-secondary bg-surface-tertiary rounded-lg border p-4'>
+            <View className='border-secondary rounded-lg border bg-surface-tertiary p-4'>
               <Text className='text-primary'>Surface Tertiary</Text>
             </View>
           </View>
         </View>
 
         {/* Semantic States */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Semantic States
           </Text>
@@ -157,7 +167,7 @@ export function ThemeTestScreen() {
         </View>
 
         {/* Fitness Activity Colors */}
-        <View className='border-primary bg-surface-secondary rounded-2xl border p-4'>
+        <View className='border-primary rounded-2xl border bg-surface-secondary p-4'>
           <Text className='text-primary mb-4 text-xl font-bold'>
             Fitness Activity Colors
           </Text>

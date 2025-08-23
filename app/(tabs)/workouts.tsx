@@ -9,9 +9,8 @@ import {
 } from 'react-native'
 
 import { FontAwesome } from '@expo/vector-icons'
-import Svg, { Circle } from 'react-native-svg'
 
-import { Text } from '@/components/atoms'
+import { Text } from '@/components/ui/text'
 
 // Types are now globally available from .d.ts files
 
@@ -242,39 +241,36 @@ export default function WorkoutsScreen() {
             <Text className='mb-4 text-xl font-bold text-white'>This Week</Text>
             <View className='flex-row items-center space-x-6'>
               <View className='items-center'>
-                <View className='relative h-16 w-16'>
-                  <Svg width={64} height={64}>
-                    <Circle
-                      cx={32}
-                      cy={32}
-                      r={28}
-                      stroke='#374151'
-                      strokeWidth={6}
-                      fill='none'
-                    />
-                    <Circle
-                      cx={32}
-                      cy={32}
-                      r={28}
-                      stroke='#10B981'
-                      strokeWidth={6}
-                      fill='none'
-                      strokeDasharray={176}
-                      strokeDashoffset={
-                        176 *
-                        (1 -
-                          weeklyStats.completedWorkouts /
-                            weeklyStats.goalWorkouts)
-                      }
-                      strokeLinecap='round'
-                      transform={'rotate(-90 32 32)'}
-                    />
-                  </Svg>
-                  <View className='absolute inset-0 items-center justify-center'>
-                    <Text className='text-lg font-bold text-white'>
-                      {weeklyStats.completedWorkouts}
-                    </Text>
-                  </View>
+                <View className='relative h-16 w-16 items-center justify-center rounded-full bg-gray-800'>
+                  <View
+                    className='absolute inset-0 rounded-full border-4 border-gray-700'
+                    style={{
+                      borderTopColor:
+                        weeklyStats.completedWorkouts >=
+                        weeklyStats.goalWorkouts
+                          ? '#10B981'
+                          : '#374151',
+                      borderRightColor:
+                        weeklyStats.completedWorkouts >=
+                        weeklyStats.goalWorkouts * 0.75
+                          ? '#10B981'
+                          : '#374151',
+                      borderBottomColor:
+                        weeklyStats.completedWorkouts >=
+                        weeklyStats.goalWorkouts * 0.5
+                          ? '#10B981'
+                          : '#374151',
+                      borderLeftColor:
+                        weeklyStats.completedWorkouts >=
+                        weeklyStats.goalWorkouts * 0.25
+                          ? '#10B981'
+                          : '#374151',
+                      transform: [{ rotate: '-90deg' }],
+                    }}
+                  />
+                  <Text className='text-lg font-bold text-white'>
+                    {weeklyStats.completedWorkouts}
+                  </Text>
                 </View>
                 <Text className='mt-2 text-sm text-gray-400'>Workouts</Text>
               </View>

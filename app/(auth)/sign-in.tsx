@@ -138,7 +138,7 @@ export default function SignInScreen() {
   }
 
   return (
-    <View className='bg-dark-900 flex-1'>
+    <View className='flex-1 bg-surface-primary'>
       <StatusBar style='light' />
 
       <KeyboardAvoidingView
@@ -154,16 +154,16 @@ export default function SignInScreen() {
           <View className='px-6 pb-8 pt-16'>
             <TouchableOpacity
               onPress={() => router.push('/(auth)/onboarding')}
-              className='bg-dark-700 mb-8 h-10 w-10 items-center justify-center rounded-xl'
+              className='mb-8 h-10 w-10 items-center justify-center rounded-xl border border-border-primary bg-surface-secondary'
             >
               <Ionicons name='arrow-back' size={20} color='#A1A1AA' />
             </TouchableOpacity>
 
             <View className='mb-8'>
-              <Text className='mb-2 text-3xl font-bold text-white'>
+              <Text className='mb-2 text-3xl font-bold text-text-primary'>
                 Welcome back
               </Text>
-              <Text className='text-dark-300 text-base'>
+              <Text className='text-base text-text-secondary'>
                 Sign in to your account to continue your fitness journey
               </Text>
             </View>
@@ -207,21 +207,23 @@ export default function SignInScreen() {
                   <View
                     className={`mr-3 h-5 w-5 items-center justify-center rounded-md border-2 ${
                       rememberMe
-                        ? 'border-primary-500 bg-primary-500'
-                        : 'border-dark-500'
+                        ? 'border-brand-primary bg-brand-primary'
+                        : 'border-border-primary'
                     }`}
                   >
                     {rememberMe && (
                       <Ionicons name='checkmark' size={12} color='white' />
                     )}
                   </View>
-                  <Text className='text-dark-300 text-sm'>Remember me</Text>
+                  <Text className='text-sm text-text-secondary'>
+                    Remember me
+                  </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => router.push('/(auth)/forgot-password')}
                 >
-                  <Text className='text-sm font-medium text-primary-400'>
+                  <Text className='text-sm font-medium text-brand-primary'>
                     Forgot Password?
                   </Text>
                 </TouchableOpacity>
@@ -249,13 +251,13 @@ export default function SignInScreen() {
 
               {/* Sign Up Link */}
               <View className='mb-8 mt-6 flex-row items-center justify-center'>
-                <Text className='text-dark-400 mr-2 text-base'>
+                <Text className='mr-2 text-base text-text-tertiary'>
                   Don't have an account?
                 </Text>
                 <TouchableOpacity
                   onPress={() => router.push('/(auth)/sign-up')}
                 >
-                  <Text className='text-base font-semibold text-primary-400'>
+                  <Text className='text-base font-semibold text-brand-primary'>
                     Sign Up
                   </Text>
                 </TouchableOpacity>

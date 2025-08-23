@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 
 import {
   View,
-  Text,
   TouchableOpacity,
   ScrollView,
   TextInput,
@@ -16,7 +15,8 @@ import { StatusBar } from 'expo-status-bar'
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
-import AuthButton from '@/components/auth/AuthButton'
+import { Button, ButtonText } from '@/components/ui/button'
+import { Text } from '@/components/ui/text'
 import { useOnboardingStore } from '@/stores'
 
 // Stable selectors to prevent infinite re-renders
@@ -122,7 +122,7 @@ export default function GoalsScreen() {
           onPress={handleSkip}
           className='bg-dark-700 rounded-full px-4 py-2'
         >
-          <Text className='text-dark-300 text-sm font-medium'>Skip</Text>
+          <Text className='text-sm font-medium text-text-tertiary'>Skip</Text>
         </TouchableOpacity>
       </View>
 
@@ -137,7 +137,7 @@ export default function GoalsScreen() {
             }}
           />
         </View>
-        <Text className='text-dark-400 mt-2 text-xs'>Step 2 of 3</Text>
+        <Text className='mt-2 text-xs text-text-tertiary'>Step 2 of 3</Text>
       </View>
 
       <ScrollView
@@ -148,13 +148,13 @@ export default function GoalsScreen() {
       >
         {/* Title Section */}
         <Animated.View entering={FadeIn.delay(200)} className='mb-10'>
-          <Text className='mb-3 text-sm font-semibold uppercase text-primary-400'>
+          <Text className='mb-3 text-sm font-semibold uppercase text-brand-primary'>
             STEP 2 OF 3
           </Text>
-          <Text className='mb-3 text-3xl font-bold text-white'>
+          <Text className='mb-3 text-3xl font-bold text-text-primary'>
             What's your main goal?
           </Text>
-          <Text className='text-dark-300 text-base leading-relaxed'>
+          <Text className='text-base leading-relaxed text-text-secondary'>
             We'll create a personalized plan to help you achieve it
           </Text>
         </Animated.View>
@@ -163,7 +163,7 @@ export default function GoalsScreen() {
         <Animated.View entering={FadeIn.delay(400)} className='space-y-8'>
           {/* Primary Goal Selection */}
           <View className='space-y-4'>
-            <Text className='text-dark-200 mb-4 text-sm font-semibold uppercase tracking-wide'>
+            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-text-secondary'>
               Primary Goal
             </Text>
             <View className='space-y-4'>
@@ -194,13 +194,13 @@ export default function GoalsScreen() {
                     <Text
                       className={`font-semibold ${
                         primaryGoal === option.value
-                          ? 'text-white'
-                          : 'text-dark-200'
+                          ? 'text-text-primary'
+                          : 'text-text-secondary'
                       }`}
                     >
                       {option.label}
                     </Text>
-                    <Text className='text-dark-400 text-sm'>
+                    <Text className='text-sm text-text-tertiary'>
                       {option.description}
                     </Text>
                   </View>
@@ -219,7 +219,7 @@ export default function GoalsScreen() {
           {/* Target Weight (Optional) */}
           {(primaryGoal === 'weight-loss' || primaryGoal === 'muscle-gain') && (
             <Animated.View entering={FadeIn.delay(200)}>
-              <Text className='text-dark-200 mb-2 text-sm font-medium'>
+              <Text className='mb-2 text-sm font-medium text-text-secondary'>
                 Target Weight (kg) - Optional
               </Text>
               <TextInput
@@ -235,7 +235,7 @@ export default function GoalsScreen() {
 
           {/* Workout Frequency */}
           <View className='space-y-4'>
-            <Text className='text-dark-200 mb-4 text-sm font-semibold uppercase tracking-wide'>
+            <Text className='mb-4 text-sm font-semibold uppercase tracking-wide text-text-secondary'>
               Workout Frequency
             </Text>
             <View className='bg-dark-800 rounded-xl p-2'>
@@ -253,8 +253,8 @@ export default function GoalsScreen() {
                     <Text
                       className={`text-center text-sm font-bold ${
                         parseInt(workoutFrequency) === day
-                          ? 'text-white'
-                          : 'text-dark-400'
+                          ? 'text-text-primary'
+                          : 'text-text-tertiary'
                       }`}
                     >
                       {day}
@@ -263,7 +263,7 @@ export default function GoalsScreen() {
                 ))}
               </View>
             </View>
-            <Text className='text-dark-400 mt-2 text-center text-xs'>
+            <Text className='mt-2 text-center text-xs text-text-tertiary'>
               {parseInt(workoutFrequency)} days per week
             </Text>
           </View>
@@ -277,11 +277,11 @@ export default function GoalsScreen() {
               <View className='mr-3 h-10 w-10 items-center justify-center rounded-full bg-primary-500/20'>
                 <Ionicons name='bulb' size={20} color='#10B981' />
               </View>
-              <Text className='text-sm font-semibold uppercase tracking-wide text-primary-400'>
+              <Text className='text-sm font-semibold uppercase tracking-wide text-brand-primary'>
                 Pro Tip
               </Text>
             </View>
-            <Text className='text-dark-200 mt-3 text-sm leading-relaxed'>
+            <Text className='mt-3 text-sm leading-relaxed text-text-secondary'>
               Starting with 3-4 days per week is perfect for building a
               sustainable routine. You can always increase frequency as you
               progress!
@@ -294,11 +294,14 @@ export default function GoalsScreen() {
 
       {/* Bottom Action Buttons */}
       <View className='border-dark-700 bg-dark-900 absolute bottom-0 left-0 right-0 border-t px-6 pb-10 pt-6'>
-        <AuthButton
-          title='Continue'
+        <Button
+          variant='solid'
+          action='primary'
           onPress={handleNext}
-          rightIcon='arrow-forward'
-        />
+          className='w-full'
+        >
+          <ButtonText>Continue</ButtonText>
+        </Button>
       </View>
     </KeyboardAvoidingView>
   )

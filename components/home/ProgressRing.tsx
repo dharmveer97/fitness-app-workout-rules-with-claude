@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
+
+import { Text } from '@/components/ui/text'
 
 import { FontAwesome } from '@expo/vector-icons'
 import Animated, {

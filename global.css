@@ -2,155 +2,391 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design System CSS Variables for Daily Deposits Fitness App */
+/* Professional Fitness App CSS Variables - Electric Blue Theme */
 :root {
-  /* Light theme variables */
+  /* Light theme variables - Professional fitness colors */
   --surface-primary: 255 255 255;
-  --surface-secondary: 248 250 252;
-  --surface-tertiary: 241 245 249;
-  --surface-overlay: 0 0 0 / 0.5;
-  --surface-glass: 255 255 255 / 0.1;
+  --surface-secondary: 250 251 252; /* Slightly warmer white */
+  --surface-tertiary: 244 246 248; /* Light gray surfaces */
+  --surface-quaternary: 232 236 240; /* Medium light gray */
+  --surface-overlay: 0 0 0 / 0.6; /* Stronger overlay */
+  --surface-glass: 255 255 255 / 0.15; /* Better glass effect */
+  --surface-elevated: 255 255 255; /* Cards and floating elements */
+  --surface-accent: 0 112 240 / 0.08; /* Subtle brand tint */
 
-  --text-primary: 15 23 42;
-  --text-secondary: 71 85 105;
-  --text-tertiary: 148 163 184;
+  --text-primary: 23 25 35; /* High contrast dark text */
+  --text-secondary: 74 85 104; /* Readable secondary text */
+  --text-tertiary: 103 119 136; /* Subtle but visible tertiary */
+  --text-quaternary: 154 165 177; /* Subtle text (better than disabled) */
   --text-inverse: 255 255 255;
-  --text-brand: 16 185 129;
+  --text-brand: 0 112 240; /* Electric blue brand text */
+  --text-accent: 255 87 34; /* Coral accent text */
+  --text-muted: 103 119 136;
+  --text-disabled: 154 165 177; /* Better visibility */
+  --text-placeholder: 154 165 177; /* Visible placeholder text */
+  --text-success: 6 214 160; /* Bright mint green */
+  --text-warning: 255 149 0; /* Vibrant orange */
+  --text-error: 255 59 48; /* iOS-style red */
 
-  --border-primary: 226 232 240;
-  --border-secondary: 241 245 249;
-  --border-focus: 16 185 129;
-  --border-error: 239 68 68;
+  --border-primary: 232 236 240;
+  --border-secondary: 244 246 248;
+  --border-tertiary: 250 251 252;
+  --border-strong: 209 217 224; /* Emphasized borders */
+  --border-focus: 0 112 240; /* Electric blue focus */
+  --border-interactive: 209 217 224;
+  --border-accent: 255 87 34;
+  --border-success: 6 214 160;
+  --border-warning: 255 149 0;
+  --border-error: 255 59 48;
+  --border-disabled: 232 236 240;
 
-  --interactive-primary: 16 185 129;
-  --interactive-primary-hover: 5 150 105;
-  --interactive-primary-active: 4 120 87;
-  --interactive-secondary: 241 245 249;
-  --interactive-secondary-hover: 226 232 240;
-  --interactive-ghost: transparent;
-  --interactive-ghost-hover: 241 245 249;
+  --interactive-primary: 0 112 240; /* Electric blue */
+  --interactive-primary-hover: 59 142 243; /* Lighter blue */
+  --interactive-primary-active: 0 86 204; /* Darker blue */
+  --interactive-primary-disabled: 154 165 177;
+  --interactive-primary-text: 255 255 255;
+  
+  --interactive-secondary: 244 246 248;
+  --interactive-secondary-hover: 232 236 240;
+  --interactive-secondary-active: 209 217 224;
+  --interactive-secondary-disabled: 250 251 252;
+  --interactive-secondary-text: 74 85 104;
+  
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: 250 251 252;
+  --interactive-tertiary-active: 244 246 248;
+  --interactive-tertiary-text: 0 112 240;
+  
+  --interactive-accent: 255 87 34; /* Coral accent */
+  --interactive-accent-hover: 255 112 67;
+  --interactive-accent-active: 216 67 21;
+  --interactive-accent-text: 255 255 255;
 
-  --semantic-success: 16 185 129;
-  --semantic-success-bg: 236 253 245;
-  --semantic-warning: 245 158 11;
-  --semantic-warning-bg: 255 251 235;
-  --semantic-error: 239 68 68;
-  --semantic-error-bg: 254 242 242;
-  --semantic-info: 59 130 246;
-  --semantic-info-bg: 239 246 255;
+  --semantic-success: 6 214 160; /* Bright mint green */
+  --semantic-success-bg: 240 253 249;
+  --semantic-success-dark: 0 166 125;
+  --semantic-success-contrast: 255 255 255;
+  
+  --semantic-warning: 255 149 0; /* Vibrant orange */
+  --semantic-warning-bg: 255 248 240;
+  --semantic-warning-dark: 230 130 14;
+  --semantic-warning-contrast: 255 255 255;
+  
+  --semantic-error: 255 59 48; /* iOS-style red */
+  --semantic-error-bg: 255 245 245;
+  --semantic-error-dark: 215 0 21;
+  --semantic-error-contrast: 255 255 255;
+  
+  --semantic-info: 0 122 255; /* iOS-style blue */
+  --semantic-info-bg: 240 248 255;
+  --semantic-info-dark: 0 86 204;
+  --semantic-info-contrast: 255 255 255;
+
+  /* Fitness activity colors */
+  --fitness-strength: 229 57 53;
+  --fitness-cardio: 255 87 34;
+  --fitness-yoga: 156 39 176;
+  --fitness-hiit: 255 152 0;
+  --fitness-running: 76 175 80;
+  --fitness-cycling: 0 188 212;
+  --fitness-swimming: 33 150 243;
+  --fitness-recovery: 121 85 72;
+  --fitness-calories: 255 107 53;
+  --fitness-heart-rate: 233 30 99;
+  --fitness-steps: 139 195 74;
+  --fitness-distance: 63 81 181;
+  --fitness-time: 96 125 139;
+  --fitness-achievement: 255 215 0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Dark theme variables */
-    --surface-primary: 10 10 11;
-    --surface-secondary: 24 24 27;
-    --surface-tertiary: 39 39 42;
-    --surface-overlay: 0 0 0 / 0.8;
-    --surface-glass: 255 255 255 / 0.05;
+    /* Dark theme variables - Professional fitness dark mode */
+    --surface-primary: 13 17 23; /* Professional dark (GitHub style) */
+    --surface-secondary: 22 27 34; /* Card backgrounds */
+    --surface-tertiary: 33 38 45; /* Elevated surfaces */
+    --surface-quaternary: 48 54 61; /* Light surfaces with strong contrast */
+    --surface-overlay: 0 0 0 / 0.85; /* Strong dark overlay */
+    --surface-glass: 255 255 255 / 0.08; /* Dark glass effect */
+    --surface-elevated: 22 27 34; /* Dark floating elements */
+    --surface-accent: 88 166 255 / 0.15; /* Dark brand tint */
 
-    --text-primary: 248 250 252;
-    --text-secondary: 203 213 225;
-    --text-tertiary: 100 116 139;
-    --text-inverse: 15 23 42;
-    --text-brand: 52 211 153;
+    --text-primary: 240 246 252; /* High contrast light text */
+    --text-secondary: 201 209 217; /* Readable secondary */
+    --text-tertiary: 139 148 158; /* Subtle but visible */
+    --text-quaternary: 110 118 129; /* Subtle text */
+    --text-inverse: 23 25 35;
+    --text-brand: 88 166 255; /* Bright blue for dark */
+    --text-accent: 255 112 67; /* Bright coral for dark */
+    --text-muted: 139 148 158;
+    --text-disabled: 110 118 129; /* Better disabled visibility */
+    --text-placeholder: 110 118 129;
+    --text-success: 124 227 139; /* Bright success for dark */
+    --text-warning: 242 204 96; /* Bright warning for dark */
+    --text-error: 255 123 114; /* Bright error for dark */
 
-    --border-primary: 55 65 81;
-    --border-secondary: 39 39 42;
-    --border-focus: 52 211 153;
-    --border-error: 248 113 113;
+    --border-primary: 48 54 61; /* Visible dark borders */
+    --border-secondary: 33 38 45; /* Subtle dark borders */
+    --border-tertiary: 22 27 34; /* Very subtle dividers */
+    --border-strong: 72 79 88; /* Emphasized dark borders */
+    --border-focus: 88 166 255; /* Bright focus for dark */
+    --border-interactive: 72 79 88;
+    --border-accent: 255 112 67;
+    --border-success: 124 227 139;
+    --border-warning: 242 204 96;
+    --border-error: 255 123 114;
+    --border-disabled: 48 54 61;
 
-    --interactive-primary: 16 185 129;
-    --interactive-primary-hover: 52 211 153;
-    --interactive-primary-active: 110 231 183;
-    --interactive-secondary: 39 39 42;
-    --interactive-secondary-hover: 55 65 81;
-    --interactive-ghost: transparent;
-    --interactive-ghost-hover: 39 39 42;
+    --interactive-primary: 31 111 235; /* Darker blue for dark backgrounds */
+    --interactive-primary-hover: 88 166 255; /* Brighter on hover */
+    --interactive-primary-active: 56 139 253; /* Brightest when pressed */
+    --interactive-primary-disabled: 72 79 88;
+    --interactive-primary-text: 13 17 23;
+    
+    --interactive-secondary: 33 38 45;
+    --interactive-secondary-hover: 48 54 61;
+    --interactive-secondary-active: 72 79 88;
+    --interactive-secondary-disabled: 22 27 34;
+    --interactive-secondary-text: 240 246 252;
+    
+    --interactive-tertiary: transparent;
+    --interactive-tertiary-hover: 22 27 34;
+    --interactive-tertiary-active: 33 38 45;
+    --interactive-tertiary-text: 88 166 255;
+    
+    --interactive-accent: 253 126 20; /* Bright coral for dark */
+    --interactive-accent-hover: 255 112 67;
+    --interactive-accent-active: 255 87 34;
+    --interactive-accent-text: 13 17 23;
 
-    --semantic-success: 52 211 153;
-    --semantic-success-bg: 6 78 59;
-    --semantic-warning: 251 191 36;
-    --semantic-warning-bg: 120 53 15;
-    --semantic-error: 248 113 113;
-    --semantic-error-bg: 127 29 29;
-    --semantic-info: 96 165 250;
-    --semantic-info-bg: 30 58 138;
+    --semantic-success: 124 227 139; /* Bright mint for dark */
+    --semantic-success-bg: 13 26 20; /* Very dark green background */
+    --semantic-success-dark: 162 242 180; /* Even brighter mint */
+    --semantic-success-contrast: 13 17 23;
+    
+    --semantic-warning: 242 204 96; /* Bright orange for dark */
+    --semantic-warning-bg: 26 18 6; /* Very dark orange background */
+    --semantic-warning-dark: 249 220 140; /* Even brighter orange */
+    --semantic-warning-contrast: 13 17 23;
+    
+    --semantic-error: 255 123 114; /* Bright red for dark */
+    --semantic-error-bg: 26 14 13; /* Very dark red background */
+    --semantic-error-dark: 255 161 152; /* Even brighter red */
+    --semantic-error-contrast: 13 17 23;
+    
+    --semantic-info: 88 166 255; /* Bright blue for dark */
+    --semantic-info-bg: 12 24 41; /* Very dark blue background */
+    --semantic-info-dark: 121 192 255; /* Even brighter blue */
+    --semantic-info-contrast: 13 17 23;
+
+    /* Fitness activity colors - bright variants for dark mode */
+    --fitness-strength: 255 138 128;
+    --fitness-cardio: 255 138 101;
+    --fitness-yoga: 206 147 216;
+    --fitness-hiit: 255 183 77;
+    --fitness-running: 129 199 132;
+    --fitness-cycling: 79 195 247;
+    --fitness-swimming: 100 181 246;
+    --fitness-recovery: 188 170 164;
+    --fitness-calories: 255 171 145;
+    --fitness-heart-rate: 244 143 177;
+    --fitness-steps: 197 225 165;
+    --fitness-distance: 159 168 218;
+    --fitness-time: 176 190 197;
+    --fitness-achievement: 255 224 130;
   }
 }
 
 /* Force dark mode variables when data-theme="dark" is set */
 [data-theme="dark"] {
-  --surface-primary: 10 10 11;
-  --surface-secondary: 24 24 27;
-  --surface-tertiary: 39 39 42;
-  --surface-overlay: 0 0 0 / 0.8;
-  --surface-glass: 255 255 255 / 0.05;
+  --surface-primary: 13 17 23;
+  --surface-secondary: 22 27 34;
+  --surface-tertiary: 33 38 45;
+  --surface-quaternary: 48 54 61;
+  --surface-overlay: 0 0 0 / 0.85;
+  --surface-glass: 255 255 255 / 0.08;
+  --surface-elevated: 22 27 34;
+  --surface-accent: 88 166 255 / 0.15;
 
-  --text-primary: 248 250 252;
-  --text-secondary: 203 213 225;
-  --text-tertiary: 100 116 139;
-  --text-inverse: 15 23 42;
-  --text-brand: 52 211 153;
+  --text-primary: 240 246 252;
+  --text-secondary: 201 209 217;
+  --text-tertiary: 139 148 158;
+  --text-quaternary: 110 118 129;
+  --text-inverse: 23 25 35;
+  --text-brand: 88 166 255;
+  --text-accent: 255 112 67;
+  --text-muted: 139 148 158;
+  --text-disabled: 110 118 129;
+  --text-placeholder: 110 118 129;
+  --text-success: 124 227 139;
+  --text-warning: 242 204 96;
+  --text-error: 255 123 114;
 
-  --border-primary: 55 65 81;
-  --border-secondary: 39 39 42;
-  --border-focus: 52 211 153;
-  --border-error: 248 113 113;
+  --border-primary: 48 54 61;
+  --border-secondary: 33 38 45;
+  --border-tertiary: 22 27 34;
+  --border-strong: 72 79 88;
+  --border-focus: 88 166 255;
+  --border-interactive: 72 79 88;
+  --border-accent: 255 112 67;
+  --border-success: 124 227 139;
+  --border-warning: 242 204 96;
+  --border-error: 255 123 114;
+  --border-disabled: 48 54 61;
 
-  --interactive-primary: 16 185 129;
-  --interactive-primary-hover: 52 211 153;
-  --interactive-primary-active: 110 231 183;
-  --interactive-secondary: 39 39 42;
-  --interactive-secondary-hover: 55 65 81;
-  --interactive-ghost: transparent;
-  --interactive-ghost-hover: 39 39 42;
+  --interactive-primary: 31 111 235;
+  --interactive-primary-hover: 88 166 255;
+  --interactive-primary-active: 56 139 253;
+  --interactive-primary-disabled: 72 79 88;
+  --interactive-primary-text: 13 17 23;
+  
+  --interactive-secondary: 33 38 45;
+  --interactive-secondary-hover: 48 54 61;
+  --interactive-secondary-active: 72 79 88;
+  --interactive-secondary-disabled: 22 27 34;
+  --interactive-secondary-text: 240 246 252;
+  
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: 22 27 34;
+  --interactive-tertiary-active: 33 38 45;
+  --interactive-tertiary-text: 88 166 255;
+  
+  --interactive-accent: 253 126 20;
+  --interactive-accent-hover: 255 112 67;
+  --interactive-accent-active: 255 87 34;
+  --interactive-accent-text: 13 17 23;
 
-  --semantic-success: 52 211 153;
-  --semantic-success-bg: 6 78 59;
-  --semantic-warning: 251 191 36;
-  --semantic-warning-bg: 120 53 15;
-  --semantic-error: 248 113 113;
-  --semantic-error-bg: 127 29 29;
-  --semantic-info: 96 165 250;
-  --semantic-info-bg: 30 58 138;
+  --semantic-success: 124 227 139;
+  --semantic-success-bg: 13 26 20;
+  --semantic-success-dark: 162 242 180;
+  --semantic-success-contrast: 13 17 23;
+  
+  --semantic-warning: 242 204 96;
+  --semantic-warning-bg: 26 18 6;
+  --semantic-warning-dark: 249 220 140;
+  --semantic-warning-contrast: 13 17 23;
+  
+  --semantic-error: 255 123 114;
+  --semantic-error-bg: 26 14 13;
+  --semantic-error-dark: 255 161 152;
+  --semantic-error-contrast: 13 17 23;
+  
+  --semantic-info: 88 166 255;
+  --semantic-info-bg: 12 24 41;
+  --semantic-info-dark: 121 192 255;
+  --semantic-info-contrast: 13 17 23;
+
+  /* Fitness colors for forced dark mode */
+  --fitness-strength: 255 138 128;
+  --fitness-cardio: 255 138 101;
+  --fitness-yoga: 206 147 216;
+  --fitness-hiit: 255 183 77;
+  --fitness-running: 129 199 132;
+  --fitness-cycling: 79 195 247;
+  --fitness-swimming: 100 181 246;
+  --fitness-recovery: 188 170 164;
+  --fitness-calories: 255 171 145;
+  --fitness-heart-rate: 244 143 177;
+  --fitness-steps: 197 225 165;
+  --fitness-distance: 159 168 218;
+  --fitness-time: 176 190 197;
+  --fitness-achievement: 255 224 130;
 }
 
 /* Force light mode variables when data-theme="light" is set */
 [data-theme="light"] {
   --surface-primary: 255 255 255;
-  --surface-secondary: 248 250 252;
-  --surface-tertiary: 241 245 249;
-  --surface-overlay: 0 0 0 / 0.5;
-  --surface-glass: 255 255 255 / 0.1;
+  --surface-secondary: 250 251 252;
+  --surface-tertiary: 244 246 248;
+  --surface-quaternary: 232 236 240;
+  --surface-overlay: 0 0 0 / 0.6;
+  --surface-glass: 255 255 255 / 0.15;
+  --surface-elevated: 255 255 255;
+  --surface-accent: 0 112 240 / 0.08;
 
-  --text-primary: 15 23 42;
-  --text-secondary: 71 85 105;
-  --text-tertiary: 148 163 184;
+  --text-primary: 23 25 35;
+  --text-secondary: 74 85 104;
+  --text-tertiary: 103 119 136;
+  --text-quaternary: 154 165 177;
   --text-inverse: 255 255 255;
-  --text-brand: 16 185 129;
+  --text-brand: 0 112 240;
+  --text-accent: 255 87 34;
+  --text-muted: 103 119 136;
+  --text-disabled: 154 165 177;
+  --text-placeholder: 154 165 177;
+  --text-success: 6 214 160;
+  --text-warning: 255 149 0;
+  --text-error: 255 59 48;
 
-  --border-primary: 226 232 240;
-  --border-secondary: 241 245 249;
-  --border-focus: 16 185 129;
-  --border-error: 239 68 68;
+  --border-primary: 232 236 240;
+  --border-secondary: 244 246 248;
+  --border-tertiary: 250 251 252;
+  --border-strong: 209 217 224;
+  --border-focus: 0 112 240;
+  --border-interactive: 209 217 224;
+  --border-accent: 255 87 34;
+  --border-success: 6 214 160;
+  --border-warning: 255 149 0;
+  --border-error: 255 59 48;
+  --border-disabled: 232 236 240;
 
-  --interactive-primary: 16 185 129;
-  --interactive-primary-hover: 5 150 105;
-  --interactive-primary-active: 4 120 87;
-  --interactive-secondary: 241 245 249;
-  --interactive-secondary-hover: 226 232 240;
-  --interactive-ghost: transparent;
-  --interactive-ghost-hover: 241 245 249;
+  --interactive-primary: 0 112 240;
+  --interactive-primary-hover: 59 142 243;
+  --interactive-primary-active: 0 86 204;
+  --interactive-primary-disabled: 154 165 177;
+  --interactive-primary-text: 255 255 255;
+  
+  --interactive-secondary: 244 246 248;
+  --interactive-secondary-hover: 232 236 240;
+  --interactive-secondary-active: 209 217 224;
+  --interactive-secondary-disabled: 250 251 252;
+  --interactive-secondary-text: 74 85 104;
+  
+  --interactive-tertiary: transparent;
+  --interactive-tertiary-hover: 250 251 252;
+  --interactive-tertiary-active: 244 246 248;
+  --interactive-tertiary-text: 0 112 240;
+  
+  --interactive-accent: 255 87 34;
+  --interactive-accent-hover: 255 112 67;
+  --interactive-accent-active: 216 67 21;
+  --interactive-accent-text: 255 255 255;
 
-  --semantic-success: 16 185 129;
-  --semantic-success-bg: 236 253 245;
-  --semantic-warning: 245 158 11;
-  --semantic-warning-bg: 255 251 235;
-  --semantic-error: 239 68 68;
-  --semantic-error-bg: 254 242 242;
-  --semantic-info: 59 130 246;
-  --semantic-info-bg: 239 246 255;
+  --semantic-success: 6 214 160;
+  --semantic-success-bg: 240 253 249;
+  --semantic-success-dark: 0 166 125;
+  --semantic-success-contrast: 255 255 255;
+  
+  --semantic-warning: 255 149 0;
+  --semantic-warning-bg: 255 248 240;
+  --semantic-warning-dark: 230 130 14;
+  --semantic-warning-contrast: 255 255 255;
+  
+  --semantic-error: 255 59 48;
+  --semantic-error-bg: 255 245 245;
+  --semantic-error-dark: 215 0 21;
+  --semantic-error-contrast: 255 255 255;
+  
+  --semantic-info: 0 122 255;
+  --semantic-info-bg: 240 248 255;
+  --semantic-info-dark: 0 86 204;
+  --semantic-info-contrast: 255 255 255;
+
+  /* Fitness colors for forced light mode */
+  --fitness-strength: 229 57 53;
+  --fitness-cardio: 255 87 34;
+  --fitness-yoga: 156 39 176;
+  --fitness-hiit: 255 152 0;
+  --fitness-running: 76 175 80;
+  --fitness-cycling: 0 188 212;
+  --fitness-swimming: 33 150 243;
+  --fitness-recovery: 121 85 72;
+  --fitness-calories: 255 107 53;
+  --fitness-heart-rate: 233 30 99;
+  --fitness-steps: 139 195 74;
+  --fitness-distance: 63 81 181;
+  --fitness-time: 96 125 139;
+  --fitness-achievement: 255 215 0;
 }
 
 /* Base styles with design system integration */

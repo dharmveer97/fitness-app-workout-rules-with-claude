@@ -11,7 +11,7 @@ import Animated, {
   interpolate,
 } from 'react-native-reanimated'
 
-import { Text } from '@/components/atoms'
+import { Text } from '@/components/ui/text'
 import { cn } from '@/utils/cn'
 
 import { useTheme } from './ThemeProvider'
@@ -116,7 +116,7 @@ export function ThemeToggle({
     return (
       <View
         className={cn(
-          'bg-surface-secondary flex-row rounded-lg p-1',
+          'flex-row rounded-lg bg-surface-secondary p-1',
           className,
         )}
       >
@@ -164,7 +164,7 @@ export function ThemeToggle({
       style={animatedStyle}
       onPress={handleThemeToggle}
       className={cn(
-        'border-primary bg-surface-secondary items-center justify-center rounded-full border',
+        'border-primary items-center justify-center rounded-full border bg-surface-secondary',
         buttonSize,
         className,
       )}

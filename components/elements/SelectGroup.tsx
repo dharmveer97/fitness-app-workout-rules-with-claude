@@ -5,10 +5,11 @@ import { View, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
+import { Badge } from '@/components/ui/badge'
+import { Text } from '@/components/ui/text'
+import { VStack } from '@/components/ui/vstack'
+import { HStack } from '@/components/ui/hstack'
 import { cn } from '@/utils/cn'
-
-import { Badge } from '../atoms/Badge'
-import { Text } from '../atoms/Text'
 
 export function SelectGroup<T = string>({
   label,
@@ -70,24 +71,26 @@ export function SelectGroup<T = string>({
         className={cn(
           'mb-2 mr-2 rounded-full border px-4 py-2',
           selected
-            ? 'border-primary-500 bg-primary-500'
-            : 'border-dark-700 bg-dark-800',
+            ? 'border-brand-primary bg-brand-primary'
+            : 'border-border-primary bg-surface-secondary',
           disabled && 'opacity-50',
         )}
       >
-        <View className='flex-row items-center'>
+        <HStack className='items-center'>
           {option.icon && (
             <Ionicons
               name={option.icon}
               size={16}
-              color={selected ? '#FFFFFF' : '#9CA3AF'}
+              color={selected ? '#FFFFFF' : '#677788'}
               style={{ marginRight: 6 }}
             />
           )}
           <Text
-            variant='caption'
-            weight='medium'
-            color={selected ? 'white' : 'gray'}
+            size='sm'
+            className={cn(
+              'font-medium',
+              selected ? 'text-white' : 'text-text-secondary',
+            )}
           >
             {option.label}
           </Text>
@@ -99,7 +102,7 @@ export function SelectGroup<T = string>({
               style={{ marginLeft: 6 }}
             />
           )}
-        </View>
+        </HStack>
       </TouchableOpacity>
     )
   }
@@ -118,56 +121,64 @@ export function SelectGroup<T = string>({
         className={cn(
           'mb-3 rounded-xl border p-4',
           selected
-            ? 'border-primary-500 bg-primary-500/20'
-            : 'border-dark-700 bg-dark-800',
+            ? 'border-brand-primary bg-surface-accent'
+            : 'border-border-primary bg-surface-secondary',
           disabled && 'opacity-50',
         )}
       >
-        <View className='flex-row items-start'>
+        <HStack className='items-start'>
           <View
             className={cn(
               'mr-3 h-12 w-12 items-center justify-center rounded-lg',
-              selected ? 'bg-primary-500' : 'bg-dark-700',
+              selected ? 'bg-brand-primary' : 'bg-surface-tertiary',
             )}
           >
             {option.icon && (
               <Ionicons
                 name={option.icon}
                 size={24}
-                color={selected ? '#FFFFFF' : '#9CA3AF'}
+                color={selected ? '#FFFFFF' : '#677788'}
               />
             )}
           </View>
-          <View className='flex-1'>
-            <View className='flex-row items-center justify-between'>
+          <VStack className='flex-1'>
+            <HStack className='items-center justify-between'>
               <Text
-                variant='body'
-                weight={selected ? 'semibold' : 'medium'}
-                color={selected ? 'white' : 'gray'}
+                size='base'
+                className={cn(
+                  selected
+                    ? 'font-semibold text-text-primary'
+                    : 'font-medium text-text-secondary',
+                )}
               >
                 {option.label}
               </Text>
               {option.badge && (
-                <Badge variant={selected ? 'primary' : 'default'} size='sm'>
-                  {option.badge}
+                <Badge variant={selected ? 'solid' : 'outline'} size='sm'>
+                  <Text
+                    size='xs'
+                    className={selected ? 'text-white' : 'text-text-secondary'}
+                  >
+                    {option.badge}
+                  </Text>
                 </Badge>
               )}
-            </View>
+            </HStack>
             {option.description && (
-              <Text variant='caption' color='gray' className='mt-1'>
+              <Text size='sm' className='mt-1 text-text-tertiary'>
                 {option.description}
               </Text>
             )}
-          </View>
+          </VStack>
           {selected && (
             <Ionicons
               name='checkmark-circle'
               size={20}
-              color='#10B981'
+              color='#06D6A0'
               style={{ marginLeft: 8 }}
             />
           )}
-        </View>
+        </HStack>
       </TouchableOpacity>
     )
   }
@@ -188,13 +199,18 @@ export function SelectGroup<T = string>({
         <View
           className={cn(
             'mr-3 h-5 w-5 items-center justify-center rounded border-2',
-            selected ? 'border-primary-500 bg-primary-500' : 'border-dark-600',
+            selected
+              ? 'border-brand-primary bg-brand-primary'
+              : 'border-border-primary',
             multiple ? 'rounded' : 'rounded-full',
           )}
         >
           {selected && <Ionicons name='checkmark' size={12} color='#FFFFFF' />}
         </View>
-        <Text variant='body' color={selected ? 'white' : 'gray'}>
+        <Text
+          size='base'
+          className={selected ? 'text-text-primary' : 'text-text-secondary'}
+        >
           {option.label}
         </Text>
       </TouchableOpacity>
@@ -215,35 +231,35 @@ export function SelectGroup<T = string>({
   }
 
   return (
-    <View className={cn('w-full', containerClassName)} {...props}>
+    <VStack className={cn('w-full', containerClassName)} {...props}>
       {label && (
-        <Text variant='label' color='gray' className='mb-3'>
+        <Text size='sm' className='mb-3 font-medium text-text-secondary'>
           {label}
         </Text>
       )}
 
       {hint && (
-        <Text variant='caption' color='gray' className='mb-2'>
+        <Text size='sm' className='mb-2 text-text-tertiary'>
           {hint}
         </Text>
       )}
 
       {(min > 0 || max) && (
-        <View className='mb-2 flex-row items-center'>
+        <HStack className='mb-2 items-center'>
           {min > 0 && (
-            <Badge variant='info' size='sm' className='mr-2'>
-              Min: {min}
+            <Badge variant='outline' size='sm' className='mr-2'>
+              <Text size='xs'>Min: {min}</Text>
             </Badge>
           )}
           {max && (
-            <Badge variant='info' size='sm'>
-              Max: {max}
+            <Badge variant='outline' size='sm'>
+              <Text size='xs'>Max: {max}</Text>
             </Badge>
           )}
-          <Text variant='caption' color='gray' className='ml-auto'>
+          <Text size='sm' className='ml-auto text-text-tertiary'>
             Selected: {selectedValues.length}
           </Text>
-        </View>
+        </HStack>
       )}
 
       <Animated.View entering={FadeIn.duration(300)}>
@@ -251,11 +267,11 @@ export function SelectGroup<T = string>({
       </Animated.View>
 
       {error && (
-        <Text variant='caption' color='error' className='mt-2'>
+        <Text size='sm' className='mt-2 text-semantic-error-default'>
           {error}
         </Text>
       )}
-    </View>
+    </VStack>
   )
 }
 
