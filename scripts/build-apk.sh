@@ -53,9 +53,12 @@ file_exists() {
     [ -f "$1" ]
 }
 
-# Get project directory (where this script is located)
+# Get project directory (parent of scripts folder)
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+cd "$PROJECT_DIR"
+
+print_step "Working directory: $PROJECT_DIR"
 
 print_header
 
@@ -105,9 +108,16 @@ if [ -d "$ANDROID_SDK_PATH" ]; then
     export ANDROID_HOME="$ANDROID_SDK_PATH"
     print_success "Android SDK found: $ANDROID_HOME"
 else
-    print_error "Android SDK not found at $ANDROID_SDK_PATH"
-    print_error "Please install Android Studio and SDK first."
-    exit 1
+    # Try alternative locations
+    ALT_SDK_PATH="/usr/local/lib/android/sdk"
+    if [ -d "$ALT_SDK_PATH" ]; then
+        export ANDROID_HOME="$ALT_SDK_PATH"
+        print_success "Android SDK found at alternative location: $ANDROID_HOME"
+    else
+        print_error "Android SDK not found at $ANDROID_SDK_PATH or $ALT_SDK_PATH"
+        print_error "Please install Android Studio and SDK first."
+        exit 1
+    fi
 fi
 
 # Check ADB
@@ -148,10 +158,10 @@ fi
 if ! grep -q "com.dharamveer.dailyfitnessapp" app.json; then
     print_warning "Android package not configured properly in app.json"
     print_step "Updating app.json configuration..."
-    
+
     # Backup original app.json
     cp app.json app.json.backup
-    
+
     # Update app.json (simplified version)
     node -e "
     const fs = require('fs');
@@ -180,6 +190,13 @@ print_step "Checking build requirements..."
 if dir_exists "android"; then
     print_success "Android project exists (skipping prebuild)"
     SKIP_PREBUILD=true
+
+    # Verify android directory has necessary files
+    if ! file_exists "android/gradlew" || ! file_exists "android/build.gradle"; then
+        print_warning "Android project incomplete, will rebuild"
+        rm -rf android ios
+        SKIP_PREBUILD=false
+    fi
 else
     print_step "Android project not found, will run prebuild"
     SKIP_PREBUILD=false
@@ -212,16 +229,26 @@ fi
 
 if [ "$SKIP_PREBUILD" = false ]; then
     print_step "Running expo prebuild..."
-    
+
     # Clean previous build if exists
     if dir_exists "android" || dir_exists "ios"; then
         rm -rf android ios
         print_success "Cleaned previous native builds"
     fi
-    
-    # Run prebuild
-    npx expo prebuild --clean --no-install
-    print_success "Prebuild completed"
+
+    # Check if expo CLI is available
+    if ! command_exists npx; then
+        print_error "npx not found. Please install Node.js properly."
+        exit 1
+    fi
+
+    # Run prebuild with better error handling
+    if npx expo prebuild --clean --platform android; then
+        print_success "Prebuild completed successfully"
+    else
+        print_error "Prebuild failed. Please check your Expo configuration."
+        exit 1
+    fi
 else
     print_success "Skipping prebuild (android directory exists)"
 fi
@@ -256,11 +283,16 @@ echo "This may take 5-10 minutes on first build..."
 
 cd android
 
-# Build the APK
-if ./gradlew assembleRelease; then
+# Build the APK with better error handling
+print_step "Starting Gradle build (this may take 5-10 minutes)..."
+if JAVA_HOME="$JAVA_HOME" ANDROID_HOME="$ANDROID_HOME" ./gradlew assembleRelease --no-daemon --info; then
     print_success "APK build completed successfully!"
 else
     print_error "APK build failed!"
+    print_error "Common fixes:"
+    print_error "1. Check Java version: java -version (should be 17)"
+    print_error "2. Check Android SDK path: $ANDROID_HOME"
+    print_error "3. Try: ./gradlew clean assembleRelease"
     exit 1
 fi
 
@@ -278,17 +310,17 @@ if file_exists "$BUILT_APK"; then
     # Copy to project root with descriptive name
     cp "$BUILT_APK" "$APK_PATH"
     print_success "APK copied to: $APK_PATH"
-    
+
     # Get APK info
     APK_SIZE=$(ls -lh "$APK_PATH" | awk '{print $5}')
     APK_TYPE=$(file "$APK_PATH" | cut -d: -f2)
-    
+
     print_success "APK verified: $APK_TYPE"
-    
+
     # ================================
     # SUCCESS SUMMARY
     # ================================
-    
+
     echo ""
     echo -e "${GREEN}🎉 BUILD COMPLETED SUCCESSFULLY! 🎉${NC}"
     echo "=================================="
@@ -305,7 +337,7 @@ if file_exists "$BUILT_APK"; then
     echo "5. Launch 'fitness' app from app drawer"
     echo ""
     echo -e "${GREEN}✅ Your Daily Deposits Fitness App is ready!${NC}"
-    
+
 else
     print_error "Built APK not found at expected location: $BUILT_APK"
     exit 1
@@ -321,14 +353,14 @@ read -r CLEANUP_CHOICE
 
 if [[ $CLEANUP_CHOICE == "y" || $CLEANUP_CHOICE == "Y" ]]; then
     print_step "Cleaning up build files..."
-    
+
     # Clean gradle build cache
     if dir_exists "android/app/build"; then
         rm -rf android/app/build/intermediates
         rm -rf android/app/build/tmp
         print_success "Cleaned gradle cache"
     fi
-    
+
     # Clean node modules if desired (optional)
     echo -n "Also clean node_modules? (saves ~500MB but requires reinstall) (y/n): "
     read -r CLEAN_MODULES
@@ -336,7 +368,7 @@ if [[ $CLEANUP_CHOICE == "y" || $CLEANUP_CHOICE == "Y" ]]; then
         rm -rf node_modules
         print_success "Cleaned node_modules (run 'npm install' to reinstall)"
     fi
-    
+
     print_success "Cleanup completed"
 fi
 
