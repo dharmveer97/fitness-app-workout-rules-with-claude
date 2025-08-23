@@ -19,8 +19,10 @@ import { toFormikValidationSchema } from 'zod-formik-adapter'
 import AuthButton from '@/components/auth/AuthButton'
 import AuthInput from '@/components/auth/AuthInput'
 import { SocialLoginGroup } from '@/components/auth/SocialLoginButton'
-import { loginSchema } from '@/schemas/auth'
+import { loginSchema, type LoginFormInfer } from '@/schemas/auth'
 import { useAuthStore } from '@/stores'
+
+type LoginFormType = LoginFormInfer
 
 export default function SignInScreen() {
   const signIn = useAuthStore((state) => state.signIn)
@@ -44,7 +46,7 @@ export default function SignInScreen() {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, 1500))
 
-        const currentDate = new Date().toISOString()
+        const currentDate = new Date()
         signIn({
           accessToken: 'demo-token',
           user: {
@@ -53,8 +55,8 @@ export default function SignInScreen() {
             email: values.email,
             avatar:
               'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150',
-            fitnessLevel: 'beginner',
-            unitSystem: 'metric',
+            fitnessLevel: 'beginner' as const,
+            unitSystem: 'metric' as const,
             joinDate: currentDate,
             createdAt: currentDate,
             updatedAt: currentDate,
@@ -76,7 +78,7 @@ export default function SignInScreen() {
                 shareWorkouts: true,
               },
             },
-          } as any,
+          },
         })
         router.replace('/(tabs)')
       } catch (error) {
@@ -95,7 +97,7 @@ export default function SignInScreen() {
       // Simulate social login
       await new Promise((resolve) => setTimeout(resolve, 2000))
 
-      const currentDate = new Date().toISOString()
+      const currentDate = new Date()
       signIn({
         accessToken: 'demo-social-token',
         user: {
@@ -104,8 +106,8 @@ export default function SignInScreen() {
           email: `user@${provider}.com`,
           avatar:
             'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
-          fitnessLevel: 'beginner',
-          unitSystem: 'metric',
+          fitnessLevel: 'beginner' as const,
+          unitSystem: 'metric' as const,
           joinDate: currentDate,
           createdAt: currentDate,
           updatedAt: currentDate,
@@ -127,7 +129,7 @@ export default function SignInScreen() {
               shareWorkouts: true,
             },
           },
-        } as any,
+        },
       })
       router.replace('/(tabs)')
     } catch (error) {

@@ -3,10 +3,10 @@ import React, { forwardRef } from 'react'
 import { View } from 'react-native'
 
 import { Badge } from '@/components/ui/badge'
+import { HStack } from '@/components/ui/hstack'
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
 import { VStack } from '@/components/ui/vstack'
-import { HStack } from '@/components/ui/hstack'
 import { cn } from '@/utils/cn'
 
 const gapStyles = {
@@ -16,22 +16,19 @@ const gapStyles = {
 }
 
 export const InputGroup = forwardRef<any, CustomInputGroupProps>(
-  (
-    {
-      label,
-      required,
-      error,
-      hint,
-      badge,
-      inputs,
-      orientation = 'vertical',
-      gap = 'md',
-      containerClassName = '',
-      children,
-      ...props
-    },
-    ref,
-  ) => {
+  ({
+    label,
+    required,
+    error,
+    hint,
+    badge,
+    inputs,
+    orientation = 'vertical',
+    gap = 'md',
+    containerClassName = '',
+    children,
+    ...props
+  }) => {
     const ContainerComponent = orientation === 'horizontal' ? HStack : VStack
 
     return (
@@ -70,11 +67,16 @@ export const InputGroup = forwardRef<any, CustomInputGroupProps>(
                     isInvalid={!!(index === 0 ? error : inputProps.error)}
                   >
                     <InputField
-                      {...(({ type, leftIcon, rightIcon, ...props }) => props)(inputProps)}
+                      {...(({ type, leftIcon, rightIcon, ...restProps }) =>
+                        restProps)(inputProps)}
                       keyboardType={
-                        inputProps.type === 'number' ? 'numeric' :
-                        inputProps.type === 'email' ? 'email-address' :
-                        inputProps.type === 'phone' ? 'phone-pad' : 'default'
+                        inputProps.type === 'number'
+                          ? 'numeric'
+                          : inputProps.type === 'email'
+                            ? 'email-address'
+                            : inputProps.type === 'phone'
+                              ? 'phone-pad'
+                              : 'default'
                       }
                     />
                   </Input>

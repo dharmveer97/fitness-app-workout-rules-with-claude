@@ -1,10 +1,4 @@
 export {
-  ThemeProvider,
-  useTheme,
-  useThemeColors,
-  useThemeToken,
-} from './ThemeProvider'
-export {
   ThemeToggle,
   HeaderThemeToggle,
   SettingsThemeToggle,

@@ -4,7 +4,7 @@
  * Electric blue theme with energetic accents
  */
 
-import { lightTheme, darkTheme, baseColors } from '../../theme/tokens'
+import { lightTheme, darkTheme } from '../../theme/tokens'
 
 // Create comprehensive Gluestack UI compatible theme configuration
 export const gluestackConfig = {

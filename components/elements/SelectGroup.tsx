@@ -6,9 +6,9 @@ import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn } from 'react-native-reanimated'
 
 import { Badge } from '@/components/ui/badge'
+import { HStack } from '@/components/ui/hstack'
 import { Text } from '@/components/ui/text'
 import { VStack } from '@/components/ui/vstack'
-import { HStack } from '@/components/ui/hstack'
 import { cn } from '@/utils/cn'
 
 export function SelectGroup<T = string>({

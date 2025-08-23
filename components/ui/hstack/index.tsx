@@ -1,8 +1,10 @@
 import React from 'react'
 
-import { View } from 'react-native'
+import { View, type ViewProps } from 'react-native'
 
 import { hstackStyle } from './styles'
+
+import type { VariantProps } from '@gluestack-ui/utils'
 
 type IHStackProps = ViewProps & VariantProps<typeof hstackStyle>
 

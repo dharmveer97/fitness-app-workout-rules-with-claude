@@ -40,10 +40,12 @@ export default function PreferencesScreen() {
   )
 
   if (__DEV__) {
-    console.log('🔵 PreferencesScreen: Current Zustand state:', {
-      preferences,
-      personalInfo,
-    })
+    if (__DEV__) {
+      console.log('🔵 PreferencesScreen: Current Zustand state:', {
+        preferences,
+        personalInfo,
+      })
+    }
   }
 
   const [workoutTime, setWorkoutTime] = useState<
@@ -55,11 +57,13 @@ export default function PreferencesScreen() {
   const [reminders, setReminders] = useState(preferences.reminders ?? true)
 
   if (__DEV__) {
-    console.log('🔵 PreferencesScreen: Local state initialized:', {
-      workoutTime,
-      notifications,
-      reminders,
-    })
+    if (__DEV__) {
+      console.log('🔵 PreferencesScreen: Local state initialized:', {
+        workoutTime,
+        notifications,
+        reminders,
+      })
+    }
   }
 
   // Add useEffect to track component lifecycle
@@ -68,7 +72,9 @@ export default function PreferencesScreen() {
 
     return () => {
       if (__DEV__) {
-        console.log('🔵 PreferencesScreen: Component unmounting or updating')
+        if (__DEV__) {
+          console.log('🔵 PreferencesScreen: Component unmounting or updating')
+        }
       }
     }
   })
@@ -76,28 +82,34 @@ export default function PreferencesScreen() {
   // Track Redux state changes
   React.useEffect(() => {
     if (__DEV__) {
-      console.log('🔵 PreferencesScreen: Redux state changed:', {
-        preferences,
-        personalInfo,
-      })
+      if (__DEV__) {
+        console.log('🔵 PreferencesScreen: Redux state changed:', {
+          preferences,
+          personalInfo,
+        })
+      }
     }
   }, [preferences, personalInfo])
 
   const handleComplete = async () => {
     if (__DEV__) {
-      console.log('🟡 PreferencesScreen: handleComplete started')
-      console.log('🟡 PreferencesScreen: Current form values:', {
-        workoutTime,
-        notifications,
-        reminders,
-      })
+      if (__DEV__) console.log('🟡 PreferencesScreen: handleComplete started')
+      if (__DEV__) {
+        console.log('🟡 PreferencesScreen: Current form values:', {
+          workoutTime,
+          notifications,
+          reminders,
+        })
+      }
     }
 
     try {
       if (__DEV__) {
-        console.log(
-          '🟡 PreferencesScreen: Step 1 - Dispatching updatePreferences',
-        )
+        if (__DEV__) {
+          console.log(
+            '🟡 PreferencesScreen: Step 1 - Dispatching updatePreferences',
+          )
+        }
       }
 
       // Update preferences in state
@@ -108,31 +120,43 @@ export default function PreferencesScreen() {
       })
 
       if (__DEV__) {
-        console.log(
-          '🟡 PreferencesScreen: Step 2 - updatePreferences dispatched successfully',
-        )
-        console.log(
-          '🟡 PreferencesScreen: Step 3 - About to dispatch completeOnboardingWithSignIn',
-        )
+        if (__DEV__) {
+          console.log(
+            '🟡 PreferencesScreen: Step 2 - updatePreferences dispatched successfully',
+          )
+        }
+        if (__DEV__) {
+          console.log(
+            '🟡 PreferencesScreen: Step 3 - About to dispatch completeOnboardingWithSignIn',
+          )
+        }
       }
 
       // Use the combined action that handles everything
       await completeOnboardingWithSignIn()
 
       if (__DEV__) {
-        console.log(
-          '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully',
-        )
-        console.log('🟢 PreferencesScreen: Step 5 - About to navigate to tabs')
+        if (__DEV__) {
+          console.log(
+            '🟢 PreferencesScreen: Step 4 - completeOnboardingWithSignIn completed successfully',
+          )
+        }
+        if (__DEV__) {
+          console.log(
+            '🟢 PreferencesScreen: Step 5 - About to navigate to tabs',
+          )
+        }
       }
 
       // Navigate to tabs after successful completion
       router.replace('/(tabs)')
 
       if (__DEV__) {
-        console.log(
-          '🟢 PreferencesScreen: Step 6 - Navigation to tabs initiated',
-        )
+        if (__DEV__) {
+          console.log(
+            '🟢 PreferencesScreen: Step 6 - Navigation to tabs initiated',
+          )
+        }
       }
     } catch (error) {
       console.error('🔴 PreferencesScreen: ERROR in handleComplete:', error)
@@ -144,14 +168,18 @@ export default function PreferencesScreen() {
           name: err?.name,
           cause: (err as any)?.cause,
         })
-        console.log('🔴 PreferencesScreen: Fallback - navigating to sign-in')
+        if (__DEV__) {
+          console.log('🔴 PreferencesScreen: Fallback - navigating to sign-in')
+        }
       }
 
       // Fallback to sign-in on error
       router.replace('/(auth)/sign-in')
 
       if (__DEV__) {
-        console.log('🔴 PreferencesScreen: Fallback navigation initiated')
+        if (__DEV__) {
+          console.log('🔴 PreferencesScreen: Fallback navigation initiated')
+        }
       }
     }
   }

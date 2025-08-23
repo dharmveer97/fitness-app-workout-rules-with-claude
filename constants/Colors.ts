@@ -56,7 +56,7 @@ export const Colors = {
   },
 }
 
-// Professional semantic color palette for fitness app
+// Professional semantic color palette for fitness app - GlueStack compatible
 export const semanticColors = {
   brand: brandColors,
   fitness: fitnessColors,
@@ -118,6 +118,38 @@ export const semanticColors = {
       interactive: '#484F58', // Interactive element borders
       focus: '#58A6FF', // Bright focus ring
       accent: '#FF7043', // Bright accent borders
+    },
+  },
+
+  // Interactive colors for GlueStack components
+  interactive: {
+    light: {
+      primary: {
+        default: brandColors.primary,
+        hover: brandColors.primaryLight,
+        pressed: brandColors.primaryDark,
+        disabled: '#9AA5B1',
+      },
+      accent: {
+        default: brandColors.accent,
+        hover: '#FF7043',
+        pressed: '#E64A19',
+        disabled: '#FFAB91',
+      },
+    },
+    dark: {
+      primary: {
+        default: '#58A6FF',
+        hover: '#79B8FF',
+        pressed: '#388BFD',
+        disabled: '#6E7681',
+      },
+      accent: {
+        default: '#FF7043',
+        hover: '#FF8A65',
+        pressed: '#FF5722',
+        disabled: '#FFAB91',
+      },
     },
   },
 

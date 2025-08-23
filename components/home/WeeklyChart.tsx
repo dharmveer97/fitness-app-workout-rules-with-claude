@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 
 import { View, Dimensions } from 'react-native'
 
-import { Text } from '@/components/ui/text'
-
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -19,6 +17,8 @@ import Svg, {
   LinearGradient,
   Stop,
 } from 'react-native-svg'
+
+import { Text } from '@/components/ui/text'
 // Types are now globally available from /types/components.d.ts
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect)

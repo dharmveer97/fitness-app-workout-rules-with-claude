@@ -1,9 +1,10 @@
 import React from 'react'
 
-import { View, ViewProps } from 'react-native'
-import type { VariantProps } from '@gluestack-ui/utils'
+import { View } from 'react-native'
 
 import { boxStyle } from './styles'
+
+import type { VariantProps } from '@gluestack-ui/utils'
 
 type IBoxProps = ViewProps &
   VariantProps<typeof boxStyle> & { className?: string }

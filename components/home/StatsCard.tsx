@@ -27,10 +27,22 @@ export default function StatsCard({
   delay = 0,
 }: StatsCardPropsExtended) {
   // Get theme-aware colors
-  const borderColor = useThemeColor({ light: '#E8ECF0', dark: '#30363D' }, 'text')
-  const successColor = useThemeColor({ light: '#06D6A0', dark: '#7CE38B' }, 'text')
-  const errorColor = useThemeColor({ light: '#FF3B30', dark: '#FF7B72' }, 'text')
-  const tertiaryColor = useThemeColor({ light: '#9AA5B1', dark: '#6E7681' }, 'text')
+  const borderColor = useThemeColor(
+    { light: '#E8ECF0', dark: '#30363D' },
+    'text',
+  )
+  const successColor = useThemeColor(
+    { light: '#06D6A0', dark: '#7CE38B' },
+    'text',
+  )
+  const errorColor = useThemeColor(
+    { light: '#FF3B30', dark: '#FF7B72' },
+    'text',
+  )
+  const tertiaryColor = useThemeColor(
+    { light: '#9AA5B1', dark: '#6E7681' },
+    'text',
+  )
   const primaryTextColor = useThemeColor({}, 'text')
   const scale = useSharedValue(0)
   const opacity = useSharedValue(0)
@@ -93,9 +105,9 @@ export default function StatsCard({
 
   return (
     <Animated.View style={cardAnimatedStyle}>
-      <View 
-        lightColor="#FAFBFC"
-        darkColor="#161B22"
+      <View
+        lightColor='#FAFBFC'
+        darkColor='#161B22'
         className='rounded-2xl border p-4'
         style={{ borderColor }}
       >
@@ -107,14 +119,14 @@ export default function StatsCard({
           disabled={!onPress}
           className='w-full'
         >
-          <View 
-            lightColor="transparent"
-            darkColor="transparent"
+          <View
+            lightColor='transparent'
+            darkColor='transparent'
             className='mb-3 flex-row items-center justify-between'
           >
             <View
-              lightColor="transparent"
-              darkColor="transparent"
+              lightColor='transparent'
+              darkColor='transparent'
               className='h-10 w-10 items-center justify-center rounded-xl'
               style={{ backgroundColor: `${color}20` }}
             >
@@ -122,9 +134,9 @@ export default function StatsCard({
             </View>
 
             {change !== undefined && (
-              <View 
-                lightColor="transparent"
-                darkColor="transparent"
+              <View
+                lightColor='transparent'
+                darkColor='transparent'
                 className='flex-row items-center space-x-1'
               >
                 <FontAwesome
@@ -142,22 +154,22 @@ export default function StatsCard({
             )}
           </View>
 
-          <View 
-            lightColor="transparent"
-            darkColor="transparent"
+          <View
+            lightColor='transparent'
+            darkColor='transparent'
             className='space-y-1'
           >
-            <Text 
+            <Text
               className='text-sm font-medium'
-              lightColor="#677788"
-              darkColor="#8B949E"
+              lightColor='#677788'
+              darkColor='#8B949E'
             >
               {title}
             </Text>
 
-            <View 
-              lightColor="transparent"
-              darkColor="transparent"
+            <View
+              lightColor='transparent'
+              darkColor='transparent'
               className='flex-row items-baseline space-x-1'
             >
               <Animated.Text
@@ -167,10 +179,10 @@ export default function StatsCard({
                 {formatValue()}
               </Animated.Text>
               {unit && (
-                <Text 
+                <Text
                   className='text-sm font-medium'
-                  lightColor="#677788"
-                  darkColor="#8B949E"
+                  lightColor='#677788'
+                  darkColor='#8B949E'
                 >
                   {unit}
                 </Text>
@@ -178,10 +190,10 @@ export default function StatsCard({
             </View>
 
             {changeLabel && (
-              <Text 
+              <Text
                 className='text-xs'
-                lightColor="#9AA5B1"
-                darkColor="#6E7681"
+                lightColor='#9AA5B1'
+                darkColor='#6E7681'
               >
                 {changeLabel}
               </Text>
@@ -190,8 +202,8 @@ export default function StatsCard({
 
           {/* Subtle gradient overlay */}
           <View
-            lightColor="transparent"
-            darkColor="transparent"
+            lightColor='transparent'
+            darkColor='transparent'
             className='absolute inset-0 rounded-2xl opacity-5'
             style={{
               backgroundColor: color,

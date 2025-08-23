@@ -48,7 +48,7 @@ export default function ResetPasswordScreen() {
 
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000))
-      console.log(values, 'values')
+      if (__DEV__) console.log(values, 'values')
       setResetComplete(true)
 
       // Success animation

@@ -53,11 +53,11 @@ export default function SignUpScreen() {
           name: values.name,
           email: values.email,
           avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&size=150&background=10B981&color=fff`,
-          fitnessLevel: 'beginner',
-          unitSystem: 'metric',
-          joinDate: new Date().toISOString(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          fitnessLevel: 'beginner' as const,
+          unitSystem: 'metric' as const,
+          joinDate: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
           goals: {
             dailySteps: 10000,
             dailyWater: 2500,
@@ -76,7 +76,7 @@ export default function SignUpScreen() {
               shareWorkouts: true,
             },
           },
-        } as any,
+        },
       })
       router.replace('/(tabs)')
     } catch (error) {
@@ -101,11 +101,11 @@ export default function SignUpScreen() {
           email: `user@${provider}.com`,
           avatar:
             'https://images.unsplash.com/photo-1494790108755-2616b612b790?q=80&w=150',
-          fitnessLevel: 'beginner',
-          unitSystem: 'metric',
-          joinDate: new Date().toISOString(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          fitnessLevel: 'beginner' as const,
+          unitSystem: 'metric' as const,
+          joinDate: new Date(),
+          createdAt: new Date(),
+          updatedAt: new Date(),
           goals: {
             dailySteps: 10000,
             dailyWater: 2500,
@@ -124,7 +124,7 @@ export default function SignUpScreen() {
               shareWorkouts: true,
             },
           },
-        } as any,
+        },
       })
       router.replace('/(tabs)')
     } catch (error) {

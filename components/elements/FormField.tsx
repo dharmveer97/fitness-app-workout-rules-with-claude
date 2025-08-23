@@ -6,30 +6,26 @@ import { Ionicons } from '@expo/vector-icons'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 import { Badge } from '@/components/ui/badge'
+import { HStack } from '@/components/ui/hstack'
 import { Input, InputField } from '@/components/ui/input'
 import { Text } from '@/components/ui/text'
-import { VStack } from '@/components/ui/vstack'
-import { HStack } from '@/components/ui/hstack'
 import { cn } from '@/utils/cn'
 
 export const FormField = forwardRef<TextInput, FormFieldProps>(
-  (
-    {
-      label,
-      required,
-      error,
-      success,
-      hint,
-      badge,
-      tooltip,
-      showTooltip = false,
-      onTooltipPress,
-      containerClassName = '',
-      animated = true,
-      ...inputProps
-    },
-    ref,
-  ) => {
+  ({
+    label,
+    required,
+    error,
+    success,
+    hint,
+    badge,
+    tooltip,
+    showTooltip = false,
+    onTooltipPress,
+    containerClassName = '',
+    animated = true,
+    ...inputProps
+  }) => {
     const [isTooltipVisible, setIsTooltipVisible] = React.useState(showTooltip)
 
     const handleTooltipPress = () => {
@@ -91,12 +87,18 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
         )}
 
         <Input variant='outline' isInvalid={!!error}>
-          <InputField 
-            {...(({ type, leftIcon, rightIcon, ...props }) => props)(inputProps)}
+          <InputField
+            {...(({ type, leftIcon, rightIcon, ...props }) => props)(
+              inputProps,
+            )}
             keyboardType={
-              inputProps.type === 'number' ? 'numeric' :
-              inputProps.type === 'email' ? 'email-address' :
-              inputProps.type === 'phone' ? 'phone-pad' : 'default'
+              inputProps.type === 'number'
+                ? 'numeric'
+                : inputProps.type === 'email'
+                  ? 'email-address'
+                  : inputProps.type === 'phone'
+                    ? 'phone-pad'
+                    : 'default'
             }
           />
         </Input>

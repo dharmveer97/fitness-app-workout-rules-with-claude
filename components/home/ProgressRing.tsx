@@ -2,8 +2,6 @@ import React, { useEffect } from 'react'
 
 import { View } from 'react-native'
 
-import { Text } from '@/components/ui/text'
-
 import { FontAwesome } from '@expo/vector-icons'
 import Animated, {
   useAnimatedProps,
@@ -13,6 +11,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg'
+
+import { Text } from '@/components/ui/text'
 // ProgressRingProps is globally available from /types/components.d.ts
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle)

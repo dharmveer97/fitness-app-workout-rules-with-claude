@@ -1,3 +1,8 @@
+/**
+ * GlueStack UI Provider with consolidated theming
+ * Uses our professional color system from constants/colors.ts
+ */
+
 import React, { useEffect } from 'react'
 
 import {
@@ -10,6 +15,8 @@ import {
 import { OverlayProvider } from '@gluestack-ui/core/overlay/creator'
 import { ToastProvider } from '@gluestack-ui/core/toast/creator'
 import { colorScheme as colorSchemeNW } from 'nativewind'
+
+import { semanticColors } from '@/constants/colors'
 
 import { config } from './config'
 
@@ -40,18 +47,24 @@ export function GluestackUIProvider({
     mode,
   )
 
+  // Sync with NativeWind
   useEffect(() => {
-    if (mode === 'system') {
-      colorSchemeNW.set(mode)
-    }
-  }, [colorScheme, mode])
+    colorSchemeNW.set(colorSchemeName)
+  }, [colorScheme, mode, colorSchemeName])
+
+  // Use our consolidated theme colors
+  const backgroundColor = semanticColors.surface[colorSchemeName].primary
 
   return (
     <View
       style={[
         config[colorSchemeName],
-
-        { flex: 1, height: '100%', width: '100%' },
+        {
+          flex: 1,
+          height: '100%',
+          width: '100%',
+          backgroundColor,
+        },
         props.style,
       ]}
     >

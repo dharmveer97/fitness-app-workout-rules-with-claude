@@ -76,7 +76,7 @@ export default function VerifyOTPScreen() {
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Show success message or handle resend logic
-      console.log('OTP resent to:', email)
+      if (__DEV__) console.log('OTP resent to:', email)
     } catch (error) {
       console.error('Resend OTP error:', error)
     }

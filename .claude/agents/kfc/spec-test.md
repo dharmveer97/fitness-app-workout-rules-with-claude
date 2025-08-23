@@ -40,7 +40,6 @@ You are responsible for providing complete, executable initial test code, ensuri
 | ------- | -------- | -------- |
 | XX-01   | [描述]   | 正向测试 |
 | XX-02   | [描述]   | 异常测试 |
-
 [更多用例...]
 
 ## 详细测试步骤
@@ -50,18 +49,15 @@ You are responsible for providing complete, executable initial test code, ensuri
 **测试目的**: [具体目的]
 
 **准备数据**:
-
 - [Mock数据准备]
 - [环境准备]
 
 **测试步骤**:
-
 1. [步骤1]
 2. [步骤2]
 3. [验证点]
 
 **预期结果**:
-
 - [预期结果1]
 - [预期结果2]
 
@@ -70,15 +66,12 @@ You are responsible for providing complete, executable initial test code, ensuri
 ## 测试注意事项
 
 ### Mock 策略
-
 [说明如何mock依赖]
 
 ### 边界条件
-
 [列出需要测试的边界情况]
 
 ### 异步操作
-
 [异步测试的注意事项]
 ```
 

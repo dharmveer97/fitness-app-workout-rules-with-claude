@@ -2,18 +2,21 @@ import React from 'react'
 
 import { View, ScrollView } from 'react-native'
 
-import { Text } from '@/components/ui/text'
-import { Button, ButtonText } from '@/components/ui/button'
-import { useTheme, useThemeColors } from '@/components/theme'
 import {
   SettingsThemeToggle,
   HeaderThemeToggle,
   QuickThemeSwitch,
 } from '@/components/theme/ThemeToggle'
+import { Button, ButtonText } from '@/components/ui/button'
+import { Text } from '@/components/ui/text'
+import { useColorScheme } from '@/components/useColorScheme'
+import { semanticColors } from '@/constants/colors'
+import { usePreferencesStore } from '@/stores'
 
 export function ThemeTestScreen() {
-  const { theme, resolvedTheme, isDark, isLight } = useTheme()
-  const colors = useThemeColors()
+  const colorScheme = useColorScheme()
+  const { theme } = usePreferencesStore()
+  const colors = semanticColors
 
   return (
     <ScrollView className='flex-1 bg-surface-primary p-6'>
@@ -25,15 +28,15 @@ export function ThemeTestScreen() {
           </Text>
           <Text className='text-secondary'>✅ Current Theme: {theme}</Text>
           <Text className='text-secondary'>
-            ✅ Resolved Theme: {resolvedTheme}
+            ✅ Resolved Theme: {colorScheme}
           </Text>
           <Text className='text-secondary'>
-            ✅ Is Dark: {isDark ? 'Yes' : 'No'}
+            ✅ Is Dark: {colorScheme === 'dark' ? 'Yes' : 'No'}
           </Text>
           <Text className='text-secondary'>
-            ✅ Is Light: {isLight ? 'Yes' : 'No'}
+            ✅ Is Light: {colorScheme === 'light' ? 'Yes' : 'No'}
           </Text>
-          <Text className='text-tertiary text-xs mt-2'>
+          <Text className='text-tertiary mt-2 text-xs'>
             Fixed: System theme detection, animation sync, theme switching bugs
           </Text>
         </View>
@@ -73,7 +76,7 @@ export function ThemeTestScreen() {
               <Text className='text-primary'>Primary Text</Text>
               <View
                 className='h-6 w-6 rounded'
-                style={{ backgroundColor: colors.textPrimary }}
+                style={{ backgroundColor: colors.text[colorScheme].primary }}
               />
             </View>
 
@@ -81,7 +84,7 @@ export function ThemeTestScreen() {
               <Text className='text-secondary'>Secondary Text</Text>
               <View
                 className='h-6 w-6 rounded'
-                style={{ backgroundColor: colors.textSecondary }}
+                style={{ backgroundColor: colors.text[colorScheme].secondary }}
               />
             </View>
 
@@ -89,7 +92,7 @@ export function ThemeTestScreen() {
               <Text className='text-brand'>Brand Text</Text>
               <View
                 className='h-6 w-6 rounded'
-                style={{ backgroundColor: colors.textBrand }}
+                style={{ backgroundColor: colors.text[colorScheme].brand }}
               />
             </View>
           </View>
