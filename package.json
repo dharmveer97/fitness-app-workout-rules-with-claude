@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -19,9 +19,9 @@
     "validate": "npm run type-check && npm run lint && npm run format:check",
     "clean": "rm -rf node_modules .expo dist build",
     "prebuild": "expo prebuild --clean",
-    "build:ios": "eas build --platform ios",
-    "build:android": "eas build --platform android",
-    "build:all": "eas build --platform all"
+    "build:android": "expo run:android --variant release",
+    "build:android:dev": "expo run:android",
+    "build:apk": "cd android && ./gradlew assembleRelease"
   },
   "jest": {
     "preset": "jest-expo"
