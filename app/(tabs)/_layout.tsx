@@ -46,6 +46,24 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name='calories'
+        options={{
+          title: 'Calories',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name='cutlery' color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='challenges'
+        options={{
+          title: 'Challenges',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name='trophy' color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name='profile'
         options={{
           title: 'Profile',

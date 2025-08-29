@@ -15,6 +15,7 @@ import { FontAwesome } from '@expo/vector-icons'
 import ActivityItem from '@/components/home/ActivityItem'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
+import DailyQuote from '@/components/home/DailyQuote'
 import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
 import { View, Text } from '@/components/Themed'
 import { useAuthStore } from '@/stores'
@@ -219,6 +220,11 @@ export default function HomeScreen() {
               </TouchableOpacity>
             </View>
           </View>
+
+          {/* Daily Quote */}
+          <DailyQuote 
+            onShare={(quote) => Alert.alert('Share Quote', `Share: "${quote.text}"`)}
+          />
 
           {/* Today's Stats Cards */}
           <View className='mb-8'>

@@ -8,6 +8,7 @@ export default function OnboardingLayout() {
         animation: 'slide_from_right',
       }}
     >
+      <Stack.Screen name='welcome' />
       <Stack.Screen name='index' />
       <Stack.Screen name='goals' />
       <Stack.Screen name='preferences' />
