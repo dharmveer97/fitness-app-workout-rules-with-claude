@@ -7,15 +7,16 @@ import {
   Alert,
 } from 'react-native'
 
+import { LinearGradient } from 'expo-linear-gradient'
 import { router } from 'expo-router'
 
 import { FontAwesome } from '@expo/vector-icons'
 
 // Import themed components for proper dark/light mode
 import ActivityItem from '@/components/home/ActivityItem'
+import DailyQuote from '@/components/home/DailyQuote'
 import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
-import DailyQuote from '@/components/home/DailyQuote'
 import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
 import { View, Text } from '@/components/Themed'
 import { useAuthStore } from '@/stores'
@@ -198,32 +199,48 @@ export default function HomeScreen() {
         className='flex-1'
       >
         <View className='px-6 py-4'>
-          {/* Header */}
-          <View className='mb-8 mt-4 flex-row items-center justify-between'>
-            <View className='flex-1'>
-              <Text className='text-secondary text-lg'>Good morning</Text>
-              <Text className='text-primary text-3xl font-bold'>
-                {user?.name ?? 'Athlete'}
-              </Text>
+          {/* Header with minimal border */}
+          <View className='mb-8 mt-4'>
+            <View className='flex-row items-center justify-between pb-6'>
+              <View className='flex-1'>
+                <Text className='text-secondary text-lg'>Good morning</Text>
+                <Text className='text-primary text-3xl font-bold'>
+                  {user?.name ?? 'Athlete'}
+                </Text>
+              </View>
+              <View className='flex-row items-center gap-3'>
+                <HeaderThemeToggle />
+                <TouchableOpacity
+                  onPress={() => router.push('/(tabs)/profile')}
+                  className='border-primary h-12 w-12 items-center justify-center rounded-full border bg-surface-secondary'
+                  style={{
+                    shadowColor: '#667eea',
+                    shadowOpacity: 0.2,
+                    shadowRadius: 6,
+                    elevation: 3,
+                  }}
+                >
+                  <FontAwesome
+                    name='user'
+                    size={20}
+                    color='rgb(var(--text-brand))'
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View className='flex-row items-center space-x-3'>
-              <HeaderThemeToggle />
-              <TouchableOpacity
-                onPress={() => router.push('/(tabs)/profile')}
-                className='border-primary h-12 w-12 items-center justify-center rounded-full border bg-surface-secondary'
-              >
-                <FontAwesome
-                  name='user'
-                  size={20}
-                  color='rgb(var(--text-brand))'
-                />
-              </TouchableOpacity>
-            </View>
+            <LinearGradient
+              colors={['#667eea', '#764ba2', '#f093fb']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ height: 1, borderRadius: 1 }}
+            />
           </View>
 
           {/* Daily Quote */}
-          <DailyQuote 
-            onShare={(quote) => Alert.alert('Share Quote', `Share: "${quote.text}"`)}
+          <DailyQuote
+            onShare={(quote) =>
+              Alert.alert('Share Quote', `Share: "${quote.text}"`)
+            }
           />
 
           {/* Today's Stats Cards */}

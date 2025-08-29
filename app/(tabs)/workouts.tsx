@@ -237,17 +237,17 @@ export default function WorkoutsScreen() {
                 week
               </Text>
             </View>
-            <TouchableOpacity className='h-12 w-12 items-center justify-center rounded-full border border-gray-800 bg-[#18181B]'>
+            <TouchableOpacity className='h-12 w-12 items-center justify-center rounded-full border border-surface-primary bg-surface-secondary shadow-sm'>
               <FontAwesome name='search' size={20} color='#10B981' />
             </TouchableOpacity>
           </View>
 
           {/* Weekly Progress */}
-          <View className='mb-8 rounded-2xl border border-gray-800/50 bg-[#18181B] p-6'>
+          <View className='mb-8 rounded-2xl border border-surface-primary bg-surface-secondary p-6 shadow-sm'>
             <Text className='mb-4 text-xl font-bold text-white'>This Week</Text>
-            <View className='flex-row items-center space-x-6'>
+            <View className='flex-row items-center gap-6'>
               <View className='items-center'>
-                <View className='relative mr-3 h-16 w-16 items-center justify-center rounded-full bg-gray-800'>
+                <View className='relative mr-3 h-16 w-16 items-center justify-center rounded-full border border-surface-primary bg-surface-primary'>
                   <View
                     className='absolute inset-0 rounded-full border-4 border-gray-700'
                     style={{
@@ -394,7 +394,7 @@ export default function WorkoutsScreen() {
             {recommendedWorkouts.map((workout) => (
               <View
                 key={workout.id}
-                className='mb-4 rounded-2xl border border-gray-800/50 bg-[#18181B] p-4'
+                className='mb-4 rounded-2xl border border-surface-primary bg-surface-secondary p-4 shadow-sm'
               >
                 <TouchableOpacity onPress={() => handleWorkoutPress(workout)}>
                   <View className='mb-3 flex-row items-center justify-between'>
@@ -408,8 +408,8 @@ export default function WorkoutsScreen() {
                       >
                         {workout.description}
                       </Text>
-                      <View className='flex-row items-center space-x-4'>
-                        <View className='flex-row items-center space-x-1'>
+                      <View className='flex-row items-center gap-4'>
+                        <View className='flex-row items-center gap-1'>
                           <FontAwesome
                             name='clock-o'
                             size={12}
@@ -419,14 +419,14 @@ export default function WorkoutsScreen() {
                             {workout.duration} min
                           </Text>
                         </View>
-                        <View className='flex-row items-center space-x-1'>
+                        <View className='flex-row items-center gap-1'>
                           <FontAwesome name='fire' size={12} color='#F97316' />
                           <Text className='text-xs text-gray-400'>
                             {workout.calories} cal
                           </Text>
                         </View>
                         <View
-                          className='flex-row items-center space-x-1 rounded-full px-2 py-1'
+                          className='flex-row items-center gap-1 rounded-full px-2 py-1'
                           style={{
                             backgroundColor: `${getDifficultyColor(workout.difficulty)}20`,
                           }}
@@ -460,7 +460,7 @@ export default function WorkoutsScreen() {
                       {workout.targetMuscleGroups.map((muscle, muscleIndex) => (
                         <View
                           key={muscleIndex}
-                          className='rounded-full bg-gray-800 px-2 py-1'
+                          className='rounded-full border border-surface-primary bg-surface-primary px-2 py-1'
                         >
                           <Text className='text-xs text-gray-300'>
                             {muscle}
@@ -481,36 +481,33 @@ export default function WorkoutsScreen() {
                 <Text className='text-2xl font-bold text-white'>
                   Recent Activity
                 </Text>
-                <Text className='text-sm text-gray-400 mt-1'>
+                <Text className='mt-1 text-sm text-gray-400'>
                   Your workout history
                 </Text>
               </View>
-              <TouchableOpacity className='bg-[#10B981]/10 px-4 py-2 rounded-full flex-row items-center'>
+              <TouchableOpacity className='flex-row items-center rounded-full bg-[#10B981]/10 px-4 py-2'>
                 <FontAwesome name='history' size={14} color='#10B981' />
-                <Text className='text-sm font-semibold text-[#10B981] ml-2'>
+                <Text className='ml-2 text-sm font-semibold text-[#10B981]'>
                   View All
                 </Text>
               </TouchableOpacity>
             </View>
-            <View className='space-y-4'>
-              {recentWorkouts.map((session, index) => (
-                <TouchableOpacity
-                  key={session.id}
-                  className='overflow-hidden'
-                >
-                  <View className='rounded-2xl bg-gradient-to-r from-[#10B981]/5 to-transparent border border-gray-800/30 p-1'>
-                    <View className='rounded-[15px] bg-[#18181B] p-5'>
-                      <View className='flex-row items-start justify-between mb-3'>
-                        <View className='flex-row items-center flex-1'>
+            <View className='gap-4'>
+              {recentWorkouts.map((session, _index) => (
+                <TouchableOpacity key={session.id} className='overflow-hidden'>
+                  <View className='rounded-2xl border border-surface-primary bg-surface-secondary p-1 shadow-sm'>
+                    <View className='rounded-[15px] bg-surface-secondary p-5'>
+                      <View className='mb-3 flex-row items-start justify-between'>
+                        <View className='flex-1 flex-row items-center'>
                           <View className='h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#10B981] to-[#059669] shadow-lg'>
                             <FontAwesome name='check' size={20} color='white' />
                           </View>
                           <View className='ml-4 flex-1'>
-                            <Text className='text-lg font-bold text-white mb-1'>
+                            <Text className='mb-1 text-lg font-bold text-white'>
                               {session.workout.name}
                             </Text>
                             <View className='flex-row items-center'>
-                              <View className='bg-[#10B981]/20 px-2 py-1 rounded-full mr-2'>
+                              <View className='mr-2 rounded-full bg-[#10B981]/20 px-2 py-1'>
                                 <Text className='text-xs font-semibold text-[#10B981]'>
                                   Completed
                                 </Text>
@@ -522,48 +519,72 @@ export default function WorkoutsScreen() {
                           </View>
                         </View>
                       </View>
-                      
-                      <View className='flex-row items-center justify-between bg-gray-900/50 rounded-xl p-3'>
-                        <View className='flex-row items-center flex-1'>
-                          <View className='flex-row items-center mr-6'>
-                            <View className='h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20 mr-2'>
-                              <FontAwesome name='clock-o' size={14} color='#3B82F6' />
+
+                      <View className='flex-row items-center justify-between rounded-xl border border-surface-primary bg-surface-primary p-4 shadow-sm'>
+                        <View className='flex-1'>
+                          <View className='flex-row justify-between'>
+                            <View className='flex-1 flex-row items-center'>
+                              <View className='mr-3 h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20'>
+                                <FontAwesome
+                                  name='clock-o'
+                                  size={16}
+                                  color='#3B82F6'
+                                />
+                              </View>
+                              <View>
+                                <Text className='text-xs font-medium text-gray-500'>
+                                  Duration
+                                </Text>
+                                <Text className='text-sm font-bold text-white'>
+                                  {session.actualDuration} min
+                                </Text>
+                              </View>
                             </View>
-                            <View>
-                              <Text className='text-xs text-gray-500'>Duration</Text>
-                              <Text className='text-sm font-bold text-white'>
-                                {session.actualDuration} min
-                              </Text>
+
+                            <View className='flex-1 flex-row items-center'>
+                              <View className='mr-3 h-10 w-10 items-center justify-center rounded-xl bg-orange-500/20'>
+                                <FontAwesome
+                                  name='fire'
+                                  size={16}
+                                  color='#F97316'
+                                />
+                              </View>
+                              <View>
+                                <Text className='text-xs font-medium text-gray-500'>
+                                  Calories
+                                </Text>
+                                <Text className='text-sm font-bold text-orange-400'>
+                                  {session.caloriesBurned}
+                                </Text>
+                              </View>
                             </View>
-                          </View>
-                          
-                          <View className='flex-row items-center mr-6'>
-                            <View className='h-8 w-8 items-center justify-center rounded-lg bg-orange-500/20 mr-2'>
-                              <FontAwesome name='fire' size={14} color='#F97316' />
-                            </View>
-                            <View>
-                              <Text className='text-xs text-gray-500'>Calories</Text>
-                              <Text className='text-sm font-bold text-orange-400'>
-                                {session.caloriesBurned}
-                              </Text>
-                            </View>
-                          </View>
-                          
-                          <View className='flex-row items-center'>
-                            <View className='h-8 w-8 items-center justify-center rounded-lg bg-purple-500/20 mr-2'>
-                              <FontAwesome name='line-chart' size={14} color='#8B5CF6' />
-                            </View>
-                            <View>
-                              <Text className='text-xs text-gray-500'>Intensity</Text>
-                              <Text className='text-sm font-bold text-purple-400'>
-                                High
-                              </Text>
+
+                            <View className='flex-1 flex-row items-center'>
+                              <View className='mr-3 h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20'>
+                                <FontAwesome
+                                  name='signal'
+                                  size={16}
+                                  color='#8B5CF6'
+                                />
+                              </View>
+                              <View>
+                                <Text className='text-xs font-medium text-gray-500'>
+                                  Intensity
+                                </Text>
+                                <Text className='text-sm font-bold text-purple-400'>
+                                  High
+                                </Text>
+                              </View>
                             </View>
                           </View>
                         </View>
-                        
-                        <View className='h-10 w-10 items-center justify-center rounded-full bg-gray-800'>
-                          <FontAwesome name='chevron-right' size={14} color='#10B981' />
+
+                        <View className='ml-4 h-12 w-12 items-center justify-center rounded-full border border-surface-primary bg-surface-primary'>
+                          <FontAwesome
+                            name='chevron-right'
+                            size={16}
+                            color='#10B981'
+                          />
                         </View>
                       </View>
                     </View>

@@ -1,14 +1,17 @@
 import React, { useState, useCallback } from 'react'
 
-import { Alert, RefreshControl } from 'react-native'
+import { Alert, RefreshControl, TouchableOpacity } from 'react-native'
+
+import { LinearGradient } from 'expo-linear-gradient'
+
+import { Ionicons } from '@expo/vector-icons'
 
 import GoalInput from '@/components/profile/GoalInput'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import SettingsItem from '@/components/profile/SettingsItem'
 import { SettingsThemeToggle } from '@/components/theme/ThemeToggle'
-import { Box } from '@/components/ui/box'
+import { View, Text } from '@/components/Themed'
 import { ScrollView } from '@/components/ui/scroll-view'
-import { Text } from '@/components/ui/text'
 import { useAuthStore } from '@/stores'
 
 // Types are now globally available from .d.ts files
@@ -157,7 +160,7 @@ export default function ProfileScreen() {
   }
 
   return (
-    <Box className='flex-1'>
+    <View className='flex-1'>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -169,19 +172,19 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
         className='flex-1'
       >
-        <Box className='px-6 py-4'>
+        <View className='px-6 py-4'>
           {/* Profile Header */}
-          <Box className='mb-8 mt-4'>
+          <View className='mb-8 mt-4'>
             <ProfileHeader
               profile={userProfile}
               onEditPress={handleEditProfile}
               onAvatarPress={handleChangeAvatar}
             />
-          </Box>
+          </View>
 
           {/* Goals Section */}
-          <Box className='mb-8'>
-            <Box className='border-primary rounded-2xl border p-1'>
+          <View className='mb-8'>
+            <View className='border-primary rounded-2xl border p-1'>
               <SettingsItem
                 icon='bullseye'
                 title='Daily Goals'
@@ -190,10 +193,10 @@ export default function ProfileScreen() {
                 color='#10B981'
                 onPress={() => setShowGoalsSection(!showGoalsSection)}
               />
-            </Box>
+            </View>
 
             {showGoalsSection && (
-              <Box className='mt-4'>
+              <View className='mt-4'>
                 <GoalInput
                   icon='footprint-o'
                   label='Daily Steps'
@@ -257,16 +260,16 @@ export default function ProfileScreen() {
                   delay={400}
                   suggestions={[3, 4, 5, 6, 7]}
                 />
-              </Box>
+              </View>
             )}
-          </Box>
+          </View>
 
           {/* Notifications Section */}
-          <Box className='mb-8'>
+          <View className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>
               Notifications
             </Text>
-            <Box className='space-y-1'>
+            <View className='gap-1'>
               <SettingsItem
                 icon='bell'
                 title='Workout Reminders'
@@ -305,13 +308,13 @@ export default function ProfileScreen() {
                 }
                 delay={200}
               />
-            </Box>
-          </Box>
+            </View>
+          </View>
 
           {/* Privacy Section */}
-          <Box className='mb-8'>
+          <View className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>Privacy</Text>
-            <Box className='space-y-1'>
+            <View className='gap-1'>
               <SettingsItem
                 icon='share'
                 title='Share Stats'
@@ -335,31 +338,174 @@ export default function ProfileScreen() {
                 }
                 delay={150}
               />
-            </Box>
-          </Box>
+            </View>
+          </View>
 
-          {/* Appearance Section */}
-          <Box className='mb-8'>
-            <Text className='text-primary mb-4 text-xl font-bold'>
-              Appearance
-            </Text>
-            <Box className='border-primary rounded-2xl border p-4'>
-              <Box className='mb-4'>
-                <Text className='text-primary mb-2 text-lg font-semibold'>
-                  Theme
+          {/* Enhanced Appearance Section */}
+          <View className='mb-8'>
+            <View className='mb-6 flex-row items-center justify-between'>
+              <View>
+                <Text className='text-primary text-2xl font-bold'>
+                  🎨 Appearance
                 </Text>
-                <Text className='text-secondary mb-4 text-sm'>
-                  Choose your preferred theme
+                <Text className='text-secondary mt-1 text-sm'>
+                  Customize your experience
                 </Text>
-                <SettingsThemeToggle />
-              </Box>
-            </Box>
-          </Box>
+              </View>
+              <TouchableOpacity className='rounded-2xl border border-surface-primary bg-surface-secondary p-3'>
+                <Ionicons
+                  name='color-palette'
+                  size={24}
+                  color='rgb(var(--text-brand))'
+                />
+              </TouchableOpacity>
+            </View>
+
+            <LinearGradient
+              colors={['#667eea', '#764ba2']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ borderRadius: 20, padding: 2, marginBottom: 16 }}
+            >
+              <View className='overflow-hidden rounded-[18px] bg-surface-secondary'>
+                <LinearGradient
+                  colors={['rgba(255,255,255,0.05)', 'transparent']}
+                  style={{ padding: 20 }}
+                >
+                  <View className='mb-6'>
+                    <Text className='mb-2 text-xl font-bold text-white'>
+                      Theme Settings
+                    </Text>
+                    <Text className='mb-6 text-sm text-white/70'>
+                      Choose your preferred visual style and colors
+                    </Text>
+
+                    <View className='rounded-2xl bg-black/20 p-4 backdrop-blur-sm'>
+                      <SettingsThemeToggle />
+                    </View>
+                  </View>
+
+                  {/* Color Scheme Preview */}
+                  <View className='rounded-2xl bg-black/20 p-4 backdrop-blur-sm'>
+                    <Text className='mb-4 font-semibold text-white'>
+                      Color Scheme Preview
+                    </Text>
+                    <View className='flex-row justify-between'>
+                      <View className='items-center'>
+                        <LinearGradient
+                          colors={['#3B82F6', '#2563EB']}
+                          style={{
+                            height: 48,
+                            width: 48,
+                            borderRadius: 16,
+                            marginBottom: 8,
+                          }}
+                        />
+                        <Text className='text-xs text-white/70'>Primary</Text>
+                      </View>
+                      <View className='items-center'>
+                        <LinearGradient
+                          colors={['#10B981', '#059669']}
+                          style={{
+                            height: 48,
+                            width: 48,
+                            borderRadius: 16,
+                            marginBottom: 8,
+                          }}
+                        />
+                        <Text className='text-xs text-white/70'>Success</Text>
+                      </View>
+                      <View className='items-center'>
+                        <LinearGradient
+                          colors={['#F97316', '#EA580C']}
+                          style={{
+                            height: 48,
+                            width: 48,
+                            borderRadius: 16,
+                            marginBottom: 8,
+                          }}
+                        />
+                        <Text className='text-xs text-white/70'>Warning</Text>
+                      </View>
+                      <View className='items-center'>
+                        <LinearGradient
+                          colors={['#EF4444', '#DC2626']}
+                          style={{
+                            height: 48,
+                            width: 48,
+                            borderRadius: 16,
+                            marginBottom: 8,
+                          }}
+                        />
+                        <Text className='text-xs text-white/70'>Danger</Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* UI Density */}
+                  <View className='mt-4 rounded-2xl bg-black/20 p-4 backdrop-blur-sm'>
+                    <Text className='mb-3 font-semibold text-white'>
+                      Interface Density
+                    </Text>
+                    <View className='flex-row gap-2'>
+                      {['Compact', 'Standard', 'Comfortable'].map((density) => (
+                        <TouchableOpacity
+                          key={density}
+                          className={`flex-1 rounded-xl px-4 py-3 ${
+                            density === 'Standard'
+                              ? 'bg-white/20'
+                              : 'bg-white/10'
+                          }`}
+                        >
+                          <Text
+                            className={`text-center font-semibold ${
+                              density === 'Standard'
+                                ? 'text-white'
+                                : 'text-white/70'
+                            }`}
+                          >
+                            {density}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  </View>
+
+                  {/* Accessibility */}
+                  <View className='mt-4 rounded-2xl bg-black/20 p-4 backdrop-blur-sm'>
+                    <Text className='mb-3 font-semibold text-white'>
+                      Accessibility
+                    </Text>
+                    <View className='gap-3'>
+                      <View className='flex-row items-center justify-between'>
+                        <Text className='text-white/90'>Large Text</Text>
+                        <View className='h-6 w-11 rounded-full bg-white/20 p-1'>
+                          <View className='h-4 w-4 rounded-full bg-white' />
+                        </View>
+                      </View>
+                      <View className='flex-row items-center justify-between'>
+                        <Text className='text-white/90'>High Contrast</Text>
+                        <View className='h-6 w-11 rounded-full bg-white/10 p-1'>
+                          <View className='h-4 w-4 rounded-full bg-white/40' />
+                        </View>
+                      </View>
+                      <View className='flex-row items-center justify-between'>
+                        <Text className='text-white/90'>Reduce Motion</Text>
+                        <View className='h-6 w-11 rounded-full bg-white/10 p-1'>
+                          <View className='h-4 w-4 rounded-full bg-white/40' />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </LinearGradient>
+              </View>
+            </LinearGradient>
+          </View>
 
           {/* General Settings */}
-          <Box className='mb-8'>
+          <View className='mb-8'>
             <Text className='text-primary mb-4 text-xl font-bold'>General</Text>
-            <Box className='space-y-1'>
+            <View className='gap-1'>
               <SettingsItem
                 icon='user'
                 title='Account Settings'
@@ -404,11 +550,11 @@ export default function ProfileScreen() {
                 onPress={handleAbout}
                 delay={250}
               />
-            </Box>
-          </Box>
+            </View>
+          </View>
 
           {/* Sign Out */}
-          <Box className='mb-8'>
+          <View className='mb-8'>
             <SettingsItem
               icon='sign-out'
               title='Sign Out'
@@ -418,12 +564,12 @@ export default function ProfileScreen() {
               onPress={handleSignOut}
               destructive
             />
-          </Box>
+          </View>
 
           {/* Footer spacing */}
-          <Box className='h-8' />
-        </Box>
+          <View className='h-8' />
+        </View>
       </ScrollView>
-    </Box>
+    </View>
   )
 }
