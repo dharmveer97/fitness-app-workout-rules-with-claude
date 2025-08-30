@@ -19,6 +19,8 @@ import QuickActionButton from '@/components/home/QuickActionButton'
 import StatsCard from '@/components/home/StatsCard'
 import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
 import { View, Text } from '@/components/Themed'
+import { useColorScheme } from '@/components/useColorScheme'
+import { semanticColors } from '@/constants/colors'
 import { useAuthStore } from '@/stores'
 
 const selectUser = (state: any) => state.user
@@ -27,6 +29,7 @@ const selectAccessToken = (state: any) => state.accessToken
 export default function HomeScreen() {
   const user = useAuthStore(selectUser)
   const accessToken = useAuthStore(selectAccessToken)
+  const colorScheme = useColorScheme()
 
   const isAuthenticated = Boolean(accessToken)
   const [refreshing, setRefreshing] = useState(false)
@@ -192,7 +195,7 @@ export default function HomeScreen() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor='rgb(var(--text-brand))'
+            tintColor={semanticColors.brand.primary}
           />
         }
         showsVerticalScrollIndicator={false}
@@ -214,8 +217,8 @@ export default function HomeScreen() {
                   onPress={() => router.push('/(tabs)/profile')}
                   className='border-primary h-12 w-12 items-center justify-center rounded-full border bg-surface-secondary'
                   style={{
-                    shadowColor: '#667eea',
-                    shadowOpacity: 0.2,
+                    shadowColor: colorScheme === 'dark' ? '#58A6FF' : '#667eea',
+                    shadowOpacity: colorScheme === 'dark' ? 0.3 : 0.2,
                     shadowRadius: 6,
                     elevation: 3,
                   }}
@@ -223,13 +226,21 @@ export default function HomeScreen() {
                   <FontAwesome
                     name='user'
                     size={20}
-                    color='rgb(var(--text-brand))'
+                    color={
+                      colorScheme === 'dark'
+                        ? '#58A6FF'
+                        : semanticColors.brand.primary
+                    }
                   />
                 </TouchableOpacity>
               </View>
             </View>
             <LinearGradient
-              colors={['#667eea', '#764ba2', '#f093fb']}
+              colors={
+                colorScheme === 'dark'
+                  ? ['#58A6FF', '#764ba2', '#f093fb']
+                  : ['#667eea', '#764ba2', '#f093fb']
+              }
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={{ height: 1, borderRadius: 1 }}
@@ -274,7 +285,9 @@ export default function HomeScreen() {
                       key={goal.label}
                       className={`items-center ${index !== dailyGoals.length - 1 ? 'mr-8' : ''}`}
                     >
-                      <View className='relative h-20 w-20 items-center justify-center rounded-full bg-gray-800'>
+                      <View
+                        className={`relative h-20 w-20 items-center justify-center rounded-full ${colorScheme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'}`}
+                      >
                         <View
                           className='absolute inset-1 rounded-full border-4'
                           style={{
@@ -282,29 +295,42 @@ export default function HomeScreen() {
                             borderTopColor:
                               goal.value >= goal.maxValue
                                 ? goal.color
-                                : '#374151',
+                                : colorScheme === 'dark'
+                                  ? '#374151'
+                                  : '#E5E7EB',
                             borderRightColor:
                               goal.value >= goal.maxValue * 0.75
                                 ? goal.color
-                                : '#374151',
+                                : colorScheme === 'dark'
+                                  ? '#374151'
+                                  : '#E5E7EB',
                             borderBottomColor:
                               goal.value >= goal.maxValue * 0.5
                                 ? goal.color
-                                : '#374151',
+                                : colorScheme === 'dark'
+                                  ? '#374151'
+                                  : '#E5E7EB',
+
                             borderLeftColor:
                               goal.value >= goal.maxValue * 0.25
                                 ? goal.color
-                                : '#374151',
+                                : colorScheme === 'dark'
+                                  ? '#374151'
+                                  : '#E5E7EB',
                             transform: [{ rotate: '-90deg' }],
                           }}
                         />
-                        <Text className='text-sm font-bold text-white'>
+                        <Text
+                          className={`text-sm font-bold ${colorScheme === 'dark' ? 'text-white' : 'text-gray-900'}`}
+                        >
                           {typeof goal.value === 'number' && goal.value < 10
                             ? goal.value.toFixed(1)
                             : Math.round(goal.value)}
                         </Text>
                       </View>
-                      <Text className='mt-2 text-xs text-gray-400'>
+                      <Text
+                        className={`mt-2 text-xs ${colorScheme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}
+                      >
                         {goal.label}
                       </Text>
                     </View>
