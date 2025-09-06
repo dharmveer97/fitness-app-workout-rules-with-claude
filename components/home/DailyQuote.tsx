@@ -253,7 +253,10 @@ export default function DailyQuote({ onShare }: DailyQuoteProps) {
 
             {/* Action Buttons */}
             <View className='flex-row items-center justify-center'>
-              <View className='flex-row rounded-2xl bg-white/10 p-2 backdrop-blur-sm' style={{ gap: 8 }}>
+              <View
+                className='flex-row rounded-2xl bg-white/10 p-2 backdrop-blur-sm'
+                style={{ gap: 8 }}
+              >
                 <TouchableOpacity
                   onPress={handleBookmark}
                   className='rounded-xl bg-white/10 p-3'
@@ -306,9 +309,7 @@ export default function DailyQuote({ onShare }: DailyQuoteProps) {
                 >
                   <View className='flex-row items-center' style={{ gap: 6 }}>
                     <Ionicons name='library-outline' size={18} color='white' />
-                    <Text className='text-xs font-bold text-white'>
-                      SAVE
-                    </Text>
+                    <Text className='text-xs font-bold text-white'>SAVE</Text>
                   </View>
                 </TouchableOpacity>
               </View>

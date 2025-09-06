@@ -357,7 +357,7 @@ export default function ChallengesScreen() {
               </View>
 
               {/* Stats Row */}
-              <View className='flex-row gap-2 justify-between'>
+              <View className='flex-row justify-between gap-2'>
                 <View className='flex-1 flex-row items-center rounded-xl bg-surface-primary px-3 py-2'>
                   <View className='mr-2 h-8 w-8 items-center justify-center rounded-lg bg-blue-500/20'>
                     <Ionicons name='time-outline' size={16} color='#3B82F6' />

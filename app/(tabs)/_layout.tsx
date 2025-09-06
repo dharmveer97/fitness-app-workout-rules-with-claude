@@ -8,7 +8,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome'
 
 import { useClientOnlyValue } from '@/components/useClientOnlyValue'
 import { useColorScheme } from '@/components/useColorScheme'
-import { Colors } from '@/constants/colors'
+import { Colors } from '@/constants/Colors-old'
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name']
