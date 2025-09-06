@@ -1,6 +1,6 @@
 import type { ColorSchemeName } from 'react-native'
 
-import { Colors } from '../constants/Colors-old'
+import { Colors } from '../constants/colors'
 
 import { useColorScheme } from './useColorScheme'
 

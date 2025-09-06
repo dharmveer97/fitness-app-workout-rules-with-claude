@@ -16,7 +16,7 @@ import { OverlayProvider } from '@gluestack-ui/core/overlay/creator'
 import { ToastProvider } from '@gluestack-ui/core/toast/creator'
 import { colorScheme as colorSchemeNW } from 'nativewind'
 
-import { semanticColors } from '@/constants/Colors-old'
+import { semanticColors } from '@/constants/colors'
 
 import { config } from './config'
 

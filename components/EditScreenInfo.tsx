@@ -2,7 +2,7 @@ import React from 'react'
 
 import { StyleSheet } from 'react-native'
 
-import { Colors } from '@/constants/Colors-old'
+import { Colors } from '@/constants/colors'
 
 import { ExternalLink } from './ExternalLink'
 import { MonoText } from './StyledText'

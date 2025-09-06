@@ -10,7 +10,7 @@ import {
 import { Button, ButtonText } from '@/components/ui/button'
 import { Text } from '@/components/ui/text'
 import { useColorScheme } from '@/components/useColorScheme'
-import { semanticColors } from '@/constants/Colors-old'
+import { semanticColors } from '@/constants/colors'
 import { usePreferencesStore } from '@/stores'
 
 export function ThemeTestScreen() {

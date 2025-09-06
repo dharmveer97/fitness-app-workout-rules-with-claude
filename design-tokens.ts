@@ -41,7 +41,7 @@ export {
   Colors,
   semanticColors,
   fitnessColors,
-} from './constants/Colors-old'
+} from './constants/colors'
 
 // Design system usage examples and utility functions
 export const DesignSystemUsage = {

@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 
 import { useColorScheme } from '@/components/useColorScheme'
-import { Colors, semanticColors } from '@/constants/Colors-old'
+import { Colors, semanticColors } from '@/constants/colors'
 
 // Type definitions for themed components
 export interface ThemedTextProps extends TextProps {

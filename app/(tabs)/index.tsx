@@ -20,7 +20,7 @@ import StatsCard from '@/components/home/StatsCard'
 import { HeaderThemeToggle } from '@/components/theme/ThemeToggle'
 import { View, Text } from '@/components/Themed'
 import { useColorScheme } from '@/components/useColorScheme'
-import { semanticColors } from '@/constants/Colors-old'
+import { semanticColors } from '@/constants/colors'
 import { useAuthStore } from '@/stores'
 
 const selectUser = (state: any) => state.user
