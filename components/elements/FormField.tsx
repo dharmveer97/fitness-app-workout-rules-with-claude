@@ -12,20 +12,23 @@ import { Text } from '@/components/ui/text'
 import { cn } from '@/utils/cn'
 
 export const FormField = forwardRef<TextInput, FormFieldProps>(
-  ({
-    label,
-    required,
-    error,
-    success,
-    hint,
-    badge,
-    tooltip,
-    showTooltip = false,
-    onTooltipPress,
-    containerClassName = '',
-    animated = true,
-    ...inputProps
-  }) => {
+  (
+    {
+      label,
+      required,
+      error,
+      success,
+      hint,
+      badge,
+      tooltip,
+      showTooltip = false,
+      onTooltipPress,
+      containerClassName = '',
+      animated = true,
+      ...inputProps
+    },
+    ref
+  ) => {
     const [isTooltipVisible, setIsTooltipVisible] = React.useState(showTooltip)
 
     const handleTooltipPress = () => {
@@ -88,6 +91,7 @@ export const FormField = forwardRef<TextInput, FormFieldProps>(
 
         <Input variant='outline' isInvalid={!!error}>
           <InputField
+            ref={ref}
             {...(({ type, leftIcon, rightIcon, ...props }) => props)(
               inputProps,
             )}

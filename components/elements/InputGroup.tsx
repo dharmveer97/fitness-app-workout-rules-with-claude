@@ -16,19 +16,22 @@ const gapStyles = {
 }
 
 export const InputGroup = forwardRef<any, CustomInputGroupProps>(
-  ({
-    label,
-    required,
-    error,
-    hint,
-    badge,
-    inputs,
-    orientation = 'vertical',
-    gap = 'md',
-    containerClassName = '',
-    children,
-    ...props
-  }) => {
+  (
+    {
+      label,
+      required,
+      error,
+      hint,
+      badge,
+      inputs,
+      orientation = 'vertical',
+      gap = 'md',
+      containerClassName = '',
+      children,
+      ...props
+    },
+    _ref,
+  ) => {
     const ContainerComponent = orientation === 'horizontal' ? HStack : VStack
 
     return (
