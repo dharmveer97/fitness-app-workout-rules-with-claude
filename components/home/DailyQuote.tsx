@@ -174,7 +174,9 @@ export default function DailyQuote({ onShare }: DailyQuoteProps) {
 
           <TouchableOpacity
             className='rounded-2xl bg-purple-500/10 p-3'
-            onPress={() => {}}
+            onPress={() => {
+              //
+            }}
           >
             <Ionicons name='heart-outline' size={20} color='#8B5CF6' />
           </TouchableOpacity>
