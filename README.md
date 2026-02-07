@@ -332,6 +332,7 @@ dark: {
 # Required tools
 Node.js >= 18.0.0
 npm >= 8.0.0
+PostgreSQL >= 14.0.0
 Expo CLI >= 6.0.0
 
 # Mobile development
@@ -341,33 +342,100 @@ Android Studio & Emulator
 
 ### ⚡ Quick Start
 
+**Option 1: Automated Setup (Recommended)**
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/daily-deposits-app.git
-cd daily-deposits-app
+# Run setup script
+./setup.sh
 
-# Install dependencies
-npm install
+# Follow the prompts
+```
 
-# Start development server
+**Option 2: Manual Setup**
+
+See [SETUP_GUIDE.md](./SETUP_GUIDE.md) for detailed step-by-step instructions.
+
+### 🏃 Running the App
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm run dev
+```
+
+**Terminal 2 - React Native:**
+```bash
 npm start
 
-# Run on specific platforms
+# Then:
 npm run ios     # iOS Simulator
 npm run android # Android Emulator
-npm run web     # Web browser
 ```
 
 ### 🔧 Environment Setup
 
+**Backend** (`backend/.env`):
 ```bash
-# Create environment file
-cp .env.example .env.local
-
-# Configure required variables
-EXPO_PUBLIC_API_URL=your_api_endpoint
-EXPO_PUBLIC_SENTRY_DSN=your_sentry_dsn
+DATABASE_URL="postgresql://user:pass@localhost:5432/fitness_app"
+JWT_ACCESS_SECRET="your-secret-key"
+JWT_REFRESH_SECRET="your-refresh-key"
+PORT=3000
 ```
+
+**Frontend** (`.env`):
+```bash
+EXPO_PUBLIC_API_URL=http://localhost:3000/api
+```
+
+## 🏗️ Architecture
+
+### Backend Stack
+- **Node.js + Express**: RESTful API server
+- **PostgreSQL**: Production database
+- **Prisma ORM**: Type-safe database queries
+- **JWT**: Secure authentication
+- **TypeScript**: Full type safety
+
+### Frontend Stack
+- **React Native 0.79.5**: Latest with new architecture
+- **Expo SDK ~53.0**: Development platform
+- **TypeScript 5.8.3**: Strict type checking
+- **Zustand**: State management
+- **NativeWind**: Tailwind for React Native
+
+### Database Schema
+- **Users**: Authentication & profiles
+- **Workouts**: Exercise tracking
+- **Food Entries**: Nutrition logging
+- **Challenges**: Community features
+- **Journal**: Daily reflections
+
+See `backend/prisma/schema.prisma` for complete schema.
+
+## 🔐 Authentication Flow
+
+1. **Sign Up**: Email/password → bcrypt hash → JWT tokens
+2. **Sign In**: Verify credentials → Generate access + refresh tokens
+3. **API Calls**: Include `Authorization: Bearer {token}` header
+4. **Token Refresh**: Auto-refresh when access token expires
+5. **Sign Out**: Invalidate refresh token
+
+## 📡 API Endpoints
+
+### Authentication
+- `POST /api/auth/signup` - Create account
+- `POST /api/auth/signin` - Login
+- `POST /api/auth/refresh` - Refresh tokens
+- `POST /api/auth/signout` - Logout
+- `GET /api/auth/me` - Get current user
+
+### Workouts
+- `GET /api/workouts` - List workouts
+- `POST /api/workouts` - Create workout
+- `GET /api/workouts/:id` - Get workout
+- `PUT /api/workouts/:id` - Update workout
+- `DELETE /api/workouts/:id` - Delete workout
+
+See [backend/README.md](./backend/README.md) for complete API documentation.
 
 ## 📜 Available Scripts
 

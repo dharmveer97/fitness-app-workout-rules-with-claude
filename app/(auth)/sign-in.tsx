@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 
 import { router } from 'expo-router'
@@ -21,6 +22,7 @@ import AuthInput from '@/components/auth/AuthInput'
 import { SocialLoginGroup } from '@/components/auth/SocialLoginButton'
 import { loginSchema, type LoginFormInfer } from '@/schemas/auth'
 import { useAuthStore } from '@/stores'
+import { api } from '@/lib/api'
 
 type LoginFormType = LoginFormInfer
 
@@ -43,47 +45,27 @@ export default function SignInScreen() {
       try {
         setLoading(true)
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500))
+        // Call backend API
+        const response = await api.signIn(values.email, values.password)
 
-        const currentDate = new Date()
-        signIn({
-          accessToken: 'demo-token',
-          user: {
-            id: '1',
-            name: 'Fitness Enthusiast',
-            email: values.email,
-            avatar:
-              'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150',
-            fitnessLevel: 'beginner' as const,
-            unitSystem: 'metric' as const,
-            joinDate: currentDate,
-            createdAt: currentDate,
-            updatedAt: currentDate,
-            goals: {
-              dailySteps: 10000,
-              dailyWater: 2500,
-              dailyCalories: 2000,
-              weeklyWorkouts: 3,
-              sleepHours: 8,
-            },
-            preferences: {
-              notifications: {
-                workoutReminders: true,
-                waterReminders: true,
-                sleepReminders: false,
-              },
-              privacy: {
-                shareStats: false,
-                shareWorkouts: true,
-              },
-            },
-          },
-        })
-        router.replace('/(tabs)')
+        if (response.error) {
+          formik.setFieldError('password', response.error)
+          Alert.alert('Sign In Failed', response.error)
+          return
+        }
+
+        if (response.data) {
+          await signIn({
+            accessToken: response.data.accessToken,
+            refreshToken: response.data.refreshToken,
+            user: response.data.user,
+          })
+          router.replace('/(tabs)')
+        }
       } catch (error) {
         console.error('Sign in error:', error)
-        formik.setFieldError('password', 'Invalid email or password')
+        formik.setFieldError('password', 'An unexpected error occurred')
+        Alert.alert('Error', 'Failed to sign in. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -94,8 +76,9 @@ export default function SignInScreen() {
     setSocialLoading((prev) => ({ ...prev, [provider]: true }))
 
     try {
-      // Simulate social login
+      // TODO: Implement social login
       await new Promise((resolve) => setTimeout(resolve, 2000))
+      Alert.alert('Coming Soon', `${provider} login will be available soon!`)
 
       const currentDate = new Date()
       signIn({

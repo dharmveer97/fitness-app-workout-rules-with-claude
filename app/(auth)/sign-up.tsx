@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native'
 
 import { router } from 'expo-router'
@@ -22,6 +23,7 @@ import PasswordStrengthIndicator from '../../components/auth/PasswordStrengthInd
 import { SocialLoginGroup } from '../../components/auth/SocialLoginButton'
 import { registerSchema } from '../../schemas/auth'
 import { useAuthStore } from '../../stores'
+import { api } from '@/lib/api'
 
 export default function SignUpScreen() {
   const signIn = useAuthStore((state) => state.signIn)
@@ -42,42 +44,21 @@ export default function SignUpScreen() {
     try {
       setLoading(true)
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      // Call backend API
+      const response = await api.signUp(values.email, values.password, values.name)
 
-      // Auto sign in after successful registration
-      signIn({
-        accessToken: 'demo-register-token',
-        user: {
-          id: Date.now().toString(),
-          name: values.name,
-          email: values.email,
-          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(values.name)}&size=150&background=10B981&color=fff`,
-          fitnessLevel: 'beginner' as const,
-          unitSystem: 'metric' as const,
-          joinDate: new Date(),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          goals: {
-            dailySteps: 10000,
-            dailyWater: 2500,
-            dailyCalories: 2000,
-            weeklyWorkouts: 3,
-            sleepHours: 8,
-          },
-          preferences: {
-            notifications: {
-              workoutReminders: true,
-              waterReminders: true,
-              sleepReminders: false,
-            },
-            privacy: {
-              shareStats: false,
-              shareWorkouts: true,
-            },
-          },
-        },
-      })
+      if (response.error) {
+        Alert.alert('Sign Up Failed', response.error)
+        return
+      }
+
+      if (response.data) {
+        // Auto sign in after successful registration
+        await signIn({
+          accessToken: response.data.accessToken,
+          refreshToken: response.data.refreshToken,
+          user: response.data.user,
+        })
       router.replace('/(tabs)')
     } catch (error) {
       console.error('Sign up error:', error)

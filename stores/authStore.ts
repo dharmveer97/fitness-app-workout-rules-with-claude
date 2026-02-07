@@ -72,21 +72,35 @@ const initialState: AuthStoreState = {
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, _get) => ({
+    (set, get) => ({
       ...initialState,
       completeOnboarding: () => set({ isOnboarded: true }),
-      signIn: (data) =>
+      signIn: async (data) => {
+        // Store tokens in SecureStore
+        if (data.accessToken) {
+          await SecureStore.setItemAsync('access_token', data.accessToken)
+        }
+        if (data.refreshToken) {
+          await SecureStore.setItemAsync('refresh_token', data.refreshToken)
+        }
+        
         set({
           accessToken: data.accessToken,
           refreshToken: data.refreshToken ?? null,
           user: data.user,
-        }),
-      signOut: () =>
+        })
+      },
+      signOut: async () => {
+        // Clear tokens from SecureStore
+        await SecureStore.deleteItemAsync('access_token')
+        await SecureStore.deleteItemAsync('refresh_token')
+        
         set({
           accessToken: null,
           refreshToken: null,
           user: null,
-        }),
+        })
+      },
       updateProfile: (profile) =>
         set((state) => ({
           user: state.user ? { ...state.user, ...profile } : null,
